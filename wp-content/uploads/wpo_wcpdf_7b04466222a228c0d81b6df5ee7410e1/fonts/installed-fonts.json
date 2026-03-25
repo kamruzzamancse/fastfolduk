@@ -1,0 +1,26 @@
+{
+    "open sans": {
+        "normal": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/OpenSans-Normal",
+        "bold": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/OpenSans-Bold",
+        "italic": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/OpenSans-Italic",
+        "bold_italic": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/OpenSans-BoldItalic"
+    },
+    "segoe": {
+        "normal": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/Segoe-Normal",
+        "bold": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/Segoe-Bold",
+        "italic": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/Segoe-Italic",
+        "bold_italic": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/Segoe-BoldItalic"
+    },
+    "roboto slab": {
+        "normal": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/RobotoSlab-Normal",
+        "bold": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/RobotoSlab-Bold",
+        "italic": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/RobotoSlab-Italic",
+        "bold_italic": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/RobotoSlab-BoldItalic"
+    },
+    "currencies": {
+        "normal": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/currencies",
+        "bold": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/currencies",
+        "italic": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/currencies",
+        "bold_italic": "\/home\/jvai\/public_html\/fastfolduk.jvai.site\/wp-content\/uploads\/wpo_wcpdf_7b04466222a228c0d81b6df5ee7410e1\/fonts\/currencies"
+    }
+}
