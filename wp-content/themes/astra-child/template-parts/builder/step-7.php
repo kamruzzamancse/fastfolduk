@@ -122,17 +122,16 @@ jQuery(document).ready(function($) {
     };
     
     /**
-     * Function to update prices based on pane quantity
-     * Now handles VAT text preservation for all options
+     * Function to update displayed prices for glass options
+     * Shows base price only (not multiplied by pane count)
+     * Actual calculation happens in updatePrice() function
      */
     function updatePerPanePrices() {
-        // Get pane quantity from panel selection
-        var paneQuantity = 1; // Default
+        // Get pane quantity from panel selection (for calculation only, not for display)
+        var paneQuantity = 1;
         
-        // Try to get pane count from selected panel
         var selectedPanel = $('input[name="panel_layout"]:checked').val();
         if (selectedPanel) {
-            // Better pane count extraction
             if (selectedPanel === 'french') {
                 paneQuantity = 2;
             } else if (selectedPanel.includes('_')) {
@@ -150,21 +149,16 @@ jQuery(document).ready(function($) {
         }
         
         if (window.isDev()) {
-            console.log('Step 7 - Updating per-pane prices. Pane count:', paneQuantity);
+            console.log('Step 7 - Updating glass price display. Pane count for calculation:', paneQuantity);
         }
         
-        // Update displayed prices for per-pane items (but NOT for "No Thanks")
+        // Update displayed prices for glass options
+        // Show BASE price only (not multiplied by pane count)
         $('.price-option[data-per-pane="true"]').each(function() {
             var basePrice = parseFloat($(this).data('price'));
-            var totalPrice = basePrice * paneQuantity;
             
             // Update the price display while preserving VAT text
             var $priceSpan = $(this).closest('.glass-option-card').find('.option-price');
-            
-            // Store original price text if not already stored
-            if (!$priceSpan.data('original-price')) {
-                $priceSpan.data('original-price', $priceSpan.text());
-            }
             
             // Check if VAT text exists in this option
             var $vatSpan = $priceSpan.find('.price-vat');
@@ -177,21 +171,31 @@ jQuery(document).ready(function($) {
             // Clear the span content
             $priceSpan.empty();
             
-            // Add price with + sign if needed
+            // Add price with base price only (not multiplied)
             if (hasPlus) {
-                $priceSpan.append('+£' + totalPrice);
+                $priceSpan.append('+£' + basePrice);
             } else {
-                $priceSpan.append('£' + totalPrice);
+                $priceSpan.append('£' + basePrice);
             }
             
             // Add VAT text back ONLY if it existed originally
             if (hasVat) {
                 $priceSpan.append(' <span class="price-vat">(inc. VAT)</span>');
             }
+            
+            // Store pane count for reference (for debugging)
+            if (window.isDev()) {
+                console.log('Glass option base price: £' + basePrice + ' (will be multiplied by ' + paneQuantity + ' panes in total calculation)');
+            }
         });
         
         // Ensure "No Thanks" always shows £0
         $('#upgrade_no_thanks').closest('.glass-option-card').find('.option-price').html('£0');
+        
+        // Trigger price update to recalculate total
+        if (typeof window.updatePrice === 'function') {
+            window.updatePrice();
+        }
     }
     
     /**
@@ -207,6 +211,9 @@ jQuery(document).ready(function($) {
         // Log selection
         if (window.isDev()) {
             console.log('Glass upgrade selected:', $(this).val());
+            var basePrice = parseFloat($(this).data('price'));
+            var paneCount = getPaneCount();
+            console.log('Base price: £' + basePrice + ' × ' + paneCount + ' panes = £' + (basePrice * paneCount));
         }
         
         // Trigger price update
@@ -219,6 +226,33 @@ jQuery(document).ready(function($) {
             window.updateDrawer();
         }
     });
+    
+    /**
+     * Helper function to get current pane count
+     */
+    function getPaneCount() {
+        var paneQuantity = 1;
+        var selectedPanel = $('input[name="panel_layout"]:checked').val();
+        
+        if (selectedPanel) {
+            if (selectedPanel === 'french') {
+                paneQuantity = 2;
+            } else if (selectedPanel.includes('_')) {
+                var parts = selectedPanel.split('_');
+                if (parts.length === 2 && !isNaN(parseInt(parts[0])) && !isNaN(parseInt(parts[1]))) {
+                    paneQuantity = parseInt(parts[0]) + parseInt(parts[1]);
+                } else {
+                    var match = selectedPanel.match(/^(\d+)/);
+                    if (match) paneQuantity = parseInt(match[1]);
+                }
+            } else {
+                var match = selectedPanel.match(/^(\d+)/);
+                if (match) paneQuantity = parseInt(match[1]);
+            }
+        }
+        
+        return paneQuantity;
+    }
     
     /**
      * Handle card click for better UX
@@ -235,7 +269,7 @@ jQuery(document).ready(function($) {
     });
     
     /**
-     * Listen for panel changes to update per-pane prices
+     * Listen for panel changes to update displayed prices
      */
     $(document).on('change', 'input[name="panel_layout"]', function() {
         updatePerPanePrices();
@@ -246,7 +280,7 @@ jQuery(document).ready(function($) {
         }
     });
     
-    // Initial update of per-pane prices
+    // Initial update of displayed prices
     setTimeout(function() {
         updatePerPanePrices();
     }, 500);
@@ -257,11 +291,10 @@ jQuery(document).ready(function($) {
     });
     
     /**
-     * Function to set glass value from edit mode - UPDATED
+     * Function to set glass value from edit mode
      */
     window.setGlassValue = function(value) {
         if (value === 'no_thanks') {
-            // If value is no_thanks, find the No Thanks radio
             $('#upgrade_no_thanks').prop('checked', true).trigger('change');
         } else {
             $(`input[name="glass_upgrade"][value="${value}"]`).prop('checked', true).trigger('change');
@@ -269,7 +302,7 @@ jQuery(document).ready(function($) {
     };
 
     /**
-     * Get display text for glass selection - NEW FUNCTION
+     * Get display text for glass selection
      */
     window.getGlassDisplayText = function() {
         const selectedValue = $('input[name="glass_upgrade"]:checked').val();
@@ -289,8 +322,11 @@ jQuery(document).ready(function($) {
         return '—';
     };
     
+    // Expose getPaneCount to global for use in updatePrice
+    window.getPaneCount = getPaneCount;
+    
     if (window.isDev()) {
-        console.log('Step 7 (Glass) initialized with VAT indicator');
+        console.log('Step 7 (Glass) initialized - Display shows base price, calculation uses pane count');
     }
 });
 </script>

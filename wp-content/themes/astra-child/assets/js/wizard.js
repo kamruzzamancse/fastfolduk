@@ -330,6 +330,14 @@ jQuery(function($){
                     $('#postcode').trigger('input');
                 }, 1000);
             }
+            
+            // Initialize inside colour based on initial outside colour
+            setTimeout(function() {
+                const initialOutsideColour = $('input[name="door_colour"]:checked').val();
+                if (initialOutsideColour) {
+                    autoSelectMatchingInsideColour(initialOutsideColour);
+                }
+            }, 200);
         }
     }
 
@@ -349,6 +357,8 @@ jQuery(function($){
         const initialSelected = $('input[name="door_colour"]:checked');
         if (initialSelected.length) {
             selectedOutsideColour = getOutsideColourCategory(initialSelected.val());
+            // Auto-select matching inside colour
+            autoSelectMatchingInsideColour(initialSelected.val());
         }
         
         $(document).on('change', 'input[name="door_colour"]', function() {
@@ -357,14 +367,75 @@ jQuery(function($){
             updateInsideColourOptions(colourValue);
             validateInsideColourSelection();
             updatePrice();
+            
+            // Auto-select matching inside colour when outside colour changes
+            autoSelectMatchingInsideColour(colourValue);
         });
         
         $(document).on('change', '#custom_colour_select', function() {
             if ($('#colour_custom').is(':checked')) {
                 updateInsideColourOptions('custom_ral');
                 updatePrice();
+                // Auto-select custom inside colour when custom outside is selected
+                autoSelectMatchingInsideColour('custom_ral');
             }
         });
+    }
+
+    /**
+     * Auto-select matching inside colour based on outside colour selection
+     */
+    function autoSelectMatchingInsideColour(outsideColourValue) {
+        if (!outsideColourValue) return;
+        
+        let matchingInsideValue = null;
+        
+        // Handle custom RAL colours
+        if (outsideColourValue === 'custom_ral') {
+            const customRalValue = $('#custom_colour_select').val();
+            if (customRalValue && customRalValue !== '') {
+                matchingInsideValue = 'custom_ral';
+            }
+        }
+        // Handle standard colours
+        else if (outsideColourValue === 'anthracite_grey') {
+            matchingInsideValue = 'anthracite_grey';
+        }
+        else if (outsideColourValue === 'black') {
+            matchingInsideValue = 'black';
+        }
+        else if (outsideColourValue === 'white') {
+            matchingInsideValue = 'white';
+        }
+        else {
+            // For any other value, default to white
+            matchingInsideValue = 'white';
+        }
+        
+        // Check if the matching option is visible
+        if (matchingInsideValue) {
+            const $matchingOption = $(`input[name="inside_colour"][value="${matchingInsideValue}"]`);
+            const $parentCard = $matchingOption.closest('.inside-colour-option');
+            
+            if ($parentCard.is(':visible')) {
+                $matchingOption.prop('checked', true).trigger('change');
+                if (matchingInsideValue === 'custom_ral') {
+                    // If custom RAL, also sync the dropdown value
+                    const customOutsideValue = $('#custom_colour_select').val();
+                    if (customOutsideValue) {
+                        $('#custom_inside_colour_select').val(customOutsideValue).trigger('change');
+                        $('.selected-inside-ral-code').text(customOutsideValue);
+                        $('#inside_colour_custom').val(customOutsideValue);
+                    }
+                }
+            } else {
+                // If matching option not visible, select the first visible option
+                const $firstVisibleOption = $('.inside-colour-option:visible input[name="inside_colour"]');
+                if ($firstVisibleOption.length) {
+                    $firstVisibleOption.prop('checked', true).trigger('change');
+                }
+            }
+        }
     }
 
     function getOutsideColourCategory(colourValue) {
@@ -416,6 +487,11 @@ jQuery(function($){
                 break;
         }
         
+        // Auto-select matching inside colour after updating visibility
+        setTimeout(function() {
+            autoSelectMatchingInsideColour(selectedOutsideValue);
+        }, 50);
+        
         validateInsideColourSelection();
         updateInsideColourGridLayout();
     }
@@ -453,36 +529,21 @@ jQuery(function($){
             const selectedValue = $selectedInsideColour.val();
             const $selectedCard = $selectedInsideColour.closest('.inside-colour-option');
             
+            // If selected option is not visible, auto-select a visible one
             if (!$selectedCard.is(':visible')) {
                 const outsideValue = $('input[name="door_colour"]:checked').val();
-                
-                if (outsideValue === 'anthracite_grey') {
-                    if ($('#inside_colour_white').closest('.inside-colour-option').is(':visible')) {
-                        $('#inside_colour_white').prop('checked', true).trigger('change');
-                    } else if ($('#inside_colour_anthracite').closest('.inside-colour-option').is(':visible')) {
-                        $('#inside_colour_anthracite').prop('checked', true).trigger('change');
-                    } else if ($('#inside_colour_custom').closest('.inside-colour-option').is(':visible')) {
-                        $('#inside_colour_custom').prop('checked', true).trigger('change');
-                    }
-                } 
-                else if (outsideValue === 'black' || outsideValue === 'white' || outsideValue === 'custom_ral') {
-                    if ($('#inside_colour_white').closest('.inside-colour-option').is(':visible')) {
-                        $('#inside_colour_white').prop('checked', true).trigger('change');
-                    } else if ($('#inside_colour_custom').closest('.inside-colour-option').is(':visible')) {
-                        $('#inside_colour_custom').prop('checked', true).trigger('change');
-                    }
-                }
+                autoSelectMatchingInsideColour(outsideValue);
             }
         } else {
+            // No inside colour selected, auto-select based on outside colour
             const outsideValue = $('input[name="door_colour"]:checked').val();
-            
-            if (outsideValue === 'anthracite_grey') {
-                if ($('#inside_colour_white').closest('.inside-colour-option').is(':visible')) {
-                    $('#inside_colour_white').prop('checked', true).trigger('change');
-                }
+            if (outsideValue) {
+                autoSelectMatchingInsideColour(outsideValue);
             } else {
-                if ($('#inside_colour_white').closest('.inside-colour-option').is(':visible')) {
-                    $('#inside_colour_white').prop('checked', true).trigger('change');
+                // Default to white if nothing else
+                const $whiteOption = $('#inside_colour_white');
+                if ($whiteOption.length && $whiteOption.closest('.inside-colour-option').is(':visible')) {
+                    $whiteOption.prop('checked', true).trigger('change');
                 }
             }
         }
@@ -1023,12 +1084,17 @@ jQuery(function($){
         return isValid;
     }
 
+    /**
+     * Update total price calculation
+     * Glass price is per pane but display shows base price only
+     */
     function updatePrice() {
         let base = parseFloat($('#base_price_value').val());
         if (isNaN(base)) base = 0;
 
         let extra = 0;
         
+        // Get pane count from panel selection
         let paneCount = 1;
         const selectedPanel = $('input[name="panel_layout"]:checked').val();
         if (selectedPanel) {
@@ -1046,6 +1112,14 @@ jQuery(function($){
                 const match = selectedPanel.match(/^(\d+)/);
                 if (match) paneCount = parseInt(match[1]);
             }
+        }
+        
+        // Glass upgrade price calculation (per pane)
+        const glassUpgrade = $('input[name="glass_upgrade"]:checked');
+        if (glassUpgrade.length && glassUpgrade.val() !== 'no_thanks') {
+            let glassBasePrice = parseFloat(glassUpgrade.data('price')) || 0;
+            // Calculate total glass price = base price × pane count
+            extra += glassBasePrice * paneCount;
         }
         
         // Colour pricing
@@ -1130,16 +1204,27 @@ jQuery(function($){
             } else if (installType === 'remove_existing') {
                 extra += (paneCount * 200) + 550;
             } else if (installType === 'delivery') {
-                // Delivery price will be added separately
                 const deliveryPrice = parseFloat($('#delivery_price').val()) || 0;
                 extra += deliveryPrice;
             }
         }
         
-        // Other options
-        $('.price-option:checked').each(function(){
+        // Handle trickle vents price (fixed, not per pane)
+        const trickleVents = $('input[name="trickle_vents"]:checked').val();
+        if (trickleVents === 'yes_trickle') {
+            extra += 85;
+        }
+        
+        // Other per-pane options (handle colour, glass already handled)
+        $('.price-option:checked').each(function() {
             const id = $(this).attr('id');
+            // Skip colour custom options as they're already handled
             if (id === 'colour_custom' || id === 'inside_colour_custom') {
+                return true;
+            }
+            
+            // Skip glass upgrade as it's already handled with pane count
+            if ($(this).attr('name') === 'glass_upgrade') {
                 return true;
             }
             
@@ -1982,6 +2067,7 @@ jQuery(function($){
             },
             getPrice: function() { return 0; }
         },
+        // In stepDefinitions array, update the glass section (number 7)
         {
             number: 7,
             name: 'Glass',
@@ -2025,6 +2111,7 @@ jQuery(function($){
                 
                 const basePrice = parseFloat(val.data('price')) || 0;
                 const paneCount = window.getPaneCount ? window.getPaneCount() : 1;
+                // Return total price (base price × pane count)
                 return basePrice * paneCount;
             }
         },
@@ -2135,7 +2222,7 @@ jQuery(function($){
         }
     ];
 
-    // updateDrawer function আপডেট করুন
+    // updateDrawer function
     function updateDrawer() {
         let totalPrice = 0;
         

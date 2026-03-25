@@ -1834,7 +1834,7 @@ function custom_cart_item_thumbnail_based_on_panel( $thumbnail, $cart_item, $car
         }
         
         if ( !empty( $image_file ) ) {
-            $image_url = get_stylesheet_directory_uri() . '/assets/images/' . $image_file;
+            $image_url = get_stylesheet_directory_uri() . '/assets/images/bifold-doors/' . $image_file;
             $thumbnail = '<img src="' . esc_url( $image_url ) . '" 
                                alt="' . esc_attr( $panels ) . '" 
                                class="woocommerce-placeholder wp-post-image" 
