@@ -1,6 +1,6 @@
 <?php
 /**
- * Delivery Calculator for Bifold Door Builder
+ * Delivery Calculator for Bifolding Door Builder
  * Based on distance from factory: DY2 8UB (Dudley, West Midlands)
  * 
  * Logic:

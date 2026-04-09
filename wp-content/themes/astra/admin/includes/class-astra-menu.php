@@ -211,13 +211,36 @@ class Astra_Menu {
 					$capability,
 					'admin.php?page=' . self::$plugin_slug . '&path=woocommerce'
 				);
-			} elseif ( ASTRA_THEME_ORG_VERSION && ! $this->spectra_has_top_level_menu() ) {
+			}
+			// elseif ( ASTRA_THEME_ORG_VERSION && ! $this->spectra_has_top_level_menu() ) {
+			// add_submenu_page( // phpcs:ignore WPThemeReview.PluginTerritory.NoAddAdminPages.add_menu_pages_add_submenu_page -- Taken the menu on top level
+			// self::$plugin_slug,
+			// 'Spectra',
+			// 'Spectra',
+			// $capability,
+			// $this->get_spectra_page_admin_link()
+			// );
+			// }
+		}
+
+		$admin_settings = get_option( 'astra_admin_settings', array() );
+		$show_learn_tab = isset( $admin_settings['show_learn_tab'] ) ? $admin_settings['show_learn_tab'] : true;
+
+		// Add Learn submenu with incomplete chapters count if there are any incomplete chapters and the Learn tab is enabled.
+		if ( false !== $show_learn_tab && is_callable( 'Astra_Learn::get_incomplete_chapters_count' ) ) {
+			$incomplete_count = Astra_Learn::get_incomplete_chapters_count();
+			if ( $incomplete_count > 0 ) {
+				$learn_menu_title = __( 'Learn', 'astra' ) . sprintf(
+					' <span class="awaiting-mod count-%1$d"><span class="pending-count">%1$d</span></span>',
+					$incomplete_count
+				);
+
 				add_submenu_page( // phpcs:ignore WPThemeReview.PluginTerritory.NoAddAdminPages.add_menu_pages_add_submenu_page -- Taken the menu on top level
 					self::$plugin_slug,
-					'Spectra',
-					'Spectra',
+					__( 'Learn', 'astra' ),
+					$learn_menu_title,
 					$capability,
-					$this->get_spectra_page_admin_link()
+					'admin.php?page=' . self::$plugin_slug . '&path=learn'
 				);
 			}
 		}
@@ -812,38 +835,6 @@ class Astra_Menu {
 					'internal_icon' => false,
 					'icon_path'     => 'https://ps.w.org/cartflows/assets/icon-256x256.gif',
 				),
-			),
-		);
-
-		if ( ! $under_useful_plugins ) {
-			$extensions[] = array(
-				'title'       => 'OttoKit: WordPress Automation',
-				'subtitle'    => __( 'Connect your WordPress plugins, WooCommerce sites, apps, and websites for powerful automations.', 'astra' ),
-				'status'      => self::get_plugin_status( 'suretriggers/suretriggers.php' ),
-				'slug'        => 'suretriggers',
-				'path'        => 'suretriggers/suretriggers.php',
-				'redirection' => admin_url( 'admin.php?page=suretriggers' ),
-				'ratings'     => '(60+)',
-				'activations' => '1,00,000 +',
-				'logoPath'    => array(
-					'internal_icon' => true,
-					'icon_path'     => 'ottokit',
-				),
-			);
-		}
-
-		$extensions[] = array(
-			'title'       => 'Spectra: Blocks Builder',
-			'subtitle'    => $under_useful_plugins ? __( 'Free WordPress Page Builder.', 'astra' ) : __( 'Power-up block editor with advanced blocks for faster and effortlessly website creation.', 'astra' ),
-			'status'      => self::get_plugin_status( 'ultimate-addons-for-gutenberg/ultimate-addons-for-gutenberg.php' ),
-			'slug'        => 'ultimate-addons-for-gutenberg',
-			'path'        => 'ultimate-addons-for-gutenberg/ultimate-addons-for-gutenberg.php',
-			'redirection' => admin_url( 'options-general.php?page=spectra' ),
-			'ratings'     => '(1500+)',
-			'activations' => '1,000,000 +',
-			'logoPath'    => array(
-				'internal_icon' => false,
-				'icon_path'     => 'https://ps.w.org/ultimate-addons-for-gutenberg/assets/icon-256x256.gif',
 			),
 		);
 
