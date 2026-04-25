@@ -11,7 +11,7 @@
  * - Price tiers: +150 / +200 / +250 miles
  */
 
-class Door_Delivery_Calculator {
+class Delivery_Calculator {
     
     private $factory_postcode = 'DY2 8UB';
     private $factory_lat = 52.5080;

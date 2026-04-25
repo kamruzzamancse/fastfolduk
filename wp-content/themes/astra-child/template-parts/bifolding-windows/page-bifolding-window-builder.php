@@ -1,4 +1,78 @@
 <?php
+// Forcefully remove all conflicting scripts before anything else
+add_action('wp_enqueue_scripts', 'remove_conflicting_scripts_for_builder', 999);
+function remove_conflicting_scripts_for_builder() {
+    if (!is_page('bifolding-window-builder')) {
+        return;
+    }
+    
+    // Keep only essential scripts
+    $keep_handles = array('jquery', 'window-builder-js');
+    
+    global $wp_scripts, $wp_styles;
+    
+    // Remove all scripts except jQuery and our builder
+    if (!empty($wp_scripts->queue)) {
+        foreach ($wp_scripts->queue as $handle) {
+            $keep = false;
+            foreach ($keep_handles as $keep_handle) {
+                if (strpos($handle, $keep_handle) !== false) {
+                    $keep = true;
+                    break;
+                }
+            }
+            if (!$keep) {
+                wp_dequeue_script($handle);
+                wp_deregister_script($handle);
+            }
+        }
+    }
+    
+    // Remove all Elementor scripts specifically
+    $elementor_scripts = array(
+        'elementor-frontend',
+        'elementor-pro-frontend',
+        'elementor',
+        'elementor-waypoints',
+        'elementor-dialog',
+        'elementor-frontend-modules',
+        'elementor-lazyload',
+        'elementor-common',
+        'elementor-webpack-runtime',
+        'elementor-pro-webpack-runtime',
+        'elementor-pro-frontend-lazy-load',
+        'astra-lazy-load',
+        'astra-theme-js',
+        'wc-cart-fragments',
+        'lazyload',
+    );
+    
+    foreach ($elementor_scripts as $script) {
+        wp_dequeue_script($script);
+        wp_deregister_script($script);
+    }
+    
+    // Remove all Elementor styles
+    $elementor_styles = array(
+        'elementor-frontend',
+        'elementor-pro',
+        'elementor-global',
+        'elementor-icons',
+        'elementor-animations',
+        'elementor-post-xxx',
+        'elementor-icons-shared-0',
+        'elementor-icons-fa-brands',
+        'elementor-icons-fa-regular',
+        'elementor-icons-fa-solid',
+        'astra-theme-css',
+    );
+    
+    foreach ($elementor_styles as $style) {
+        wp_dequeue_style($style);
+        wp_deregister_style($style);
+    }
+}
+
 // Get product details
 $product_id   = isset($_GET['product_id']) ? absint($_GET['product_id']) : 0;
 $variation_id = isset($_GET['variation_id']) ? absint($_GET['variation_id']) : 0;
@@ -13,6 +87,8 @@ if ($edit_mode && function_exists('WC')) {
     $cart = WC()->cart->get_cart();
     if (isset($cart[$edit_cart_item]) && isset($cart[$edit_cart_item]['wizard_data'])) {
         $edit_data = $cart[$edit_cart_item]['wizard_data'];
+        $product_id = $cart[$edit_cart_item]['product_id'];
+        $variation_id = $cart[$edit_cart_item]['variation_id'];
     }
 }
 // ===============================
@@ -31,7 +107,7 @@ $banner_url = get_stylesheet_directory_uri() . '/assets/images/common/fastfold-t
 // Count total steps for windows
 $step_files = glob(get_stylesheet_directory() . '/template-parts/bifolding-windows/step-*.php');
 $total_steps = count($step_files);
-if ($total_steps == 0) $total_steps = 10;
+if ($total_steps == 0) $total_steps = 14; // Default to 14 steps for windows
 ?>
 
 <!DOCTYPE html>
@@ -40,24 +116,30 @@ if ($total_steps == 0) $total_steps = 10;
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design Your Bifolding Window - Fast Fold</title>
+    
+    <!-- Remove lazy load observer conflict -->
+    <script>
+        // Prevent lazy load observer conflict
+        window.lazyLoadOptions = window.lazyLoadOptions || {};
+        if (typeof lazyloadRunObserver !== 'undefined') {
+            window.lazyloadRunObserver = undefined;
+        }
+    </script>
+    
     <?php wp_head(); ?>
 </head>
 <body class="bifold-window-builder-page">
     
-<div class="header-wrapper">
+<div class="header-wrapper" style="background: #000;">
     <div class="header-container">
         <div class="builder-logo">
             <img src="<?php echo esc_url($logo_url); ?>" alt="Fast Fold Logo">
         </div>
+
         <div class="fastfold-trust-banner">
             <img src="<?php echo esc_url($banner_url); ?>" alt="Fast Fold Trust Banner">
         </div>
     </div>
-</div>
-
-<!-- Loading Overlay -->
-<div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-spinner"></div>
 </div>
 
 <!-- Window Builder Wrapper -->
@@ -120,16 +202,19 @@ if ($total_steps == 0) $total_steps = 10;
         
         <!-- Drawer Content -->
         <div class="drawer-content" id="drawerContent">
+            
+            <!-- Drawer Header -->
             <div class="drawer-header">
                 <h3>Your Window Configuration</h3>
                 <button class="drawer-close" id="drawerClose">✕</button>
             </div>
             
+            <!-- Steps List (will be populated by JS) -->
             <div class="drawer-steps-list" id="drawerStepsList">
-                <!-- Steps will be populated by JS -->
                 <div class="drawer-loading">Loading configuration...</div>
             </div>
             
+            <!-- Drawer Footer -->
             <div class="drawer-footer">
                 <div class="drawer-total">
                     <span class="total-label">Total Price:</span>
@@ -145,6 +230,7 @@ if ($total_steps == 0) $total_steps = 10;
                     ✏️ Editing cart item
                 </div>
             </div>
+            
         </div>
     </div>
 
@@ -161,11 +247,22 @@ window.windowBuilderData = {
     editCartKey: '<?php echo esc_js($edit_cart_item); ?>',
     editData: <?php echo json_encode($edit_data); ?>,
     productType: 'window',
-    ajaxUrl: '<?php echo admin_url('admin-ajax.php'); ?>',
+    ajax_url: '<?php echo admin_url('admin-ajax.php'); ?>',
     cartUrl: '<?php echo wc_get_cart_url(); ?>',
     checkoutUrl: '<?php echo wc_get_checkout_url(); ?>',
     nonce: '<?php echo wp_create_nonce('window_builder_ajax'); ?>'
 };
+
+// Initialize base price
+jQuery(document).ready(function($) {
+    $('#base_price_value').val(<?php echo $base_price; ?>);
+});
+
+// Edit mode data
+window.editMode = <?php echo $edit_mode ? 'true' : 'false'; ?>;
+window.editCartKey = '<?php echo esc_js($edit_cart_item); ?>';
+window.editData = <?php echo json_encode($edit_data); ?>;
+window.totalSteps = <?php echo $total_steps; ?>;
 </script>
 
 </body>

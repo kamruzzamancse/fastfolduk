@@ -104,6 +104,56 @@ $images_dir = get_stylesheet_directory_uri() . '/assets/images/bifolding-windows
                         </label>
                     </div>
 
+                    <!-- 1 + 2 Panels -->
+                    <div class="panel-option-card panel-3"
+                        data-min-width="2001"
+                        data-max-width="2600"
+                        data-price-2001="1190"
+                        data-price-2200="1190"
+                        data-price-2400="1290"
+                        data-price-2600="1390">
+
+                        <input type="radio" name="window_panel_layout" id="panel_1_2"
+                            value="1_2"
+                            class="price-option panel3-option"
+                            data-pane-count="3">
+
+                        <label for="panel_1_2">
+                            <div class="panel-image">
+                                <img src="<?php echo esc_url($images_dir . '1_2_Panel_500x.webp'); ?>" alt="1 + 2 Panels" loading="lazy">
+                            </div>
+                            <div class="panel-details">
+                                <span class="option-name">1 + 2 Panels</span>
+                                <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- 2 + 1 Panels -->
+                    <div class="panel-option-card panel-3"
+                        data-min-width="2001"
+                        data-max-width="2600"
+                        data-price-2001="1190"
+                        data-price-2200="1190"
+                        data-price-2400="1290"
+                        data-price-2600="1390">
+
+                        <input type="radio" name="window_panel_layout" id="panel_2_1"
+                            value="2_1"
+                            class="price-option panel3-option"
+                            data-pane-count="3">
+
+                        <label for="panel_2_1">
+                            <div class="panel-image">
+                                <img src="<?php echo esc_url($images_dir . '2_1_Panel_500x.webp'); ?>" alt="2 + 1 Panels" loading="lazy">
+                            </div>
+                            <div class="panel-details">
+                                <span class="option-name">2 + 1 Panels</span>
+                                <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
+                            </div>
+                        </label>
+                    </div>
+
                     <!-- ================== 4 PANELS ================== -->
                     <!-- 1 + 3 Panels -->
                     <div class="panel-option-card panel-4"
@@ -196,6 +246,30 @@ $images_dir = get_stylesheet_directory_uri() . '/assets/images/bifolding-windows
                             </div>
                             <div class="panel-details">
                                 <span class="option-name">4 Panels Right</span>
+                                <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- 2 + 2 Panels -->
+                    <div class="panel-option-card panel-4"
+                        data-min-width="2601"
+                        data-max-width="3400"
+                        data-price-2601="1690"
+                        data-price-3000="1790"
+                        data-price-3400="1890">
+
+                        <input type="radio" name="window_panel_layout" id="panel_2_2"
+                            value="2_2"
+                            class="price-option panel4-option"
+                            data-pane-count="4">
+
+                        <label for="panel_2_2">
+                            <div class="panel-image">
+                                <img src="<?php echo esc_url($images_dir . '2_2_Panel_500x.webp'); ?>" alt="2 + 2 Panels" loading="lazy">
+                            </div>
+                            <div class="panel-details">
+                                <span class="option-name">2 + 2 Panels</span>
                                 <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
                             </div>
                         </label>
@@ -298,14 +372,64 @@ $images_dir = get_stylesheet_directory_uri() . '/assets/images/bifolding-windows
                         </label>
                     </div>
 
+                    <!-- 2 + 3 Panels -->
+                    <div class="panel-option-card panel-5"
+                        data-min-width="3401"
+                        data-max-width="4200"
+                        data-price-3401="2190"
+                        data-price-3800="2290"
+                        data-price-4200="2390">
+
+                        <input type="radio" name="window_panel_layout" id="panel_2_3" 
+                               value="2_3" 
+                               class="price-option panel5-option"
+                               data-pane-count="5">
+
+                        <label for="panel_2_3">
+                            <div class="panel-image">
+                                <img src="<?php echo esc_url($images_dir . '2_3_Panels_500x.webp'); ?>" alt="2 + 3 Panels" loading="lazy">
+                            </div>
+                            <div class="panel-details">
+                                <span class="option-name">2 + 3 Panels</span>
+                                <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- 3 + 2 Panels -->
+                    <div class="panel-option-card panel-5"
+                        data-min-width="3401"
+                        data-max-width="4200"
+                        data-price-3401="2190"
+                        data-price-3800="2290"
+                        data-price-4200="2390">
+
+                        <input type="radio" name="window_panel_layout" id="panel_3_2" 
+                               value="3_2" 
+                               class="price-option panel5-option"
+                               data-pane-count="5">
+
+                        <label for="panel_3_2">
+                            <div class="panel-image">
+                                <img src="<?php echo esc_url($images_dir . '3_2_Panels_500x.webp'); ?>" alt="3 + 2 Panels" loading="lazy">
+                            </div>
+                            <div class="panel-details">
+                                <span class="option-name">3 + 2 Panels</span>
+                                <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
+                            </div>
+                        </label>
+                    </div>
+
                     <!-- ================== 6 PANELS ================== -->
                     <!-- 2 + 4 Panels -->
                     <div class="panel-option-card panel-6"
                         data-min-width="4201"
-                        data-max-width="5000"
+                        data-max-width="5800"
                         data-price-4201="2690"
                         data-price-4600="2790"
-                        data-price-5000="2890">
+                        data-price-5000="2890"
+                        data-price-5400="3090"
+                        data-price-5800="3290">
 
                         <input type="radio" name="window_panel_layout" id="panel_2_4" 
                                value="2_4" 
@@ -326,10 +450,12 @@ $images_dir = get_stylesheet_directory_uri() . '/assets/images/bifolding-windows
                     <!-- 3 + 3 Panels -->
                     <div class="panel-option-card panel-6"
                         data-min-width="4201"
-                        data-max-width="5000"
+                        data-max-width="5800"
                         data-price-4201="2690"
                         data-price-4600="2790"
-                        data-price-5000="2890">
+                        data-price-5000="2890"
+                        data-price-5400="3090"
+                        data-price-5800="3290">
 
                         <input type="radio" name="window_panel_layout" id="panel_3_3" 
                                value="3_3" 
@@ -350,10 +476,12 @@ $images_dir = get_stylesheet_directory_uri() . '/assets/images/bifolding-windows
                     <!-- 4 + 2 Panels -->
                     <div class="panel-option-card panel-6"
                         data-min-width="4201"
-                        data-max-width="5000"
+                        data-max-width="5800"
                         data-price-4201="2690"
                         data-price-4600="2790"
-                        data-price-5000="2890">
+                        data-price-5000="2890"
+                        data-price-5400="3090"
+                        data-price-5800="3290">
 
                         <input type="radio" name="window_panel_layout" id="panel_4_2" 
                                value="4_2" 
@@ -374,10 +502,12 @@ $images_dir = get_stylesheet_directory_uri() . '/assets/images/bifolding-windows
                     <!-- 6 Panels Left -->
                     <div class="panel-option-card panel-6"
                         data-min-width="4201"
-                        data-max-width="5000"
+                        data-max-width="5800"
                         data-price-4201="2690"
                         data-price-4600="2790"
-                        data-price-5000="2890">
+                        data-price-5000="2890"
+                        data-price-5400="3090"
+                        data-price-5800="3290">
 
                         <input type="radio" name="window_panel_layout" id="panel_6_left" 
                                value="6_left" 
@@ -398,10 +528,12 @@ $images_dir = get_stylesheet_directory_uri() . '/assets/images/bifolding-windows
                     <!-- 6 Panels Right -->
                     <div class="panel-option-card panel-6"
                         data-min-width="4201"
-                        data-max-width="5000"
+                        data-max-width="5800"
                         data-price-4201="2690"
                         data-price-4600="2790"
-                        data-price-5000="2890">
+                        data-price-5000="2890"
+                        data-price-5400="3090"
+                        data-price-5800="3290">
 
                         <input type="radio" name="window_panel_layout" id="panel_6_right" 
                                value="6_right" 
@@ -419,194 +551,53 @@ $images_dir = get_stylesheet_directory_uri() . '/assets/images/bifolding-windows
                         </label>
                     </div>
 
-                    <!-- ================== 7 PANELS ================== -->
-                    <!-- 1 + 6 Panels -->
-                    <div class="panel-option-card panel-7"
-                        data-min-width="5001"
+                    <!-- 1 + 5 Panels -->
+                    <div class="panel-option-card panel-6"
+                        data-min-width="4201"
                         data-max-width="5800"
-                        data-price-5001="3290"
-                        data-price-5400="3290"
-                        data-price-5800="3490">
+                        data-price-4201="2690"
+                        data-price-4600="2790"
+                        data-price-5000="2890"
+                        data-price-5400="3090"
+                        data-price-5800="3290">
 
-                        <input type="radio" name="window_panel_layout" id="panel_1_6" 
-                               value="1_6" 
-                               class="price-option panel7-option"
-                               data-pane-count="7">
+                        <input type="radio" name="window_panel_layout" id="panel_1_5" 
+                               value="1_5" 
+                               class="price-option panel6-option"
+                               data-pane-count="6">
 
-                        <label for="panel_1_6">
+                        <label for="panel_1_5">
                             <div class="panel-image">
-                                <img src="<?php echo esc_url($images_dir . '1_6_Panel_500x.webp'); ?>" alt="1 + 6 Panels" loading="lazy">
+                                <img src="<?php echo esc_url($images_dir . '1_5_Panel_500x.avif'); ?>" alt="1 + 5 Panels" loading="lazy">
                             </div>
                             <div class="panel-details">
-                                <span class="option-name">1 + 6 Panels</span>
+                                <span class="option-name">1 + 5 Panels</span>
                                 <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
                             </div>
                         </label>
                     </div>
 
-                    <!-- 2 + 5 Panels -->
-                    <div class="panel-option-card panel-7"
-                        data-min-width="5001"
+                    <!-- 5 + 1 Panels -->
+                    <div class="panel-option-card panel-6"
+                        data-min-width="4201"
                         data-max-width="5800"
-                        data-price-5001="3290"
-                        data-price-5400="3290"
-                        data-price-5800="3490">
+                        data-price-4201="2690"
+                        data-price-4600="2790"
+                        data-price-5000="2890"
+                        data-price-5400="3090"
+                        data-price-5800="3290">
 
-                        <input type="radio" name="window_panel_layout" id="panel_2_5" 
-                               value="2_5" 
-                               class="price-option panel7-option"
-                               data-pane-count="7">
+                        <input type="radio" name="window_panel_layout" id="panel_5_1" 
+                               value="5_1" 
+                               class="price-option panel6-option"
+                               data-pane-count="6">
 
-                        <label for="panel_2_5">
+                        <label for="panel_5_1">
                             <div class="panel-image">
-                                <img src="<?php echo esc_url($images_dir . '2_5_Panel_500x.webp'); ?>" alt="2 + 5 Panels" loading="lazy">
+                                <img src="<?php echo esc_url($images_dir . '5_1_Panel_500x.avif'); ?>" alt="5 + 1 Panels" loading="lazy">
                             </div>
                             <div class="panel-details">
-                                <span class="option-name">2 + 5 Panels</span>
-                                <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
-                            </div>
-                        </label>
-                    </div>
-
-                    <!-- 3 + 4 Panels -->
-                    <div class="panel-option-card panel-7"
-                        data-min-width="5001"
-                        data-max-width="5800"
-                        data-price-5001="3290"
-                        data-price-5400="3290"
-                        data-price-5800="3490">
-
-                        <input type="radio" name="window_panel_layout" id="panel_3_4" 
-                               value="3_4" 
-                               class="price-option panel7-option"
-                               data-pane-count="7">
-
-                        <label for="panel_3_4">
-                            <div class="panel-image">
-                                <img src="<?php echo esc_url($images_dir . '3_4_Panel_500x.webp'); ?>" alt="3 + 4 Panels" loading="lazy">
-                            </div>
-                            <div class="panel-details">
-                                <span class="option-name">3 + 4 Panels</span>
-                                <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
-                            </div>
-                        </label>
-                    </div>
-
-                    <!-- 4 + 3 Panels -->
-                    <div class="panel-option-card panel-7"
-                        data-min-width="5001"
-                        data-max-width="5800"
-                        data-price-5001="3290"
-                        data-price-5400="3290"
-                        data-price-5800="3490">
-
-                        <input type="radio" name="window_panel_layout" id="panel_4_3" 
-                               value="4_3" 
-                               class="price-option panel7-option"
-                               data-pane-count="7">
-
-                        <label for="panel_4_3">
-                            <div class="panel-image">
-                                <img src="<?php echo esc_url($images_dir . '4_3_Panel_500x.webp'); ?>" alt="4 + 3 Panels" loading="lazy">
-                            </div>
-                            <div class="panel-details">
-                                <span class="option-name">4 + 3 Panels</span>
-                                <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
-                            </div>
-                        </label>
-                    </div>
-
-                    <!-- 5 + 2 Panels -->
-                    <div class="panel-option-card panel-7"
-                        data-min-width="5001"
-                        data-max-width="5800"
-                        data-price-5001="3290"
-                        data-price-5400="3290"
-                        data-price-5800="3490">
-
-                        <input type="radio" name="window_panel_layout" id="panel_5_2" 
-                               value="5_2" 
-                               class="price-option panel7-option"
-                               data-pane-count="7">
-
-                        <label for="panel_5_2">
-                            <div class="panel-image">
-                                <img src="<?php echo esc_url($images_dir . '5_2_Panel_500x.webp'); ?>" alt="5 + 2 Panels" loading="lazy">
-                            </div>
-                            <div class="panel-details">
-                                <span class="option-name">5 + 2 Panels</span>
-                                <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
-                            </div>
-                        </label>
-                    </div>
-
-                    <!-- 6 + 1 Panels -->
-                    <div class="panel-option-card panel-7"
-                        data-min-width="5001"
-                        data-max-width="5800"
-                        data-price-5001="3290"
-                        data-price-5400="3290"
-                        data-price-5800="3490">
-
-                        <input type="radio" name="window_panel_layout" id="panel_6_1" 
-                               value="6_1" 
-                               class="price-option panel7-option"
-                               data-pane-count="7">
-
-                        <label for="panel_6_1">
-                            <div class="panel-image">
-                                <img src="<?php echo esc_url($images_dir . '6_1_Panel_500x.webp'); ?>" alt="6 + 1 Panels" loading="lazy">
-                            </div>
-                            <div class="panel-details">
-                                <span class="option-name">6 + 1 Panels</span>
-                                <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
-                            </div>
-                        </label>
-                    </div>
-
-                    <!-- 7 Panels Left -->
-                    <div class="panel-option-card panel-7"
-                        data-min-width="5001"
-                        data-max-width="5800"
-                        data-price-5001="3290"
-                        data-price-5400="3290"
-                        data-price-5800="3490">
-
-                        <input type="radio" name="window_panel_layout" id="panel_7_left" 
-                               value="7_left" 
-                               class="price-option panel7-option"
-                               data-pane-count="7">
-
-                        <label for="panel_7_left">
-                            <div class="panel-image">
-                                <img src="<?php echo esc_url($images_dir . '7_Panel_Left_500x.webp'); ?>" alt="7 Panels Left" loading="lazy">
-                            </div>
-                            <div class="panel-details">
-                                <span class="option-name">7 Panels Left</span>
-                                <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
-                            </div>
-                        </label>
-                    </div>
-
-                    <!-- 7 Panels Right -->
-                    <div class="panel-option-card panel-7"
-                        data-min-width="5001"
-                        data-max-width="5800"
-                        data-price-5001="3290"
-                        data-price-5400="3290"
-                        data-price-5800="3490">
-
-                        <input type="radio" name="window_panel_layout" id="panel_7_right" 
-                               value="7_right" 
-                               class="price-option panel7-option"
-                               data-pane-count="7">
-
-                        <label for="panel_7_right">
-                            <div class="panel-image">
-                                <img src="<?php echo esc_url($images_dir . '7_Panel_Right_500x.webp'); ?>" alt="7 Panels Right" loading="lazy">
-                            </div>
-                            <div class="panel-details">
-                                <span class="option-name">7 Panels Right</span>
+                                <span class="option-name">5 + 1 Panels</span>
                                 <span class="option-price">+ <span class="price-vat">(inc. VAT)</span></span>
                             </div>
                         </label>
@@ -876,24 +867,16 @@ jQuery(document).ready(function($) {
     
     /**
      * Get accurate pane count from selected window panel
-     * Uses data-pane-count attribute for reliability
-     * 
-     * @returns {number} Number of panes/panels
      */
     window.getWindowPaneCount = function() {
         const $selectedPanel = $('input[name="window_panel_layout"]:checked');
         
         if (!$selectedPanel.length) {
-            if (typeof window.isDev !== 'undefined' && window.isDev()) {
-                console.log('No panel selected, default pane count: 1');
-            }
             return 1;
         }
         
-        // First try to get from data-pane-count attribute
         let paneCount = $selectedPanel.data('pane-count');
         
-        // If not available, calculate from value
         if (!paneCount) {
             const selectedPanel = $selectedPanel.val();
             
@@ -905,81 +888,55 @@ jQuery(document).ready(function($) {
                 const match = selectedPanel.match(/^(\d+)/);
                 paneCount = match ? parseInt(match[1]) : 1;
             }
-            else if (selectedPanel.match(/^\d+$/)) {
-                paneCount = parseInt(selectedPanel);
-            }
             else {
                 paneCount = 1;
             }
         }
         
-        if (paneCount < 1) paneCount = 1;
-        
-        if (typeof window.isDev !== 'undefined' && window.isDev()) {
-            console.log('Window Panel selected:', $selectedPanel.val(), '→ Pane count:', paneCount);
-        }
-        
-        return paneCount;
+        return paneCount < 1 ? 1 : paneCount;
     };
     
     /**
      * Update panel options based on window width
-     * Shows only panels that are available for the current width
      */
     function updateWindowPanelOptions() {
         const width = parseInt($('#window_width').val());
         const height = parseInt($('#window_height').val());
         const $allPanels = $('.panel-option-card');
 
-        // Hide all panels first
         $allPanels.hide();
         
-        // If width or height is invalid, handle edit mode
         if (isNaN(width) || isNaN(height)) {
-            // In edit mode, show the selected panel even if dimensions are invalid
             if (window.editMode) {
                 const selectedPanel = $('input[name="window_panel_layout"]:checked').val();
                 if (selectedPanel) {
-                    const $selectedCard = $(`input[name="window_panel_layout"][value="${selectedPanel}"]`).closest('.panel-option-card');
-                    $selectedCard.show();
+                    $(`input[name="window_panel_layout"][value="${selectedPanel}"]`).closest('.panel-option-card').show();
                 }
             }
             return;
         }
 
-        // Determine which panel class to show based on width
         let activeClass = '';
         
-        // Width: 1600mm - 2000mm → 2 panels
         if (width >= 1600 && width <= 2000) {
             activeClass = 'panel-2';
         }
-        // Width: 2001mm - 2600mm → 3 panels
         else if (width >= 2001 && width <= 2600) {
             activeClass = 'panel-3';
         }
-        // Width: 2601mm - 3400mm → 4 panels
         else if (width >= 2601 && width <= 3400) {
             activeClass = 'panel-4';
         }
-        // Width: 3401mm - 4200mm → 5 panels
         else if (width >= 3401 && width <= 4200) {
             activeClass = 'panel-5';
         }
-        // Width: 4201mm - 5000mm → 6 panels
-        else if (width >= 4201 && width <= 5000) {
+        else if (width >= 4201 && width <= 5800) {
             activeClass = 'panel-6';
         }
-        // Width: 5001mm - 5800mm → 7 panels
-        else if (width >= 5001 && width <= 5800) {
-            activeClass = 'panel-7';
-        }
 
-        // Show only panels matching the active class
         if (activeClass) {
             $('.' + activeClass).show();
             
-            // Update price display for visible panels based on exact width
             if (activeClass === 'panel-3') {
                 updatePanel3Price(width);
             } else if (activeClass === 'panel-4') {
@@ -988,12 +945,9 @@ jQuery(document).ready(function($) {
                 updatePanel5Price(width);
             } else if (activeClass === 'panel-6') {
                 updatePanel6Price(width);
-            } else if (activeClass === 'panel-7') {
-                updatePanel7Price(width);
             }
         }
 
-        // In edit mode, if selected panel is not visible, uncheck it
         if (!window.editMode) {
             $('input[name="window_panel_layout"]:checked').not(':visible').prop('checked', false);
         } else {
@@ -1006,16 +960,14 @@ jQuery(document).ready(function($) {
             }
         }
 
-        // Update price and pane count after panel visibility changes
         updatePriceAndPaneCount();
     }
     
     /**
-     * Update price display for 3-panel options based on width
+     * Update price display for 3-panel options
      */
     function updatePanel3Price(width) {
-        let price = 1190; // Default for width <= 2200
-        
+        let price = 1190;
         if (width <= 2200) {
             price = 1190;
         } else if (width <= 2600) {
@@ -1029,11 +981,10 @@ jQuery(document).ready(function($) {
     }
     
     /**
-     * Update price display for 4-panel options based on width
+     * Update price display for 4-panel options
      */
     function updatePanel4Price(width) {
-        let price = 1690; // Default for width <= 3000
-        
+        let price = 1690;
         if (width <= 3000) {
             price = 1690;
         } else if (width <= 3400) {
@@ -1047,11 +998,10 @@ jQuery(document).ready(function($) {
     }
     
     /**
-     * Update price display for 5-panel options based on width
+     * Update price display for 5-panel options
      */
     function updatePanel5Price(width) {
-        let price = 2190; // Default for width <= 3800
-        
+        let price = 2190;
         if (width <= 3800) {
             price = 2190;
         } else if (width <= 4200) {
@@ -1065,17 +1015,18 @@ jQuery(document).ready(function($) {
     }
     
     /**
-     * Update price display for 6-panel options based on width
+     * Update price display for 6-panel options (width up to 5800mm)
      */
     function updatePanel6Price(width) {
-        let price = 2690; // Default for width <= 4600
-        
+        let price = 2690;
         if (width <= 4600) {
             price = 2690;
         } else if (width <= 5000) {
             price = 2790;
-        } else {
+        } else if (width <= 5400) {
             price = 2890;
+        } else {
+            price = 2990;
         }
         
         $('.panel-6 .panel-details .option-price').html('+ £' + price + ' <span class="price-vat">(inc. VAT)</span>');
@@ -1083,65 +1034,28 @@ jQuery(document).ready(function($) {
     }
     
     /**
-     * Update price display for 7-panel options based on width
-     */
-    function updatePanel7Price(width) {
-        let price = 3290; // Default for width <= 5400
-        
-        if (width <= 5400) {
-            price = 3290;
-        } else {
-            price = 3490;
-        }
-        
-        $('.panel-7 .panel-details .option-price').html('+ £' + price + ' <span class="price-vat">(inc. VAT)</span>');
-        $('.panel-7 .price-option').data('price', price);
-    }
-    
-    /**
      * Update price and pane count after panel changes
      */
     function updatePriceAndPaneCount() {
-        // Update main price
         if (typeof window.updateWindowPrice === 'function') {
             window.updateWindowPrice();
         }
         
-        // Update drawer if exists
         if (typeof window.updateDrawer === 'function') {
             window.updateDrawer();
         }
-        
-        if (typeof window.isDev !== 'undefined' && window.isDev()) {
-            console.log('Window price updated from Step 2');
-        }
     }
-    
-    /**
-     * Development logging helper
-     */
-    window.isDev = function() {
-        return window.location.hostname === 'localhost' || 
-               window.location.hostname === '127.0.0.1';
-    };
     
     /**
      * Trigger update when panel changes
      */
     $(document).on('change', 'input[name="window_panel_layout"]', function() {
         const paneCount = window.getWindowPaneCount();
-        
-        // Trigger custom event for other components
         $(document).trigger('windowPanelChanged', [paneCount]);
         
-        // Force update with slight delay to ensure panel selection is registered
         setTimeout(function() {
             updatePriceAndPaneCount();
         }, 100);
-        
-        if (typeof window.isDev !== 'undefined' && window.isDev()) {
-            console.log('Window Panel changed, pane count:', paneCount);
-        }
     });
     
     /**
@@ -1151,18 +1065,19 @@ jQuery(document).ready(function($) {
         updateWindowPanelOptions();
     });
     
-    // Initial setup - update panel options based on current width
+    // Listen to size change from step 1
+    $(document).on('windowSizeChanged', function(event, data) {
+        updateWindowPanelOptions();
+    });
+    
+    // Initial setup
     setTimeout(function() {
         updateWindowPanelOptions();
         
-        // If a panel is selected, trigger price update
         if ($('input[name="window_panel_layout"]:checked').length > 0) {
             updatePriceAndPaneCount();
         }
     }, 500);
     
-    if (window.isDev()) {
-        console.log('Window Step 2 initialized');
-    }
 });
 </script>

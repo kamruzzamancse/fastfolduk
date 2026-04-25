@@ -72,6 +72,17 @@ function enqueue_bifolding_door_builder_assets() {
     wp_dequeue_script('elementor-frontend');
     wp_dequeue_script('elementor-pro-frontend');
     wp_dequeue_script('elementor');
+    wp_dequeue_script('elementor-waypoints');
+    wp_dequeue_script('elementor-dialog');
+    wp_dequeue_script('elementor-frontend-modules');
+    
+    // Disable Elementor CSS
+    wp_dequeue_style('elementor-frontend');
+    wp_dequeue_style('elementor-pro');
+    wp_dequeue_style('elementor-global');
+    
+    // Disable Astra theme additional scripts
+    wp_dequeue_script('astra-theme-js');
     
     // Load builder assets
     wp_enqueue_style('door-builder-css', ASTRA_CHILD_URI . '/assets/css/bifolding-door.css');
@@ -95,10 +106,22 @@ function enqueue_bifolding_window_builder_assets() {
     wp_dequeue_style('child-style');
     wp_dequeue_style('astra-theme-css');
     
-    // Dequeue Elementor scripts
+    // ===== DISABLE ELEMENTOR COMPLETELY =====
     wp_dequeue_script('elementor-frontend');
     wp_dequeue_script('elementor-pro-frontend');
     wp_dequeue_script('elementor');
+    wp_dequeue_script('elementor-waypoints');
+    wp_dequeue_script('elementor-dialog');
+    wp_dequeue_script('elementor-frontend-modules');
+    
+    // Disable Elementor CSS
+    wp_dequeue_style('elementor-frontend');
+    wp_dequeue_style('elementor-pro');
+    wp_dequeue_style('elementor-global');
+    wp_dequeue_style('elementor-post-xxx');
+    
+    // Disable Astra theme additional scripts
+    wp_dequeue_script('astra-theme-js');
     
     // Load builder assets
     wp_enqueue_style('window-builder-css', ASTRA_CHILD_URI . '/assets/css/bifolding-window.css');
@@ -114,6 +137,31 @@ function enqueue_bifolding_window_builder_assets() {
 }
 
 /**
+ * Completely disable Elementor on builder pages
+ */
+add_action('template_redirect', 'disable_elementor_on_builder_pages');
+function disable_elementor_on_builder_pages() {
+    if (is_page('bifolding-window-builder') || is_page('bifolding-door-builder')) {
+        // Disable Google fonts
+        add_filter('elementor/frontend/print_google_fonts', '__return_false');
+        add_filter('elementor/frontend/print_fonts', '__return_false');
+        
+        // Disable Elementor frontend scripts and styles
+        add_action('wp_enqueue_scripts', function() {
+            wp_dequeue_script('elementor-frontend');
+            wp_dequeue_script('elementor-pro-frontend');
+            wp_dequeue_script('elementor');
+            wp_dequeue_script('elementor-waypoints');
+            wp_dequeue_script('elementor-dialog');
+            wp_dequeue_script('elementor-frontend-modules');
+            wp_dequeue_style('elementor-frontend');
+            wp_dequeue_style('elementor-pro');
+            wp_dequeue_style('elementor-global');
+        }, 100);
+    }
+}
+
+/**
  * ============================================================
  * REMOVE DEFAULT ADD TO CART BUTTON
  * ============================================================
@@ -124,96 +172,85 @@ function remove_default_add_to_cart_button() {
 }
 
 /**
- * ============================================================
- * ADD SINGLE DESIGN BUTTON BASED ON PRODUCT URL/SLUG
- * ============================================================
+ * ADD SINGLE DESIGN BUTTON BASED ON PRODUCT SLUG
  */
 add_action('woocommerce_single_product_summary', 'add_design_button_based_on_product', 35);
+
 function add_design_button_based_on_product() {
     global $product;
-    
-    if (!$product || !$product->is_type('variable')) {
+
+    // Run only on single product page
+    if (!is_product() || !$product) {
         return;
     }
-    
-    $product_id = $product->get_id();
-    $product_slug = $product->get_slug();
-    $product_name = strtolower($product->get_name());
-    
-    // Check if this is a door product
-    $is_door = (strpos($product_slug, 'door') !== false) || (strpos($product_name, 'door') !== false);
-    
-    // Check if this is a window product
-    $is_window = (strpos($product_slug, 'window') !== false) || (strpos($product_name, 'window') !== false);
-    
-    // If still not detected, check current URL
-    if (!$is_door && !$is_window) {
-        $current_url = $_SERVER['REQUEST_URI'];
-        $is_door = (strpos($current_url, 'door') !== false);
-        $is_window = (strpos($current_url, 'window') !== false);
-    }
-    
-    // Determine which button to show
-    $button_text = '';
-    $builder_url = '';
-    
-    if ($is_door) {
-        $button_text = 'DESIGN YOUR DOOR';
+
+    // Prevent multiple execution
+    static $executed = false;
+    if ($executed) return;
+    $executed = true;
+
+    // Get current product slug and ID
+    $product_slug = strtolower($product->get_slug());
+    $product_id   = $product->get_id();
+
+    // Check for door first, then window to avoid overlap
+    if (strpos($product_slug, 'door') !== false) {
+        $button_text = 'BUILD YOUR DOOR';
         $builder_url = site_url('/bifolding-door-builder/');
-    } elseif ($is_window) {
-        $button_text = 'DESIGN YOUR WINDOW';
+    } elseif (strpos($product_slug, 'window') !== false) {
+        $button_text = 'BUILD YOUR WINDOW';
         $builder_url = site_url('/bifolding-window-builder/');
     } else {
-        return; // No button - not a door or window product
+        // Normal product — show default WooCommerce Add to Cart
+        add_action('woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30);
+        return;
     }
-    
+
+    // Build full builder URL with product ID
+    $full_url = esc_url(add_query_arg('product_id', $product_id, $builder_url));
     ?>
+
     <style>
         .design-your-btn {
-            display: inline-block !important;
+            display: block !important;
+            text-align: center;
             background: #2e7d32 !important;
-            color: white !important;
-            padding: 15px 30px !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
+            color: #fff !important;
+            padding: 16px 32px !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
             text-transform: uppercase !important;
-            letter-spacing: 2px !important;
-            border: none !important;
+            letter-spacing: 1.5px !important;
             border-radius: 4px !important;
-            cursor: pointer !important;
             text-decoration: none !important;
-            margin-top: 20px !important;
-            transition: background 0.3s !important;
+            margin: 25px 0 !important;
+            transition: all 0.3s ease !important;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+            border: none !important;
         }
-        
+
         .design-your-btn:hover {
             background: #1b5e20 !important;
             transform: translateY(-2px) !important;
             box-shadow: 0 6px 12px rgba(0,0,0,0.15) !important;
+            color: #fff !important;
         }
-        
-        .single_variation_wrap .woocommerce-variation-add-to-cart,
-        table.variations,
-        .variations_form .variations,
-        .single-product form.variations_form {
+
+        /* Hide default WooCommerce variation and cart elements */
+        .single_variation_wrap,
+        .variations_form,
+        .woocommerce-variation-add-to-cart,
+        .quantity {
             display: none !important;
+            visibility: hidden !important;
         }
     </style>
-    
-    <a class="button design-your-btn" href="#" id="design-your-btn">
-        <?php echo $button_text; ?>
+
+    <!-- Direct href redirect — no JS needed -->
+    <a class="button design-your-btn" href="<?php echo $full_url; ?>">
+        <?php echo esc_html($button_text); ?>
     </a>
 
-    <script>
-    jQuery(function($){
-        $('#design-your-btn').on('click', function(e){
-            e.preventDefault();
-            var url = '<?php echo $builder_url; ?>?product_id=<?php echo $product_id; ?>';
-            window.location.href = url;
-        });
-    });
-    </script>
     <?php
 }
 

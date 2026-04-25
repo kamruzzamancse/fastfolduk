@@ -19,7 +19,7 @@
             <div class="builder-field">
                 <label for="window_width">WIDTH (MM)</label>
                 <div class="input-wrapper">
-                    <input type="number" id="window_width" name="width" placeholder="Max 5800" min="1600" max="5800" required>
+                    <input type="number" id="window_width" name="width" placeholder="Min 1600, Max 5800" min="1600" max="5800" required>
                     <span class="unit">mm</span>
                 </div>
                 <div class="validation-error" id="width-error">
@@ -30,7 +30,7 @@
             <div class="builder-field">
                 <label for="window_height">HEIGHT (MM)</label>
                 <div class="input-wrapper">
-                    <input type="number" id="window_height" name="height" placeholder="Max 1650" min="700" max="1650" required>
+                    <input type="number" id="window_height" name="height" placeholder="Min 700, Max 1650" min="700" max="1650" required>
                     <span class="unit">mm</span>
                 </div>
                 <div class="validation-error" id="height-error">
@@ -57,47 +57,47 @@ jQuery(document).ready(function($) {
         else if (width >= 2001 && width <= 2600) return 3;
         else if (width >= 2601 && width <= 3400) return 4;
         else if (width >= 3401 && width <= 4200) return 5;
-        else if (width >= 4201 && width <= 5000) return 6;
-        else if (width >= 5001 && width <= 5800) return 7;
-        return 0;
+        else if (width >= 4201 && width <= 5800) return 6;
+        return 2;
     }
     
     /**
      * Calculate base price based on width and panel count
      */
     function getBasePrice(width, panelCount) {
-        if (panelCount === 2) return 990;
-        
+        if (panelCount === 2) {
+            if (width <= 1800) return 990;
+            else if (width <= 2000) return 1090;
+            else return 1190;
+        }
         else if (panelCount === 3) {
-            if (width <= 2200) return 1190;
-            else if (width <= 2600) return 1290;
-            else return 1390;
+            if (width <= 2200) return 1290;
+            else if (width <= 2400) return 1390;
+            else if (width <= 2600) return 1490;
+            else return 1590;
         }
-        
         else if (panelCount === 4) {
-            if (width <= 3000) return 1690;
-            else if (width <= 3400) return 1790;
-            else return 1890;
+            if (width <= 2800) return 1790;
+            else if (width <= 3000) return 1890;
+            else if (width <= 3200) return 1990;
+            else if (width <= 3400) return 2090;
+            else return 2190;
         }
-        
         else if (panelCount === 5) {
-            if (width <= 3800) return 2190;
-            else if (width <= 4200) return 2290;
-            else return 2390;
+            if (width <= 3600) return 2390;
+            else if (width <= 3800) return 2490;
+            else if (width <= 4000) return 2590;
+            else if (width <= 4200) return 2690;
+            else return 2790;
         }
-        
         else if (panelCount === 6) {
-            if (width <= 4600) return 2690;
-            else if (width <= 5000) return 2790;
-            else return 2890;
+            if (width <= 4600) return 2990;
+            else if (width <= 5000) return 3190;
+            else if (width <= 5400) return 3390;
+            else return 3590;
         }
         
-        else if (panelCount === 7) {
-            if (width <= 5400) return 3290;
-            else return 3490;
-        }
-        
-        return 0;
+        return 990;
     }
     
     /**
@@ -106,14 +106,15 @@ jQuery(document).ready(function($) {
      */
     function getHeightExtra(height, panelCount) {
         if (height >= 700 && height <= 900) return 0;
-        else if (height >= 901 && height <= 1200) return 60 * panelCount;
-        else if (height >= 1201 && height <= 1650) return 100 * panelCount;
+        else if (height >= 901 && height <= 1100) return 50 * panelCount;
+        else if (height >= 1101 && height <= 1300) return 80 * panelCount;
+        else if (height >= 1301 && height <= 1500) return 100 * panelCount;
+        else if (height >= 1501 && height <= 1650) return 120 * panelCount;
         return 0;
     }
     
     /**
      * Validate inputs and show error messages
-     * Returns true if valid, false otherwise
      */
     function validateInputs() {
         const width = $('#window_width').val();
@@ -174,7 +175,6 @@ jQuery(document).ready(function($) {
     
     /**
      * Check if values are valid (without showing errors)
-     * Width: 1600-5800mm, Height: 700-1650mm
      */
     function isValidInput() {
         const width = parseInt($('#window_width').val());
@@ -190,7 +190,6 @@ jQuery(document).ready(function($) {
      */
     function updateInstantPrice() {
         if (!isValidInput()) {
-            $('#instant-price').text('£0.00');
             $('#base_price_value').val(0);
             $('#final_price_input').val('0.00');
             return;
@@ -201,16 +200,14 @@ jQuery(document).ready(function($) {
         const panelCount = getPanelCount(width);
         
         if (panelCount === 0) {
-            $('#instant-price').text('£0.00');
+            $('#base_price_value').val(0);
+            $('#final_price_input').val('0.00');
             return;
         }
         
         const basePrice = getBasePrice(width, panelCount);
         const heightExtra = getHeightExtra(height, panelCount);
         const totalPrice = basePrice + heightExtra;
-        
-        // Update display
-        $('#instant-price').text('£' + totalPrice.toFixed(2));
         
         // Update base price for subsequent steps
         $('#base_price_value').val(totalPrice);
@@ -223,6 +220,14 @@ jQuery(document).ready(function($) {
         window.windowHeight = height;
         window.windowPanelCount = panelCount;
         
+        // Trigger event for step 2 to update panel options
+        $(document).trigger('windowSizeChanged', [{
+            width: width,
+            height: height,
+            panelCount: panelCount,
+            basePrice: totalPrice
+        }]);
+        
         // Update drawer if available
         if (typeof window.updateDrawer === 'function') {
             window.updateDrawer();
@@ -233,7 +238,7 @@ jQuery(document).ready(function($) {
     }
     
     /**
-     * Handle input change - validate and update price
+     * Handle input change
      */
     function handleInputChange() {
         validateInputs();

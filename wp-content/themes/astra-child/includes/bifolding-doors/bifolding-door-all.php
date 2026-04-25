@@ -709,7 +709,7 @@ function bifolding_door_add_delivery_charge($cart) {
                 $is_bespoke = isset($cart_item['wizard_data']['delivery_bespoke']) && $cart_item['wizard_data']['delivery_bespoke'] === '1';
             } else {
                 $postcode = $cart_item['wizard_data']['postcode'];
-                $calculator = new Door_Delivery_Calculator();
+                $calculator = new Delivery_Calculator();
                 $delivery_data = $calculator->calculate_delivery($postcode);
                 $delivery_price = $delivery_data['price'];
                 $delivery_zone = $delivery_data['zone'];
@@ -1027,8 +1027,8 @@ function bifolding_door_ajax_check_delivery() {
     if (empty($postcode)) {
         wp_send_json_error(array('message' => 'Postcode required'));
     }
-    
-    $calculator = new Door_Delivery_Calculator();
+
+    $calculator = new Delivery_Calculator();
     $result = $calculator->calculate_delivery($postcode);
     
     wp_send_json_success($result);
@@ -1039,7 +1039,7 @@ function bifolding_door_ajax_check_delivery() {
  * 13. TECHNICAL SPECIFICATION IMAGE
  * ============================================================
  */
-add_action('woocommerce_single_product_summary', 'bifolding_door_show_technical_spec', 25);
+/* add_action('woocommerce_single_product_summary', 'bifolding_door_show_technical_spec', 50);
 function bifolding_door_show_technical_spec() {
     if (!is_product()) {
         return;
@@ -1051,7 +1051,7 @@ function bifolding_door_show_technical_spec() {
         echo '<img src="' . esc_url($image) . '" alt="Bi-fold door technical specification">';
         echo '</div>';
     }
-}
+} */
 
 add_action('wp_head', 'bifolding_door_tech_spec_css');
 function bifolding_door_tech_spec_css() {

@@ -1,36 +1,94 @@
-[09-Apr-2026 10:43:21 UTC] PHP Fatal error:  Cannot redeclare astra_child_enqueue_scripts() (previously declared in C:\xampp\htdocs\fastfolduk\wp-content\themes\astra-child\functions.php:48) in C:\xampp\htdocs\fastfolduk\wp-content\themes\astra-child\includes\bifolding-windows\bifolding-window-all.php on line 46
-[09-Apr-2026 10:43:21 UTC] PHP Notice:  Function _load_textdomain_just_in_time was called <strong>incorrectly</strong>. Translation loading for the <code>woocommerce</code> domain was triggered too early. This is usually an indicator for some code in the plugin or theme running too early. Translations should be loaded at the <code>init</code> action or later. Please see <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 6.7.0.) in C:\xampp\htdocs\fastfolduk\wp-includes\functions.php on line 6131
-[09-Apr-2026 10:52:00 UTC] PHP Warning:  Undefined variable $product in C:\xampp\htdocs\fastfolduk\wp-content\themes\astra-child\includes\bifolding-windows\bifolding-window-all.php on line 106
-[09-Apr-2026 10:52:00 UTC] PHP Fatal error:  Uncaught Error: Call to a member function get_id() on null in C:\xampp\htdocs\fastfolduk\wp-content\themes\astra-child\includes\bifolding-windows\bifolding-window-all.php:106
-Stack trace:
-#0 C:\xampp\htdocs\fastfolduk\wp-content\themes\astra-child\functions.php(38): require_once()
-#1 C:\xampp\htdocs\fastfolduk\wp-settings.php(710): include('C:\\xampp\\htdocs...')
-#2 C:\xampp\htdocs\fastfolduk\wp-config.php(105): require_once('C:\\xampp\\htdocs...')
-#3 C:\xampp\htdocs\fastfolduk\wp-load.php(50): require_once('C:\\xampp\\htdocs...')
-#4 C:\xampp\htdocs\fastfolduk\wp-blog-header.php(13): require_once('C:\\xampp\\htdocs...')
-#5 C:\xampp\htdocs\fastfolduk\index.php(17): require('C:\\xampp\\htdocs...')
-#6 {main}
-  thrown in C:\xampp\htdocs\fastfolduk\wp-content\themes\astra-child\includes\bifolding-windows\bifolding-window-all.php on line 106
-[09-Apr-2026 10:52:00 UTC] PHP Notice:  Function _load_textdomain_just_in_time was called <strong>incorrectly</strong>. Translation loading for the <code>woocommerce</code> domain was triggered too early. This is usually an indicator for some code in the plugin or theme running too early. Translations should be loaded at the <code>init</code> action or later. Please see <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 6.7.0.) in C:\xampp\htdocs\fastfolduk\wp-includes\functions.php on line 6131
-[11-Apr-2026 02:00:52 UTC] Automatic updates starting...
-[11-Apr-2026 02:00:53 UTC]   Automatic plugin updates starting...
-[11-Apr-2026 02:00:53 UTC]   Automatic plugin updates complete.
-[11-Apr-2026 02:00:53 UTC] Automatic updates complete.
-[11-Apr-2026 05:27:22 UTC] PHP Notice:  Function _load_textdomain_just_in_time was called <strong>incorrectly</strong>. Translation loading for the <code>woocommerce</code> domain was triggered too early. This is usually an indicator for some code in the plugin or theme running too early. Translations should be loaded at the <code>init</code> action or later. Please see <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 6.7.0.) in C:\xampp\htdocs\fastfolduk\wp-includes\functions.php on line 6131
-[11-Apr-2026 05:27:22 UTC] PHP Notice:  Function _load_textdomain_just_in_time was called <strong>incorrectly</strong>. Translation loading for the <code>woocommerce-gateway-stripe</code> domain was triggered too early. This is usually an indicator for some code in the plugin or theme running too early. Translations should be loaded at the <code>init</code> action or later. Please see <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 6.7.0.) in C:\xampp\htdocs\fastfolduk\wp-includes\functions.php on line 6131
-[11-Apr-2026 05:28:28 UTC] Automatic updates starting...
-[11-Apr-2026 05:28:29 UTC]   Automatic plugin updates starting...
-[11-Apr-2026 05:28:29 UTC]   Automatic plugin updates complete.
-[11-Apr-2026 05:28:30 UTC] Automatic updates complete.
-[12-Apr-2026 05:12:03 UTC] Automatic updates starting...
-[12-Apr-2026 05:12:04 UTC]   Automatic plugin updates starting...
-[12-Apr-2026 05:12:04 UTC]   Automatic plugin updates complete.
-[12-Apr-2026 05:12:05 UTC] Automatic updates complete.
-[13-Apr-2026 02:49:59 UTC] Automatic updates starting...
-[13-Apr-2026 02:50:00 UTC]   Automatic plugin updates starting...
-[13-Apr-2026 02:50:00 UTC]   Automatic plugin updates complete.
-[13-Apr-2026 02:50:01 UTC] Automatic updates complete.
-[13-Apr-2026 04:01:27 UTC] Automatic updates starting...
-[13-Apr-2026 04:01:28 UTC]   Automatic plugin updates starting...
-[13-Apr-2026 04:01:28 UTC]   Automatic plugin updates complete.
-[13-Apr-2026 04:01:28 UTC] Automatic updates complete.
+[19-Apr-2026 09:24:19 UTC] Window Delivery Check - Postcode: M11AE
+[19-Apr-2026 09:24:19 UTC] Window Delivery Result: Array
+(
+    [price] => 150
+    [zone] => Zone A - Regional
+    [distance] => 67.5
+    [bespoke] => 
+    [message] => Delivery: £150 (Distance: 67.5 miles)
+)
+
+[19-Apr-2026 09:24:21 UTC] Window Delivery Check - Postcode: M11AE
+[19-Apr-2026 09:24:21 UTC] Window Delivery Result: Array
+(
+    [price] => 150
+    [zone] => Zone A - Regional
+    [distance] => 67.5
+    [bespoke] => 
+    [message] => Delivery: £150 (Distance: 67.5 miles)
+)
+
+[19-Apr-2026 09:30:34 UTC] Window Delivery Check - Postcode: M11AE
+[19-Apr-2026 09:30:34 UTC] Window Delivery Result: Array
+(
+    [price] => 150
+    [zone] => Zone A - Regional
+    [distance] => 67.5
+    [bespoke] => 
+    [message] => Delivery: £150 (Distance: 67.5 miles)
+)
+
+[19-Apr-2026 09:35:01 UTC] Window Delivery Check - Postcode: M11AE
+[19-Apr-2026 09:35:01 UTC] Window Delivery Result: Array
+(
+    [price] => 150
+    [zone] => Zone A - Regional
+    [distance] => 67.5
+    [bespoke] => 
+    [message] => Delivery: £150 (Distance: 67.5 miles)
+)
+
+[19-Apr-2026 11:22:50 UTC] === BUTTON DETECTION ===
+[19-Apr-2026 11:22:50 UTC] === BUTTON DETECTION ===
+[19-Apr-2026 11:22:50 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
+[19-Apr-2026 11:22:50 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
+[19-Apr-2026 11:22:50 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
+[19-Apr-2026 11:22:50 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
+[19-Apr-2026 11:22:50 UTC] Product Name: fastfold z71 aluminium bi-folding door
+[19-Apr-2026 11:22:50 UTC] Product Name: fastfold z71 aluminium bi-folding door
+[19-Apr-2026 11:22:50 UTC] Final - Is Door: YES
+[19-Apr-2026 11:22:50 UTC] Final - Is Door: YES
+[19-Apr-2026 11:22:50 UTC] Final - Is Window: NO
+[19-Apr-2026 11:22:50 UTC] Final - Is Window: NO
+[19-Apr-2026 11:22:57 UTC] === BUTTON DETECTION ===
+[19-Apr-2026 11:22:57 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
+[19-Apr-2026 11:22:57 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
+[19-Apr-2026 11:22:57 UTC] Product Name: fastfold z71 aluminium bi-folding door
+[19-Apr-2026 11:22:57 UTC] Final - Is Door: YES
+[19-Apr-2026 11:22:57 UTC] Final - Is Window: NO
+[19-Apr-2026 11:23:19 UTC] === BUTTON DETECTION ===
+[19-Apr-2026 11:23:19 UTC] URL: /fastfolduk/product/fastfold-w71-aluminium-bi-folding-windows/
+[19-Apr-2026 11:23:19 UTC] Product Slug: fastfold-w71-aluminium-bi-folding-windows
+[19-Apr-2026 11:23:19 UTC] Product Name: fastfold w71 aluminium bi-folding windows
+[19-Apr-2026 11:23:19 UTC] Final - Is Door: NO
+[19-Apr-2026 11:23:19 UTC] Final - Is Window: YES
+[19-Apr-2026 11:24:15 UTC] === BUTTON DETECTION ===
+[19-Apr-2026 11:24:15 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
+[19-Apr-2026 11:24:15 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
+[19-Apr-2026 11:24:15 UTC] Product Name: fastfold z71 aluminium bi-folding door
+[19-Apr-2026 11:24:15 UTC] Final - Is Door: YES
+[19-Apr-2026 11:24:15 UTC] Final - Is Window: NO
+[19-Apr-2026 11:25:14 UTC] === BUTTON DETECTION ===
+[19-Apr-2026 11:25:14 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
+[19-Apr-2026 11:25:14 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
+[19-Apr-2026 11:25:14 UTC] Product Name: fastfold z71 aluminium bi-folding door
+[19-Apr-2026 11:25:14 UTC] Final - Is Door: YES
+[19-Apr-2026 11:25:14 UTC] Final - Is Window: NO
+[19-Apr-2026 11:26:18 UTC] === BUTTON DETECTION ===
+[19-Apr-2026 11:26:18 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
+[19-Apr-2026 11:26:18 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
+[19-Apr-2026 11:26:18 UTC] Product Name: fastfold z71 aluminium bi-folding door
+[19-Apr-2026 11:26:18 UTC] Final - Is Door: YES
+[19-Apr-2026 11:26:18 UTC] Final - Is Window: NO
+[19-Apr-2026 11:31:17 UTC] === BUTTON DETECTION ===
+[19-Apr-2026 11:31:17 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
+[19-Apr-2026 11:31:17 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
+[19-Apr-2026 11:31:17 UTC] Product Name: fastfold z71 aluminium bi-folding door
+[19-Apr-2026 11:31:17 UTC] Final - Is Door: YES
+[19-Apr-2026 11:31:17 UTC] Final - Is Window: NO
+[20-Apr-2026 02:05:03 UTC] Automatic updates starting...
+[20-Apr-2026 02:05:04 UTC]   Automatic plugin updates starting...
+[20-Apr-2026 02:05:04 UTC]   Automatic plugin updates complete.
+[20-Apr-2026 02:05:05 UTC]   Automatic theme updates starting...
+[20-Apr-2026 02:05:05 UTC]   Automatic theme updates complete.
+[20-Apr-2026 02:05:05 UTC] Automatic updates complete.
