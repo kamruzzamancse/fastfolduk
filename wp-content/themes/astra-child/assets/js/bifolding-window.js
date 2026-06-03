@@ -4,6 +4,8 @@
 
 jQuery(function($){
 
+    let isSubmitting = false;
+
     // Keep track of the current step index
     let currentStep = 0;
     const steps = $('.wizard-step');
@@ -1251,6 +1253,14 @@ jQuery(function($){
     }
 
     function submitBuilderForm() {
+        console.log('=== submitBuilderForm called ===');
+        
+        // Prevent double submission
+        if (isSubmitting) {
+            console.log('Already submitting - blocked');
+            return;
+        }
+        
         if (!validateStep(0)) {
             showStep(0);
             return;
@@ -1262,11 +1272,42 @@ jQuery(function($){
             return;
         }
         
-        if (typeof window.submitBuilderForm === 'function') {
-            window.submitBuilderForm();
-        } else {
-            $('#window-builder-form').submit();
-        }
+        // Set flag to prevent double submission
+        isSubmitting = true;
+        
+        // Get form data
+        var formData = $('#window-builder-form').serialize();
+        
+        // Disable button
+        var $submitBtn = $('#submit-btn, #drawerAddToCart');
+        $submitBtn.prop('disabled', true).html('<span class="loading-spinner"></span> Adding...');
+        
+        // Make AJAX call
+        $.ajax({
+            url: window.windowBuilderData.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'process_window_builder',
+                form_data: formData,
+                security: window.windowBuilderData.nonce
+            },
+            success: function(response) {
+                console.log('AJAX Success:', response);
+                if (response.success) {
+                    window.location.href = response.data.cart_url;
+                } else {
+                    alert('Error: ' + (response.data.message || 'Unknown error'));
+                    isSubmitting = false;  // Reset flag on error
+                    $submitBtn.prop('disabled', false).html('ADD TO CART');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('AJAX Error:', error);
+                alert('Network error. Please try again.');
+                isSubmitting = false;  // Reset flag on error
+                $submitBtn.prop('disabled', false).html('ADD TO CART');
+            }
+        });
     }
 
     // Event handlers
@@ -1547,9 +1588,8 @@ jQuery(function($){
     initWizard();
     initAccessIssuesToggle();
 
-    // Update panel options based on window width
+    // Update panel options based on window width (UPDATED RANGES)
     function updatePanelOptions() {
-        // Prevent recursive/infinite calls
         if (window.isUpdatingPanelOptions) {
             return;
         }
@@ -1559,7 +1599,6 @@ jQuery(function($){
         const height = parseInt($('#window_height').val());
         const $allPanels = $('.panel-option-card');
 
-        // Check if values are valid
         if (isNaN(width) || isNaN(height)) {
             if (window.editMode) {
                 const selectedPanel = $('input[name="window_panel_layout"]:checked').val();
@@ -1572,65 +1611,27 @@ jQuery(function($){
             return;
         }
 
-        let activeClass = '';
-        let panelCount = 0;
-        let basePrice = 0;
-
-        if (width >= 1600 && width <= 2000) {
-            activeClass = 'panel-2';
-            panelCount = 2;
-            basePrice = 1390;
-        }
-        else if (width >= 2001 && width <= 2600) {
-            activeClass = 'panel-3';
-            panelCount = 3;
-            if (width <= 2200) basePrice = 1520;
-            else if (width <= 2600) basePrice = 1650;
-            else basePrice = 1790;
-        }
-        else if (width >= 2601 && width <= 3400) {
-            activeClass = 'panel-4';
-            panelCount = 4;
-            if (width <= 3000) basePrice = 2100;
-            else basePrice = 2290;
-        }
-        else if (width >= 3401 && width <= 4200) {
-            activeClass = 'panel-5';
-            panelCount = 5;
-            if (width <= 3800) basePrice = 2920;
-            else basePrice = 3010;
-        }
-        else if (width >= 4201 && width <= 5800) {
-            activeClass = 'panel-6';
-            panelCount = 6;
-            if (width <= 5000) basePrice = 3750;
-            else basePrice = 3990;
-        }
-
-        let heightExtra = 0;
-        
-        if (!isNaN(height) && panelCount > 0) {
-            if (height >= 700 && height <= 900) heightExtra = 0;
-            else if (height >= 901 && height <= 1200) heightExtra = 60 * panelCount;
-            else if (height >= 1201 && height <= 1650) heightExtra = 100 * panelCount;
-        }
-
-        const displayPrice = basePrice + heightExtra;
-
         // Hide all panels first
         $allPanels.hide();
         
-        // Show only matching panels if activeClass exists
-        if (activeClass) {
-            $('.' + activeClass).show();
-            
-            // Update prices for visible panels
-            $('.' + activeClass).each(function() {
-                const $priceSpan = $(this).find('.panel-details .option-price');
-                $priceSpan.html('+ £' + displayPrice + ' <span class="price-vat">(inc. VAT)</span>');
-                $(this).find('.price-option').attr('data-price', 0);
-                $(this).attr('data-display-price', displayPrice);
-            });
+        // Show 2 panels (1600-2000 mm)
+        if (width >= 1600 && width <= 2000) {
+            $('.panel-2').show();
+        }
+        
+        // Show 3 panels (1750-3250 mm)
+        if (width >= 1750 && width <= 3250) {
+            $('.panel-3').show();
+        }
+        
+        // Show 4 panels (3251-4000 mm)
+        if (width >= 3251 && width <= 4000) {
+            $('.panel-4').show();
+        }
+        
+        // Show 5 panels (4001-5800 mm)
+        if (width >= 4001 && width <= 5800) {
+            $('.panel-5').show();
         }
 
         // Handle selected panel visibility
@@ -1650,7 +1651,6 @@ jQuery(function($){
             }
         }
 
-        // Update price only once at the end
         if (typeof updatePrice === 'function') {
             updatePrice();
         }
@@ -1659,7 +1659,6 @@ jQuery(function($){
             window.getWindowPaneCount();
         }
         
-        // Release the lock
         window.isUpdatingPanelOptions = false;
     }
 
@@ -1799,28 +1798,17 @@ jQuery(function($){
                 const panelValue = $('input[name="window_panel_layout"]:checked').val();
                 if (!panelValue) return '—';
                 
-                let panelText = $('input[name="window_panel_layout"]:checked')
-                    .closest('.panel-option-card, label')
-                    .find('.option-name').text().trim();
-                
-                if (!panelText) {
-                    const panelMap = {
-                        '2_left': '2 Panels Left', '2_right': '2 Panels Right',
-                        '1_2': '1 + 2 Panels', '2_1': '2 + 1 Panels',
-                        '3_left': '3 Panels Left', '3_right': '3 Panels Right',
-                        '1_3': '1 + 3 Panels', '3_1': '3 + 1 Panels',
-                        '2_2': '2 + 2 Panels',
-                        '4_left': '4 Panels Left', '4_right': '4 Panels Right',
-                        '1_4': '1 + 4 Panels', '4_1': '4 + 1 Panels',
-                        '2_3': '2 + 3 Panels', '3_2': '3 + 2 Panels',
-                        '5_left': '5 Panels Left', '5_right': '5 Panels Right',
-                        '1_5': '1 + 5 Panels', '2_4': '2 + 4 Panels',
-                        '3_3': '3 + 3 Panels', '4_2': '4 + 2 Panels', '5_1': '5 + 1 Panels',
-                        '6_left': '6 Panels Left', '6_right': '6 Panels Right'
-                    };
-                    panelText = panelMap[panelValue] || panelValue;
-                }
-                return panelText;
+                const panelMap = {
+                    '2_left': '2 Panels Left',
+                    '2_right': '2 Panels Right',
+                    '3_left': '3 Panels Left',
+                    '3_right': '3 Panels Right',
+                    '4_left': '4 Panels Left',
+                    '4_right': '4 Panels Right',
+                    '5_left': '5 Panels Left',
+                    '5_right': '5 Panels Right'
+                };
+                return panelMap[panelValue] || panelValue;
             },
             getPrice: function() { return 0; }
         },
@@ -2140,20 +2128,9 @@ jQuery(function($){
         const selectedPanel = $('input[name="window_panel_layout"]:checked').val();
         if (!selectedPanel) return 1;
         
-        let paneCount = 1;
-        
-        if (selectedPanel.includes('_')) {
-            const parts = selectedPanel.split('_');
-            if (parts.length === 2 && !isNaN(parseInt(parts[0])) && !isNaN(parseInt(parts[1]))) {
-                paneCount = parseInt(parts[0]) + parseInt(parts[1]);
-            } else {
-                const match = selectedPanel.match(/^(\d+)/);
-                if (match) paneCount = parseInt(match[1]);
-            }
-        } else {
-            const match = selectedPanel.match(/^(\d+)/);
-            if (match) paneCount = parseInt(match[1]);
-        }
+        // Simplified: just extract first number from value like "2_left", "3_right", etc.
+        const match = selectedPanel.match(/^(\d+)/);
+        const paneCount = match ? parseInt(match[1]) : 1;
         
         return Math.max(1, paneCount);
     }
@@ -2264,13 +2241,17 @@ jQuery(function($){
         });
         
         $('#drawerAddToCart').on('click', function() {
+            console.log('Drawer Add to Cart clicked');
             if ($(this).hasClass('disabled')) {
+                console.log('Button is disabled');
                 return;
             }
             
+            // Call the submit function directly
             if (typeof submitBuilderForm === 'function') {
                 submitBuilderForm();
             } else {
+                console.error('submitBuilderForm not found');
                 $('#window-builder-form').submit();
             }
         });

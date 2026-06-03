@@ -54,7 +54,7 @@ jQuery(document).ready(function($) {
      */
     function getPanelCount(width) {
         if (width >= 1600 && width <= 2000) return 2;
-        else if (width >= 1750 && width <= 3250) return 3;
+        else if (width >= 2001 && width <= 3250) return 3;
         else if (width >= 3251 && width <= 4000) return 4;
         else if (width >= 4001 && width <= 5800) return 5;
         return 2;

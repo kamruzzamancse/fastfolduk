@@ -3,12 +3,6 @@
  * Astra Child Theme Functions
  * 
  * @package Astra Child
- * 
- * FIX LOG:
- * - Removed fix_builder_edit_link() — was incorrectly overriding edit URLs
- * - Removed fix_cart_item_edit_links() — was injecting JS that fought with correct URLs
- *   Both functions are now unnecessary because bifolding-door-all.php and
- *   bifolding-window-all.php build the correct URLs directly from product_type
  */
 
 // Prevent direct access
@@ -96,10 +90,10 @@ function enqueue_bifolding_door_builder_assets() {
     
     // Localize script for AJAX
     wp_localize_script('door-builder-js', 'door_builder_vars', array(
-        'ajax_url'     => admin_url('admin-ajax.php'),
-        'cart_url'     => wc_get_cart_url(),
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'cart_url' => wc_get_cart_url(),
         'checkout_url' => wc_get_checkout_url(),
-        'nonce'        => wp_create_nonce('door_builder_ajax'),
+        'nonce' => wp_create_nonce('door_builder_ajax'),
     ));
 }
 
@@ -112,7 +106,7 @@ function enqueue_bifolding_window_builder_assets() {
     wp_dequeue_style('child-style');
     wp_dequeue_style('astra-theme-css');
     
-    // Disable Elementor completely
+    // ===== DISABLE ELEMENTOR COMPLETELY =====
     wp_dequeue_script('elementor-frontend');
     wp_dequeue_script('elementor-pro-frontend');
     wp_dequeue_script('elementor');
@@ -129,14 +123,16 @@ function enqueue_bifolding_window_builder_assets() {
     // Disable Astra theme additional scripts
     wp_dequeue_script('astra-theme-js');
     
-    wp_enqueue_style('window-builder-css', ASTRA_CHILD_URI . '/assets/css/bifolding-window.css', array(), '1.0');
-    wp_enqueue_script('window-builder-js', ASTRA_CHILD_URI . '/assets/js/bifolding-window.js', array('jquery'), '1.0', true);
+    // Load builder assets
+    wp_enqueue_style('window-builder-css', ASTRA_CHILD_URI . '/assets/css/bifolding-window.css');
+    wp_enqueue_script('window-builder-js', ASTRA_CHILD_URI . '/assets/js/bifolding-window.js', array('jquery'), null, true);
     
+    // In enqueue_bifolding_window_builder_assets() function
     wp_localize_script('window-builder-js', 'window_builder_vars', array(
-        'ajax_url'     => admin_url('admin-ajax.php'),
-        'cart_url'     => wc_get_cart_url(),
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'cart_url' => wc_get_cart_url(),
         'checkout_url' => wc_get_checkout_url(),
-        'nonce'        => wp_create_nonce('window_builder_ajax'),
+        'nonce' => wp_create_nonce('window_builder_ajax'),  // Make sure nonce name matches
     ));
 }
 
@@ -146,9 +142,11 @@ function enqueue_bifolding_window_builder_assets() {
 add_action('template_redirect', 'disable_elementor_on_builder_pages');
 function disable_elementor_on_builder_pages() {
     if (is_page('bifolding-window-builder') || is_page('bifolding-door-builder')) {
+        // Disable Google fonts
         add_filter('elementor/frontend/print_google_fonts', '__return_false');
         add_filter('elementor/frontend/print_fonts', '__return_false');
         
+        // Disable Elementor frontend scripts and styles
         add_action('wp_enqueue_scripts', function() {
             wp_dequeue_script('elementor-frontend');
             wp_dequeue_script('elementor-pro-frontend');
@@ -181,6 +179,7 @@ add_action('woocommerce_single_product_summary', 'add_design_button_based_on_pro
 function add_design_button_based_on_product() {
     global $product;
 
+    // Run only on single product page
     if (!is_product() || !$product) {
         return;
     }
@@ -190,6 +189,7 @@ function add_design_button_based_on_product() {
     if ($executed) return;
     $executed = true;
 
+    // Get current product slug and ID
     $product_slug = strtolower($product->get_slug());
     $product_id   = $product->get_id();
 
@@ -206,6 +206,7 @@ function add_design_button_based_on_product() {
         return;
     }
 
+    // Build full builder URL with product ID
     $full_url = esc_url(add_query_arg('product_id', $product_id, $builder_url));
     ?>
 
@@ -235,6 +236,7 @@ function add_design_button_based_on_product() {
             color: #fff !important;
         }
 
+        /* Hide default WooCommerce variation and cart elements */
         .single_variation_wrap,
         .variations_form,
         .woocommerce-variation-add-to-cart,
@@ -244,6 +246,7 @@ function add_design_button_based_on_product() {
         }
     </style>
 
+    <!-- Direct href redirect — no JS needed -->
     <a class="button design-your-btn" href="<?php echo $full_url; ?>">
         <?php echo esc_html($button_text); ?>
     </a>
@@ -258,26 +261,28 @@ function add_design_button_based_on_product() {
  */
 register_activation_hook(__FILE__, 'create_builder_pages');
 function create_builder_pages() {
+    // Create Bifolding Door Builder page
     if (!get_page_by_path('bifolding-door-builder')) {
         wp_insert_post(array(
-            'post_title'    => 'Bifolding Door Builder',
-            'post_name'     => 'bifolding-door-builder',
-            'post_content'  => '<!-- This page uses custom template -->',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_author'   => 1,
+            'post_title' => 'Bifolding Door Builder',
+            'post_name' => 'bifolding-door-builder',
+            'post_content' => '<!-- This page uses custom template -->',
+            'post_status' => 'publish',
+            'post_type' => 'page',
+            'post_author' => 1,
             'page_template' => 'bifolding-door-builder.php'
         ));
     }
     
+    // Create Bifolding Window Builder page
     if (!get_page_by_path('bifolding-window-builder')) {
         wp_insert_post(array(
-            'post_title'    => 'Bifolding Window Builder',
-            'post_name'     => 'bifolding-window-builder',
-            'post_content'  => '<!-- This page uses custom template -->',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_author'   => 1,
+            'post_title' => 'Bifolding Window Builder',
+            'post_name' => 'bifolding-window-builder',
+            'post_content' => '<!-- This page uses custom template -->',
+            'post_status' => 'publish',
+            'post_type' => 'page',
+            'post_author' => 1,
             'page_template' => 'bifolding-window-builder.php'
         ));
     }
@@ -311,8 +316,3 @@ function hide_theme_elements_on_builders() {
  */
 add_filter('astra_get_option_scroll-to-top', '__return_false');
 remove_action('astra_footer_after', 'astra_scroll_to_top', 1);
-
-// NOTE: fix_builder_edit_link() and fix_cart_item_edit_links() have been REMOVED.
-// They were causing edit buttons to always redirect to window builder regardless of product type.
-// The correct edit URLs are now built directly inside bifolding-door-all.php and
-// bifolding-window-all.php using the wizard_data['product_type'] field.

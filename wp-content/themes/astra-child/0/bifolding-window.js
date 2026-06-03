@@ -1,5 +1,5 @@
 /**
- * Bifolding Door Builder - Main JavaScript (All Steps 1-14)
+ * Bifolding Window Builder - Main JavaScript (All Steps 1-14)
  */
 
 jQuery(function($){
@@ -18,7 +18,7 @@ jQuery(function($){
     let editMode = false;
     let editCartKey = '';
 
-    // ===== STEP MAPPING - UPDATED WITH NEW STEP 11 =====
+    // ===== STEP MAPPING FOR WINDOWS (14 Steps) =====
     const stepMap = {
         0: 'size',           // Step 1: Size
         1: 'panels',         // Step 2: Panels
@@ -30,10 +30,10 @@ jQuery(function($){
         7: 'trickle_vents',  // Step 8: Trickle Vents
         8: 'cill',           // Step 9: Cill
         9: 'postcode',       // Step 10: Postcode
-        10: 'installation',  // Step 11: Installation Type (NEW)
-        11: 'access',        // Step 12: Access Issues (was Step 11)
-        12: 'customer_info', // Step 13: Customer Information (was Step 12)
-        13: 'summary'        // Step 14: Summary (was Step 13)
+        10: 'installation',  // Step 11: Installation Type
+        11: 'access',        // Step 12: Access Issues
+        12: 'customer_info', // Step 13: Customer Information
+        13: 'summary'        // Step 14: Summary
     };
 
     /**
@@ -47,9 +47,9 @@ jQuery(function($){
         
         if (isDev()) console.log('Prefilling form data:', data);
 
-        // === STEP 1: Size ===
-        if (data.width) $('#width').val(data.width);
-        if (data.height) $('#height').val(data.height);
+        // === STEP 1: Window Size ===
+        if (data.width) $('#window_width').val(data.width);
+        if (data.height) $('#window_height').val(data.height);
         
         // === STEP 2: Panels ===
         if (data.panels) {
@@ -79,8 +79,7 @@ jQuery(function($){
                 '4 + 2 Panels': '4_2',
                 '5 + 1 Panels': '5_1',
                 '6 Panels Left': '6_left',
-                '6 Panels Right': '6_right',
-                'French Doors': 'french'
+                '6 Panels Right': '6_right'
             };
             
             let panelValue = panelMap[data.panels];
@@ -89,7 +88,7 @@ jQuery(function($){
                 const possibleValues = [
                     '2_left', '2_right', '1_2', '2_1', '3_left', '3_right', '1_3', '3_1', '2_2',
                     '4_left', '4_right', '1_4', '4_1', '2_3', '3_2', '5_left', '5_right',
-                    '1_5', '2_4', '3_3', '4_2', '5_1', '6_left', '6_right', 'french'
+                    '1_5', '2_4', '3_3', '4_2', '5_1', '6_left', '6_right'
                 ];
                 
                 if (possibleValues.includes(data.panels)) {
@@ -99,9 +98,9 @@ jQuery(function($){
             
             if (panelValue) {
                 setTimeout(function() {
-                    $(`input[name="panel_layout"][value="${panelValue}"]`).prop('checked', true).trigger('change');
-                    if (typeof window.getPaneCount === 'function') {
-                        window.getPaneCount();
+                    $(`input[name="window_panel_layout"][value="${panelValue}"]`).prop('checked', true).trigger('change');
+                    if (typeof window.getWindowPaneCount === 'function') {
+                        window.getWindowPaneCount();
                     }
                 }, 200);
             }
@@ -116,8 +115,8 @@ jQuery(function($){
         // === STEP 4: Outside Colour ===
         if (data.outside_colour) {
             if (data.outside_colour.startsWith('RAL ')) {
-                $('#colour_custom').prop('checked', true).trigger('change');
-                $('#custom_colour_select').val(data.outside_colour).trigger('change');
+                $('#window_colour_custom').prop('checked', true).trigger('change');
+                $('#custom_window_colour_select').val(data.outside_colour).trigger('change');
             } else {
                 const colourMap = {
                     'Anthracite Grey': 'anthracite_grey',
@@ -125,7 +124,7 @@ jQuery(function($){
                     'White': 'white'
                 };
                 let colourValue = colourMap[data.outside_colour] || 'custom_ral';
-                $(`input[name="door_colour"][value="${colourValue}"]`).prop('checked', true).trigger('change');
+                $(`input[name="window_colour"][value="${colourValue}"]`).prop('checked', true).trigger('change');
             }
         }
 
@@ -133,8 +132,8 @@ jQuery(function($){
         if (data.inside_colour) {
             setTimeout(function() {
                 if (data.inside_colour.startsWith('RAL ')) {
-                    $('#inside_colour_custom').prop('checked', true).trigger('change');
-                    $('#custom_inside_colour_select').val(data.inside_colour).trigger('change');
+                    $('#window_inside_colour_custom').prop('checked', true).trigger('change');
+                    $('#custom_window_inside_colour_select').val(data.inside_colour).trigger('change');
                 } else {
                     const colourMap = {
                         'Anthracite Grey': 'anthracite_grey',
@@ -142,7 +141,7 @@ jQuery(function($){
                         'White': 'white'
                     };
                     let colourValue = colourMap[data.inside_colour] || 'custom_ral';
-                    const $option = $(`input[name="inside_colour"][value="${colourValue}"]`);
+                    const $option = $(`input[name="window_inside_colour"][value="${colourValue}"]`);
                     if ($option.length && $option.closest('.inside-colour-option').is(':visible')) {
                         $option.prop('checked', true).trigger('change');
                     }
@@ -156,10 +155,10 @@ jQuery(function($){
                 'White': 'white',
                 'Chrome': 'chrome',
                 'Black': 'black',
-                'Black and White': 'black_white'
+                'Silver': 'silver'
             };
             let handleValue = handleMap[data.handle] || 'white';
-            $(`input[name="handle_colour"][value="${handleValue}"]`).prop('checked', true);
+            $(`input[name="window_handle_colour"][value="${handleValue}"]`).prop('checked', true);
         }
         
         // === STEP 7: Glass ===
@@ -168,13 +167,14 @@ jQuery(function($){
                 'Self-cleaning glass': 'self_cleaning',
                 'Integral blinds': 'integral_blinds',
                 'Obscure glass': 'obscure_glass',
-                'Saint-Gobain Planitherm 1.2': 'saint_gobain_12'
+                'Saint-Gobain Planitherm 1.2': 'saint_gobain_12',
+                'Low-E Argon Filled': 'low_e_argon'
             };
             
             let glassValue = glassMap[data.glass];
             
             if (!glassValue) {
-                const possibleValues = ['self_cleaning', 'integral_blinds', 'obscure_glass', 'saint_gobain_12'];
+                const possibleValues = ['self_cleaning', 'integral_blinds', 'obscure_glass', 'saint_gobain_12', 'low_e_argon'];
                 if (possibleValues.includes(data.glass)) {
                     glassValue = data.glass;
                 }
@@ -182,7 +182,19 @@ jQuery(function($){
             
             if (glassValue) {
                 setTimeout(function() {
-                    $(`input[name="glass_upgrade"][value="${glassValue}"]`).prop('checked', true).trigger('change');
+                    if (glassValue === 'standard') {
+                        $('#window_upgrade_no_thanks').prop('checked', true).trigger('change');
+                    } else if (glassValue === 'self_cleaning') {
+                        $('#window_upgrade_self_cleaning').prop('checked', true).trigger('change');
+                    } else if (glassValue === 'integral_blinds') {
+                        $('#window_upgrade_integral_blinds').prop('checked', true).trigger('change');
+                    } else if (glassValue === 'obscure_glass') {
+                        $('#window_upgrade_obscure_glass').prop('checked', true).trigger('change');
+                    } else if (glassValue === 'saint_gobain_12') {
+                        $('#window_upgrade_saint_gobain').prop('checked', true).trigger('change');
+                    } else if (glassValue === 'low_e_argon') {
+                        $('#window_upgrade_low_e_argon').prop('checked', true).trigger('change');
+                    }
                 }, 300);
             }
         }
@@ -211,50 +223,45 @@ jQuery(function($){
         
         // === STEP 10: Postcode ===
         if (data.postcode) {
-            $('#postcode').val(data.postcode);
+            $('#window_postcode').val(data.postcode);
             setTimeout(function() {
-                $('#postcode').trigger('input');
+                $('#window_postcode').trigger('input');
             }, 500);
         }
         
-        // === STEP 11: Installation Type (NEW) ===
+        // === STEP 11: Installation Type ===
         if (data.installation_type) {
             const installMap = {
                 'collection': 'collection',
                 'delivery': 'delivery',
-                'prepared_opening': 'prepared_opening',
-                'remove_existing': 'remove_existing'
+                'install_existing': 'install_existing',
+                'install_new_build': 'install_new_build'
             };
             
             let installValue = installMap[data.installation_type] || data.installation_type;
-            $(`input[name="installation_type"][value="${installValue}"]`).prop('checked', true).trigger('change');
-            
-            if (installValue === 'remove_existing' && data.door_photo) {
-                $('#door_photo').val(data.door_photo);
-                $('#photo-file-name').text('File selected');
-            }
+            $(`input[name="window_installation_type"][value="${installValue}"]`).prop('checked', true).trigger('change');
         }
         
         // === STEP 12: Access Issues ===
         if (data.access) {
             if (data.access === 'No' || data.access === 'No Access Issues') {
-                $('input[name="access_issues"][value="no_access"]').prop('checked', true);
+                $('input[name="window_access_issues"][value="no_access"]').prop('checked', true);
             } else {
-                $('input[name="access_issues"][value="yes_access"]').prop('checked', true);
+                $('input[name="window_access_issues"][value="yes_access"]').prop('checked', true);
                 if (data.access !== 'Yes') {
                     const desc = data.access.replace('Yes, ', '').replace('Yes', '');
                     if (desc) {
-                        $('#access_description').val(desc);
+                        $('#window_access_description').val(desc);
                     }
                 }
             }
         }
         
         // === STEP 13: Customer Information ===
-        if (data.first_name) $('#first_name').val(data.first_name);
-        if (data.last_name) $('#last_name').val(data.last_name);
-        if (data.email) $('#email_address').val(data.email);
-        if (data.phone) $('#mobile_number').val(data.phone);
+        if (data.first_name) $('#window_first_name').val(data.first_name);
+        if (data.last_name) $('#window_last_name').val(data.last_name);
+        if (data.email) $('#window_email_address').val(data.email);
+        if (data.phone) $('#window_mobile_number').val(data.phone);
         
         setTimeout(function() {
             if (typeof updatePrice === 'function') {
@@ -328,16 +335,16 @@ jQuery(function($){
             initOutsideColourTracking();
             updateInsideColourOptions();
             
-            const savedPostcode = $('#postcode').val();
+            const savedPostcode = $('#window_postcode').val();
             if (savedPostcode && savedPostcode.length > 0) {
                 setTimeout(function() {
-                    $('#postcode').trigger('input');
+                    $('#window_postcode').trigger('input');
                 }, 1000);
             }
             
             // Initialize inside colour based on initial outside colour
             setTimeout(function() {
-                const initialOutsideColour = $('input[name="door_colour"]:checked').val();
+                const initialOutsideColour = $('input[name="window_colour"]:checked').val();
                 if (initialOutsideColour) {
                     autoSelectMatchingInsideColour(initialOutsideColour);
                 }
@@ -346,26 +353,26 @@ jQuery(function($){
     }
 
     function initAccessIssuesToggle() {
-        $(document).on('change', 'input[name="access_issues"]', function() {
+        $(document).on('change', 'input[name="window_access_issues"]', function() {
             if ($(this).val() === 'yes_access') {
                 $('.access-textarea-wrapper').slideDown();
             } else {
                 $('.access-textarea-wrapper').slideUp();
-                $('#access_description').val('');
+                $('#window_access_description').val('');
             }
             validateCurrentStep();
         });
     }
 
     function initOutsideColourTracking() {
-        const initialSelected = $('input[name="door_colour"]:checked');
+        const initialSelected = $('input[name="window_colour"]:checked');
         if (initialSelected.length) {
             selectedOutsideColour = getOutsideColourCategory(initialSelected.val());
             // Auto-select matching inside colour
             autoSelectMatchingInsideColour(initialSelected.val());
         }
         
-        $(document).on('change', 'input[name="door_colour"]', function() {
+        $(document).on('change', 'input[name="window_colour"]', function() {
             const colourValue = $(this).val();
             selectedOutsideColour = getOutsideColourCategory(colourValue);
             updateInsideColourOptions(colourValue);
@@ -376,8 +383,8 @@ jQuery(function($){
             autoSelectMatchingInsideColour(colourValue);
         });
         
-        $(document).on('change', '#custom_colour_select', function() {
-            if ($('#colour_custom').is(':checked')) {
+        $(document).on('change', '#custom_window_colour_select', function() {
+            if ($('#window_colour_custom').is(':checked')) {
                 updateInsideColourOptions('custom_ral');
                 updatePrice();
                 // Auto-select custom inside colour when custom outside is selected
@@ -396,7 +403,7 @@ jQuery(function($){
         
         // Handle custom RAL colours
         if (outsideColourValue === 'custom_ral') {
-            const customRalValue = $('#custom_colour_select').val();
+            const customRalValue = $('#custom_window_colour_select').val();
             if (customRalValue && customRalValue !== '') {
                 matchingInsideValue = 'custom_ral';
             }
@@ -418,23 +425,23 @@ jQuery(function($){
         
         // Check if the matching option is visible
         if (matchingInsideValue) {
-            const $matchingOption = $(`input[name="inside_colour"][value="${matchingInsideValue}"]`);
+            const $matchingOption = $(`input[name="window_inside_colour"][value="${matchingInsideValue}"]`);
             const $parentCard = $matchingOption.closest('.inside-colour-option');
             
             if ($parentCard.is(':visible')) {
                 $matchingOption.prop('checked', true).trigger('change');
                 if (matchingInsideValue === 'custom_ral') {
                     // If custom RAL, also sync the dropdown value
-                    const customOutsideValue = $('#custom_colour_select').val();
+                    const customOutsideValue = $('#custom_window_colour_select').val();
                     if (customOutsideValue) {
-                        $('#custom_inside_colour_select').val(customOutsideValue).trigger('change');
+                        $('#custom_window_inside_colour_select').val(customOutsideValue).trigger('change');
                         $('.selected-inside-ral-code').text(customOutsideValue);
-                        $('#inside_colour_custom').val(customOutsideValue);
+                        $('#window_inside_colour_custom').val(customOutsideValue);
                     }
                 }
             } else {
                 // If matching option not visible, select the first visible option
-                const $firstVisibleOption = $('.inside-colour-option:visible input[name="inside_colour"]');
+                const $firstVisibleOption = $('.inside-colour-option:visible input[name="window_inside_colour"]');
                 if ($firstVisibleOption.length) {
                     $firstVisibleOption.prop('checked', true).trigger('change');
                 }
@@ -454,13 +461,13 @@ jQuery(function($){
 
     function updateInsideColourOptions(selectedOutsideValue) {
         if (!selectedOutsideValue) {
-            selectedOutsideValue = $('input[name="door_colour"]:checked').val();
+            selectedOutsideValue = $('input[name="window_colour"]:checked').val();
         }
         
-        const $anthracite = $('#inside_colour_anthracite').closest('.inside-colour-option');
-        const $black = $('#inside_colour_black').closest('.inside-colour-option');
-        const $white = $('#inside_colour_white').closest('.inside-colour-option');
-        const $custom = $('#inside_colour_custom').closest('.inside-colour-option');
+        const $anthracite = $('#window_inside_colour_anthracite').closest('.inside-colour-option');
+        const $black = $('#window_inside_colour_black').closest('.inside-colour-option');
+        const $white = $('#window_inside_colour_white').closest('.inside-colour-option');
+        const $custom = $('#window_inside_colour_custom').closest('.inside-colour-option');
         
         $anthracite.hide();
         $black.hide();
@@ -527,7 +534,7 @@ jQuery(function($){
     }
 
     function validateInsideColourSelection() {
-        const $selectedInsideColour = $('input[name="inside_colour"]:checked');
+        const $selectedInsideColour = $('input[name="window_inside_colour"]:checked');
         
         if ($selectedInsideColour.length) {
             const selectedValue = $selectedInsideColour.val();
@@ -535,35 +542,35 @@ jQuery(function($){
             
             // If selected option is not visible, auto-select a visible one
             if (!$selectedCard.is(':visible')) {
-                const outsideValue = $('input[name="door_colour"]:checked').val();
+                const outsideValue = $('input[name="window_colour"]:checked').val();
                 autoSelectMatchingInsideColour(outsideValue);
             }
         } else {
             // No inside colour selected, auto-select based on outside colour
-            const outsideValue = $('input[name="door_colour"]:checked').val();
+            const outsideValue = $('input[name="window_colour"]:checked').val();
             if (outsideValue) {
                 autoSelectMatchingInsideColour(outsideValue);
             } else {
                 // Default to white if nothing else
-                const $whiteOption = $('#inside_colour_white');
+                const $whiteOption = $('#window_inside_colour_white');
                 if ($whiteOption.length && $whiteOption.closest('.inside-colour-option').is(':visible')) {
                     $whiteOption.prop('checked', true).trigger('change');
                 }
             }
         }
         
-        $('input[name="inside_colour"]:checked').trigger('change');
+        $('input[name="window_inside_colour"]:checked').trigger('change');
     }
 
     function initCustomColourDropdowns() {
-        const customColourSelect = $('#custom_colour_select');
-        const customColourRadio = $('#colour_custom');
+        const customColourSelect = $('#custom_window_colour_select');
+        const customColourRadio = $('#window_colour_custom');
         const selectedRalCode = $('.custom-colour-card .selected-ral-code');
         const customColourCard = $('.custom-colour-card');
         const customColourDropdown = $('.custom-colour-dropdown');
         
-        const customInsideColourSelect = $('#custom_inside_colour_select');
-        const customInsideColourRadio = $('#inside_colour_custom');
+        const customInsideColourSelect = $('#custom_window_inside_colour_select');
+        const customInsideColourRadio = $('#window_inside_colour_custom');
         const selectedInsideRalCode = $('.custom-inside-colour-card .selected-inside-ral-code');
         const customInsideColourCard = $('.custom-inside-colour-card');
         const customInsideColourDropdown = $('.custom-inside-colour-dropdown');
@@ -592,10 +599,10 @@ jQuery(function($){
                 }
             });
             
-            $('input[name="door_colour"]').on('change', function() {
-                if ($(this).attr('id') !== 'colour_custom' && $(this).is(':checked')) {
+            $('input[name="window_colour"]').on('change', function() {
+                if ($(this).attr('id') !== 'window_colour_custom' && $(this).is(':checked')) {
                     customColourSelect.val('');
-                    selectedRalCode.text('From £195 per panel');
+                    selectedRalCode.text('From £195');
                     customColourRadio.val('custom_ral');
                     customColourDropdown.hide();
                     
@@ -630,10 +637,10 @@ jQuery(function($){
                 }
             });
             
-            $('input[name="inside_colour"]').on('change', function() {
-                if ($(this).attr('id') !== 'inside_colour_custom' && $(this).is(':checked')) {
+            $('input[name="window_inside_colour"]').on('change', function() {
+                if ($(this).attr('id') !== 'window_inside_colour_custom' && $(this).is(':checked')) {
                     customInsideColourSelect.val('');
-                    selectedInsideRalCode.text('From £195 per panel');
+                    selectedInsideRalCode.text('From £195');
                     customInsideColourRadio.val('custom_ral');
                     customInsideColourDropdown.hide();
                     
@@ -701,7 +708,7 @@ jQuery(function($){
         // Step 5 validation
         if (index === 4) {
             setTimeout(function() {
-                const selectedOutside = $('input[name="door_colour"]:checked').val();
+                const selectedOutside = $('input[name="window_colour"]:checked').val();
                 if (selectedOutside) {
                     updateInsideColourOptions(selectedOutside);
                 }
@@ -712,7 +719,7 @@ jQuery(function($){
         
         // Step 10 (Postcode) validation
         if (index === 9) {
-            const postcode = $('#postcode').val().trim();
+            const postcode = $('#window_postcode').val().trim();
             if (!postcode) {
                 nextBtn.addClass('inactive').prop('disabled', true);
                 if (nextFooterBtn.length) {
@@ -720,36 +727,24 @@ jQuery(function($){
                 }
             } else {
                 setTimeout(function() {
-                    $('#postcode').trigger('input');
+                    $('#window_postcode').trigger('input');
                 }, 100);
             }
         }
         
         // Step 11 (Installation) validation
         if (index === 10) {
-            // Installation step - check if any option selected
-            const installSelected = $('input[name="installation_type"]:checked').length > 0;
+            const installSelected = $('input[name="window_installation_type"]:checked').length > 0;
             if (!installSelected) {
                 nextBtn.addClass('inactive').prop('disabled', true);
             } else {
-                // Check if remove existing requires photo
-                const installValue = $('input[name="installation_type"]:checked').val();
-                if (installValue === 'remove_existing') {
-                    const photoFile = $('#door_photo').val();
-                    if (!photoFile) {
-                        nextBtn.addClass('inactive').prop('disabled', true);
-                    } else {
-                        nextBtn.removeClass('inactive').prop('disabled', false);
-                    }
-                } else {
-                    nextBtn.removeClass('inactive').prop('disabled', false);
-                }
+                nextBtn.removeClass('inactive').prop('disabled', false);
             }
         }
         
         // Step 12 (Access Issues) validation
         if (index === 11) {
-            const accessSelected = $('input[name="access_issues"]:checked').length > 0;
+            const accessSelected = $('input[name="window_access_issues"]:checked').length > 0;
             if (!accessSelected) {
                 nextBtn.addClass('inactive').prop('disabled', true);
             } else {
@@ -780,7 +775,7 @@ jQuery(function($){
         
         if ($(window).width() <= 768) {
             $('html, body').animate({
-                scrollTop: $('.door-builder-form').offset().top - 20
+                scrollTop: $('.window-builder-form').offset().top - 20
             }, 300);
         }
         
@@ -815,25 +810,25 @@ jQuery(function($){
     }
 
     function checkAllStepsFilled() {
-        const width = $('#width').val();
-        const height = $('#height').val();
+        const width = $('#window_width').val();
+        const height = $('#window_height').val();
         if (!width || !height) return false;
         
         const widthNum = parseInt(width);
         const heightNum = parseInt(height);
         if (isNaN(widthNum) || isNaN(heightNum)) return false;
         if (widthNum < 1600 || widthNum > 5800) return false;
-        if (heightNum < 1950 || heightNum > 2450) return false;
+        if (heightNum < 700 || heightNum > 1650) return false;
 
-        if (!$('input[name="panel_layout"]:checked').length) return false;
+        if (!$('input[name="window_panel_layout"]:checked').length) return false;
         if (!$('input[name="open_direction"]:checked').length) return false;
-        if (!$('input[name="door_colour"]:checked').length) return false;
-        if (!$('input[name="inside_colour"]:checked').length) return false;
-        if (!$('input[name="handle_colour"]:checked').length) return false;
-        if (!$('input[name="glass_upgrade"]:checked').length) return false;
+        if (!$('input[name="window_colour"]:checked').length) return false;
+        if (!$('input[name="window_inside_colour"]:checked').length) return false;
+        if (!$('input[name="window_handle_colour"]:checked').length) return false;
+        if (!$('input[name="glass_type"]:checked').length) return false;
         if (!$('input[name="trickle_vents"]:checked').length) return false;
         if (!$('input[name="cill"]:checked').length) return false;
-        if (!$('input[name="installation_type"]:checked').length) return false;
+        if (!$('input[name="window_installation_type"]:checked').length) return false;
 
         return true;
     }
@@ -841,12 +836,12 @@ jQuery(function($){
     function validateCurrentStep() {
         // Step 10: Postcode validation
         if (currentStep === 9) {
-            const postcode = $('#postcode').val().replace(/\s+/g, '').trim();
+            const postcode = $('#window_postcode').val().replace(/\s+/g, '').trim();
             if (postcode.length === 0) {
                 $('.next-step, .next-footer-btn').addClass('inactive').prop('disabled', true);
                 return false;
             }
-            if (window.deliveryData && window.deliveryData.bespoke) {
+            if (window.windowDeliveryData && window.windowDeliveryData.bespoke) {
                 $('.next-step, .next-footer-btn').addClass('inactive').prop('disabled', true);
                 return false;
             }
@@ -854,25 +849,16 @@ jQuery(function($){
 
         // Step 11: Installation validation
         if (currentStep === 10) {
-            const installSelected = $('input[name="installation_type"]:checked').length > 0;
+            const installSelected = $('input[name="window_installation_type"]:checked').length > 0;
             if (!installSelected) {
                 $('.next-step, .next-footer-btn').addClass('inactive').prop('disabled', true);
                 return false;
-            }
-            
-            const installValue = $('input[name="installation_type"]:checked').val();
-            if (installValue === 'remove_existing') {
-                const photoFile = $('#door_photo').val();
-                if (!photoFile) {
-                    $('.next-step, .next-footer-btn').addClass('inactive').prop('disabled', true);
-                    return false;
-                }
             }
         }
 
         // Step 12: Access Issues validation
         if (currentStep === 11) {
-            const accessSelected = $('input[name="access_issues"]:checked').length > 0;
+            const accessSelected = $('input[name="window_access_issues"]:checked').length > 0;
             if (!accessSelected) {
                 $('.next-step, .next-footer-btn').addClass('inactive').prop('disabled', true);
                 return false;
@@ -921,21 +907,21 @@ jQuery(function($){
     function validateStep(stepIndex) {
         // Step 1: Size
         if (stepIndex === 0) {
-            const width = $('#width').val();
-            const height = $('#height').val();
+            const width = $('#window_width').val();
+            const height = $('#window_height').val();
             const widthError = $('#width-error');
             const heightError = $('#height-error');
             
             widthError.hide();
             heightError.hide();
-            updateInputErrorState('width', false);
-            updateInputErrorState('height', false);
+            updateInputErrorState('window_width', false);
+            updateInputErrorState('window_height', false);
 
             let isValid = true;
 
             if (!width) {
                 widthError.text('Width is required.').show();
-                updateInputErrorState('width', true);
+                updateInputErrorState('window_width', true);
                 isValid = false;
             } else {
                 const widthNum = parseInt(width);
@@ -950,15 +936,15 @@ jQuery(function($){
 
             if (!height) {
                 heightError.text('Height is required.').show();
-                updateInputErrorState('height', true);
+                updateInputErrorState('window_height', true);
                 isValid = false;
             } else {
                 const heightNum = parseInt(height);
                 if (isNaN(heightNum)) {
                     heightError.text('Height must be a valid number.').show();
                     isValid = false;
-                } else if (heightNum < 1950 || heightNum > 2450) {
-                    heightError.text('Height must be between 1950 and 2450 mm.').show();
+                } else if (heightNum < 700 || heightNum > 1650) {
+                    heightError.text('Height must be between 700 and 1650 mm.').show();
                     isValid = false;
                 }
             }
@@ -968,7 +954,7 @@ jQuery(function($){
 
         // Step 2: Panel Configuration
         if (stepIndex === 1) {
-            return $('input[name="panel_layout"]:checked').length > 0;
+            return $('input[name="window_panel_layout"]:checked').length > 0;
         }
 
         // Step 3: Opening Direction
@@ -978,38 +964,38 @@ jQuery(function($){
 
         // Step 4: Outside Colour
         if (stepIndex === 3) {
-            const selectedColour = $('input[name="door_colour"]:checked').val();
-            if (selectedColour === 'custom_ral') {
-                const customRalValue = $('#custom_colour_select').val();
+            const selectedColour = $('input[name="window_colour"]:checked').val();
+            if (selectedColour === 'custom_ral' || (selectedColour && selectedColour.startsWith('RAL '))) {
+                const customRalValue = $('#custom_window_colour_select').val();
                 return customRalValue && customRalValue !== '';
             }
-            return $('input[name="door_colour"]:checked').length > 0;
+            return $('input[name="window_colour"]:checked').length > 0;
         }
 
         // Step 5: Inside Colour
         if (stepIndex === 4) {
-            const hasSelection = $('input[name="inside_colour"]:checked').length > 0;
+            const hasSelection = $('input[name="window_inside_colour"]:checked').length > 0;
             if (!hasSelection) return false;
             
-            const selectedValue = $('input[name="inside_colour"]:checked').val();
+            const selectedValue = $('input[name="window_inside_colour"]:checked').val();
             
-            if (selectedValue === 'custom_ral') {
-                const customRalValue = $('#custom_inside_colour_select').val();
+            if (selectedValue === 'custom_ral' || (selectedValue && selectedValue.startsWith('RAL '))) {
+                const customRalValue = $('#custom_window_inside_colour_select').val();
                 return customRalValue && customRalValue !== '';
             }
             
-            const $selectedCard = $(`input[name="inside_colour"][value="${selectedValue}"]`).closest('.inside-colour-option');
+            const $selectedCard = $(`input[name="window_inside_colour"][value="${selectedValue}"]`).closest('.inside-colour-option');
             return $selectedCard.is(':visible');
         }
 
         // Step 6: Handle Colour
         if (stepIndex === 5) {
-            return $('input[name="handle_colour"]:checked').length > 0;
+            return $('input[name="window_handle_colour"]:checked').length > 0;
         }
 
         // Step 7: Glass
         if (stepIndex === 6) {
-            return $('input[name="glass_upgrade"]:checked').length > 0;
+            return $('input[name="glass_type"]:checked').length > 0;
         }
 
         // Step 8: Trickle Vents
@@ -1024,21 +1010,24 @@ jQuery(function($){
 
         // Step 10: Postcode
         if (stepIndex === 9) {
-            const postcode = $('#postcode').val().replace(/\s+/g, '').trim();
+            const postcode = $('#window_postcode').val().replace(/\s+/g, '').trim();
             if (postcode.length === 0) return false;
-            if (window.deliveryData && window.deliveryData.bespoke) return false;
+            if (window.windowDeliveryData && window.windowDeliveryData.bespoke) return false;
             return true;
         }
 
-        // Step 11: Installation Type
+        // Step 11: Installation Type (index 10)
         if (stepIndex === 10) {
-            const installSelected = $('input[name="installation_type"]:checked').length > 0;
+            const installSelected = $('input[name="window_installation_type"]:checked').length > 0;
             if (!installSelected) return false;
             
-            const installValue = $('input[name="installation_type"]:checked').val();
-            if (installValue === 'remove_existing') {
-                const photoFile = $('#door_photo').val();
-                return photoFile ? true : false;
+            const installValue = $('input[name="window_installation_type"]:checked').val();
+            if (installValue === 'install_new_build') {
+                const photoFile = $('#window_photo').val();
+                const photoUrl = $('#window_photo_url').val();
+                if (!photoFile && !photoUrl) {
+                    return false;
+                }
             }
             
             return true;
@@ -1046,9 +1035,9 @@ jQuery(function($){
 
         // Step 12: Access Issues
         if (stepIndex === 11) {
-            const accessSelected = $('input[name="access_issues"]:checked').length > 0;
-            if ($('#access_yes').is(':checked')) {
-                const description = $('#access_description').val();
+            const accessSelected = $('input[name="window_access_issues"]:checked').length > 0;
+            if ($('#window_access_yes').is(':checked')) {
+                const description = $('#window_access_description').val();
                 return accessSelected && description && description.trim() !== '';
             }
             return accessSelected;
@@ -1061,7 +1050,7 @@ jQuery(function($){
 
         // Step 14: Summary
         if (stepIndex === 13) {
-            const isBespoke = (window.deliveryData && window.deliveryData.bespoke) || $('#delivery_bespoke').val() === '1';
+            const isBespoke = (window.windowDeliveryData && window.windowDeliveryData.bespoke) || $('#window_delivery_bespoke').val() === '1';
             if (isBespoke) {
                 return false;
             }
@@ -1072,10 +1061,10 @@ jQuery(function($){
     }
 
     function validateCustomerForm() {
-        const firstName = $('#first_name').val().trim();
-        const lastName = $('#last_name').val().trim();
-        const mobile = $('#mobile_number').val().trim();
-        const email = $('#email_address').val().trim();
+        const firstName = $('#window_first_name').val().trim();
+        const lastName = $('#window_last_name').val().trim();
+        const mobile = $('#window_mobile_number').val().trim();
+        const email = $('#window_email_address').val().trim();
         
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const isValidEmail = emailRegex.test(email);
@@ -1089,8 +1078,7 @@ jQuery(function($){
     }
 
     /**
-     * Update total price calculation
-     * Glass price is per pane but display shows base price only
+     * Update total price calculation for Window
      */
     function updatePrice() {
         let base = parseFloat($('#base_price_value').val());
@@ -1100,11 +1088,9 @@ jQuery(function($){
         
         // Get pane count from panel selection
         let paneCount = 1;
-        const selectedPanel = $('input[name="panel_layout"]:checked').val();
+        const selectedPanel = $('input[name="window_panel_layout"]:checked').val();
         if (selectedPanel) {
-            if (selectedPanel === 'french') {
-                paneCount = 2;
-            } else if (selectedPanel.includes('_')) {
+            if (selectedPanel.includes('_')) {
                 const parts = selectedPanel.split('_');
                 if (parts.length === 2 && !isNaN(parseInt(parts[0])) && !isNaN(parseInt(parts[1]))) {
                     paneCount = parseInt(parts[0]) + parseInt(parts[1]);
@@ -1118,26 +1104,25 @@ jQuery(function($){
             }
         }
         
-        // Glass upgrade price calculation (per pane)
-        const glassUpgrade = $('input[name="glass_upgrade"]:checked');
-        if (glassUpgrade.length && glassUpgrade.val() !== 'no_thanks') {
+        // Glass upgrade price calculation (fixed price, not per pane for windows)
+        const glassUpgrade = $('input[name="glass_type"]:checked');
+        if (glassUpgrade.length && glassUpgrade.val() !== 'standard') {
             let glassBasePrice = parseFloat(glassUpgrade.data('price')) || 0;
-            // Calculate total glass price = base price × pane count
-            extra += glassBasePrice * paneCount;
+            extra += glassBasePrice;
         }
         
         // Colour pricing
-        const outsideColour = $('input[name="door_colour"]:checked').val();
-        const insideColour = $('input[name="inside_colour"]:checked').val();
-        const customRalValue = $('#custom_colour_select').val();
-        const customInsideRalValue = $('#custom_inside_colour_select').val();
+        const outsideColour = $('input[name="window_colour"]:checked').val();
+        const insideColour = $('input[name="window_inside_colour"]:checked').val();
+        const customRalValue = $('#custom_window_colour_select').val();
+        const customInsideRalValue = $('#custom_window_inside_colour_select').val();
         
         const standardColours = ['anthracite_grey', 'black', 'white'];
         
         let isOutsideStandard = false;
         let isOutsideCustom = false;
         
-        if (outsideColour === 'custom_ral' && customRalValue && customRalValue !== '') {
+        if ((outsideColour === 'custom_ral' || (outsideColour && outsideColour.startsWith('RAL '))) && customRalValue && customRalValue !== '') {
             isOutsideCustom = true;
         } else if (outsideColour && !standardColours.includes(outsideColour) && outsideColour !== 'custom_ral') {
             isOutsideCustom = true;
@@ -1148,7 +1133,7 @@ jQuery(function($){
         let isInsideStandard = false;
         let isInsideCustom = false;
         
-        if (insideColour === 'custom_ral' && customInsideRalValue && customInsideRalValue !== '') {
+        if ((insideColour === 'custom_ral' || (insideColour && insideColour.startsWith('RAL '))) && customInsideRalValue && customInsideRalValue !== '') {
             isInsideCustom = true;
         } else if (insideColour && !standardColours.includes(insideColour) && insideColour !== 'custom_ral') {
             isInsideCustom = true;
@@ -1170,13 +1155,6 @@ jQuery(function($){
             !isInsideCustom
         );
         
-        const isStandardDualColour = (
-            isOutsideStandard && 
-            isInsideStandard && 
-            outsideColour !== insideColour &&
-            !isFreeDualColour
-        );
-        
         let outsideColourPrice = 0;
         let insideColourPrice = 0;
         
@@ -1184,31 +1162,27 @@ jQuery(function($){
             outsideColourPrice = 0;
             insideColourPrice = 0;
         } 
-        else if (isStandardDualColour) {
-            outsideColourPrice = 195 * paneCount;
-            insideColourPrice = 195 * paneCount;
-        }
         else {
             if (isOutsideCustom) {
-                outsideColourPrice = 195 * paneCount;
+                outsideColourPrice = 195;
             }
             if (isInsideCustom) {
-                insideColourPrice = 195 * paneCount;
+                insideColourPrice = 195;
             }
         }
         
         extra += outsideColourPrice;
         extra += insideColourPrice;
         
-        // Installation pricing
-        const installType = $('input[name="installation_type"]:checked').val();
+        // Installation pricing for windows (fixed prices)
+        const installType = $('input[name="window_installation_type"]:checked').val();
         if (installType) {
-            if (installType === 'prepared_opening') {
-                extra += paneCount * 200;
-            } else if (installType === 'remove_existing') {
-                extra += (paneCount * 200) + 550;
+            if (installType === 'install_existing') {
+                extra += 299;
+            } else if (installType === 'install_new_build') {
+                extra += 499;
             } else if (installType === 'delivery') {
-                const deliveryPrice = parseFloat($('#delivery_price').val()) || 0;
+                const deliveryPrice = parseFloat($('#window_delivery_price').val()) || 0;
                 extra += deliveryPrice;
             }
         }
@@ -1218,29 +1192,6 @@ jQuery(function($){
         if (trickleVents === 'yes_trickle') {
             extra += 85;
         }
-        
-        // Other per-pane options (handle colour, glass already handled)
-        $('.price-option:checked').each(function() {
-            const id = $(this).attr('id');
-            // Skip colour custom options as they're already handled
-            if (id === 'colour_custom' || id === 'inside_colour_custom') {
-                return true;
-            }
-            
-            // Skip glass upgrade as it's already handled with pane count
-            if ($(this).attr('name') === 'glass_upgrade') {
-                return true;
-            }
-            
-            let price = parseFloat($(this).data('price'));
-            if (!isNaN(price)) {
-                if ($(this).data('per-pane') === true) {
-                    extra += price * paneCount;
-                } else {
-                    extra += price;
-                }
-            }
-        });
 
         let total = base + extra;
 
@@ -1305,24 +1256,21 @@ jQuery(function($){
             return;
         }
         
-        const isBespoke = (window.deliveryData && window.deliveryData.bespoke) || $('#delivery_bespoke').val() === '1';
+        const isBespoke = (window.windowDeliveryData && window.windowDeliveryData.bespoke) || $('#window_delivery_bespoke').val() === '1';
         if (isBespoke) {
             alert('Bespoke delivery required. Please call our sales team to complete your order.');
             return;
         }
         
-        if (typeof window.submitBuilderForm === 'function') {
-            window.submitBuilderForm();
-        } else {
-            $('#door-builder-form').submit();
-        }
+        // Direct form submission - no conflict
+        $('#window-builder-form').submit();
     }
 
     // Event handlers
-    $(document).on('input', '#first_name, #last_name, #mobile_number, #email_address', function() {
+    $(document).on('input', '#window_first_name, #window_last_name, #window_mobile_number, #window_email_address', function() {
         const fieldId = $(this).attr('id');
         
-        if (fieldId === 'mobile_number') {
+        if (fieldId === 'window_mobile_number') {
             let val = $(this).val().replace(/\D/g, '');
             $(this).val(val);
         }
@@ -1332,7 +1280,7 @@ jQuery(function($){
         }
     });
 
-    $(document).on('blur', '#email_address', function() {
+    $(document).on('blur', '#window_email_address', function() {
         if (currentStep === 12) {
             const email = $(this).val().trim();
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1346,7 +1294,7 @@ jQuery(function($){
         }
     });
 
-    $(document).on('blur', '#mobile_number', function() {
+    $(document).on('blur', '#window_mobile_number', function() {
         if (currentStep === 12) {
             const mobile = $(this).val().trim();
             const mobileRegex = /^[0-9]{10,11}$/;
@@ -1360,12 +1308,12 @@ jQuery(function($){
         }
     });
 
-    $(document).on('input', '#width, #height', function() {
+    $(document).on('input', '#window_width, #window_height', function() {
         const $input = $(this);
         const value = $input.val();
         const min = parseInt($input.attr('min')) || 1600;
         const max = parseInt($input.attr('max'));
-        const isWidth = $input.attr('id') === 'width';
+        const isWidth = $input.attr('id') === 'window_width';
         const $error = isWidth ? $('#width-error') : $('#height-error');
         
         $error.hide();
@@ -1390,12 +1338,12 @@ jQuery(function($){
         }
     });
 
-    $(document).on('blur', '#width, #height', function() {
+    $(document).on('blur', '#window_width, #window_height', function() {
         const $input = $(this);
         const value = $input.val();
-        const min = parseInt($input.attr('min')) || 600;
+        const min = parseInt($input.attr('min')) || 1600;
         const max = parseInt($input.attr('max'));
-        const isWidth = $input.attr('id') === 'width';
+        const isWidth = $input.attr('id') === 'window_width';
         const $error = isWidth ? $('#width-error') : $('#height-error');
         
         if (value) {
@@ -1420,7 +1368,7 @@ jQuery(function($){
         }
     });
 
-    $(document).on('change', 'input[name="panel_layout"]', function() {
+    $(document).on('change', 'input[name="window_panel_layout"]', function() {
         validateCurrentStep();
         updatePrice();
         
@@ -1440,7 +1388,7 @@ jQuery(function($){
         }
     });
 
-    $(document).on('change', 'input[name="door_colour"]', function() {
+    $(document).on('change', 'input[name="window_colour"]', function() {
         validateCurrentStep();
         updatePrice();
         
@@ -1450,7 +1398,7 @@ jQuery(function($){
         }
     });
 
-    $(document).on('change', 'input[name="inside_colour"]', function() {
+    $(document).on('change', 'input[name="window_inside_colour"]', function() {
         validateCurrentStep();
         updatePrice();
         
@@ -1460,19 +1408,19 @@ jQuery(function($){
         }
     });
 
-    $(document).on('change', '#custom_colour_select', function() {
+    $(document).on('change', '#custom_window_colour_select', function() {
         if (currentStep === 3) {
             validateCurrentStep();
         }
     });
 
-    $(document).on('change', '#custom_inside_colour_select', function() {
+    $(document).on('change', '#custom_window_inside_colour_select', function() {
         if (currentStep === 4) {
             validateCurrentStep();
         }
     });
 
-    $(document).on('change', 'input[name="glass_upgrade"]', function() {
+    $(document).on('change', 'input[name="glass_type"]', function() {
         validateCurrentStep();
         updatePrice();
         
@@ -1492,40 +1440,6 @@ jQuery(function($){
         }
     });
 
-    $(document).on('change', 'input[name="addition"]', function() {
-        updatePrice();
-        
-        if (currentStep === 13) {
-            updateSummary();
-            updateNavigation();
-        }
-    });
-
-    $(document).on('change', 'input[name="threshold"]', function() {
-        validateCurrentStep();
-        updatePrice();
-        
-        if (currentStep === 13) {
-            updateSummary();
-            updateNavigation();
-        }
-        
-        if (currentStep === 9) {
-            const thresholdSelected = $('input[name="threshold"]:checked').length > 0;
-            if (thresholdSelected) {
-                nextBtn.removeClass('inactive').prop('disabled', false);
-                if (nextFooterBtn.length) {
-                    nextFooterBtn.removeClass('inactive').prop('disabled', false);
-                }
-            } else {
-                nextBtn.addClass('inactive').prop('disabled', true);
-                if (nextFooterBtn.length) {
-                    nextFooterBtn.addClass('inactive').prop('disabled', true);
-                }
-            }
-        }
-    });
-
     $(document).on('change', 'input[name="cill"]', function() {
         validateCurrentStep();
         updatePrice();
@@ -1537,15 +1451,7 @@ jQuery(function($){
     });
 
     // Installation type change handler
-    $(document).on('change', 'input[name="installation_type"]', function() {
-        const installValue = $(this).val();
-        
-        if (installValue === 'remove_existing') {
-            $('#photo-upload-section').slideDown(300);
-        } else {
-            $('#photo-upload-section').slideUp(300);
-        }
-        
+    $(document).on('change', 'input[name="window_installation_type"]', function() {
         validateCurrentStep();
         updatePrice();
         updateDrawer();
@@ -1556,17 +1462,7 @@ jQuery(function($){
         }
     });
 
-    // Door photo change handler
-    $(document).on('change', '#door_photo', function() {
-        const fileName = $(this).val().split('\\').pop();
-        $('#photo-file-name').text(fileName || 'No file chosen');
-        
-        if (currentStep === 10) {
-            validateCurrentStep();
-        }
-    });
-
-    $(document).on('input keyup paste', '#postcode', function () {
+    $(document).on('input keyup paste', '#window_postcode', function () {
         let postcode = $(this).val()
             .toUpperCase()
             .replace(/\s+/g, '')
@@ -1592,7 +1488,7 @@ jQuery(function($){
         }
     });
 
-    $(document).on('change', 'input[name="access_issues"]', function() {
+    $(document).on('change', 'input[name="window_access_issues"]', function() {
         validateCurrentStep();
         
         if (currentStep === 13) {
@@ -1601,7 +1497,7 @@ jQuery(function($){
         }
     });
 
-    $(document).on('input', '#access_description', function() {
+    $(document).on('input', '#window_access_description', function() {
         validateCurrentStep();
         
         if (currentStep === 13) {
@@ -1628,12 +1524,12 @@ jQuery(function($){
     });
 
     $(document).on('change input',
-        '#width, #height, ' +
-        'input[name="panel_layout"], input[name="open_direction"], ' +
-        'input[name="door_colour"], input[name="inside_colour"], ' +
-        'input[name="handle_colour"], input[name="glass_upgrade"], ' +
+        '#window_width, #window_height, ' +
+        'input[name="window_panel_layout"], input[name="open_direction"], ' +
+        'input[name="window_colour"], input[name="window_inside_colour"], ' +
+        'input[name="window_handle_colour"], input[name="glass_type"], ' +
         'input[name="trickle_vents"], input[name="cill"], ' +
-        'input[name="installation_type"]',
+        'input[name="window_installation_type"]',
         function() {
             validateCurrentStep();
             updatePrice();
@@ -1648,153 +1544,98 @@ jQuery(function($){
     initWizard();
     initAccessIssuesToggle();
 
+    // Update panel options based on window width (UPDATED RANGES)
     function updatePanelOptions() {
-        const width  = parseInt($('#width').val());
-        const height = parseInt($('#height').val());
+        // Prevent recursive/infinite calls
+        if (window.isUpdatingPanelOptions) {
+            return;
+        }
+        window.isUpdatingPanelOptions = true;
+        
+        const width = parseInt($('#window_width').val());
+        const height = parseInt($('#window_height').val());
         const $allPanels = $('.panel-option-card');
 
-        $allPanels.hide();
+        // Check if values are valid
         if (isNaN(width) || isNaN(height)) {
             if (window.editMode) {
-                const selectedPanel = $('input[name="panel_layout"]:checked').val();
+                const selectedPanel = $('input[name="window_panel_layout"]:checked').val();
                 if (selectedPanel) {
-                    const $selectedCard = $(`input[name="panel_layout"][value="${selectedPanel}"]`).closest('.panel-option-card');
+                    const $selectedCard = $(`input[name="window_panel_layout"][value="${selectedPanel}"]`).closest('.panel-option-card');
                     $selectedCard.show();
                 }
             }
+            window.isUpdatingPanelOptions = false;
             return;
         }
 
         let activeClass = '';
         let panelCount = 0;
-        let basePrice = 0;
 
+        // NEW WIDTH RANGES: 2, 3, 4, 5 panels only
         if (width >= 1600 && width <= 2000) {
             activeClass = 'panel-2';
             panelCount = 2;
-            basePrice = 1390;
         }
-        else if (width >= 1800 && width <= 3190) {
+        else if (width >= 2001 && width <= 3250) {
             activeClass = 'panel-3';
             panelCount = 3;
-            
-            if (width >= 1800 && width <= 2200) {
-                basePrice = 1520;
-            } else if (width >= 2201 && width <= 2700) {
-                basePrice = 1650;
-            } else if (width >= 2701 && width <= 3000) {
-                basePrice = 1790;
-            } else if (width >= 3001 && width <= 3190) {
-                basePrice = 1820;
-            }
         }
-        else if (width >= 3200 && width <= 4000) {
+        else if (width >= 3251 && width <= 4000) {
             activeClass = 'panel-4';
             panelCount = 4;
-            
-            if (width >= 3200 && width <= 3600) {
-                basePrice = 2100;
-            } else if (width >= 3601 && width <= 4000) {
-                basePrice = 2290;
-            }
         }
-        else if (width >= 3700 && width <= 5000) {
+        else if (width >= 4001 && width <= 5800) {
             activeClass = 'panel-5';
             panelCount = 5;
-            
-            if (width >= 3700 && width <= 4200) {
-                basePrice = 2920;
-            } else if (width >= 4201 && width <= 4500) {
-                basePrice = 3010;
-            } else if (width >= 4501 && width <= 5000) {
-                basePrice = 3120;
-            }
-        }
-        else if (width >= 5000 && width <= 5800) {
-            activeClass = 'panel-6';
-            panelCount = 6;
-            
-            if (width >= 5000 && width <= 5300) {
-                basePrice = 3750;
-            } else if (width >= 5301 && width <= 5800) {
-                basePrice = 3990;
-            }
         }
 
-        let heightExtra = 0;
+        // Hide all panels first
+        $allPanels.hide();
         
-        if (!isNaN(height) && panelCount > 0) {
-            if (height >= 1950 && height <= 2100) {
-                heightExtra = 0;
-            }
-            else if (height >= 2101 && height <= 2300) {
-                heightExtra = 90 * panelCount;
-            }
-            else if (height >= 2301 && height <= 2450) {
-                heightExtra = 120 * panelCount;
-            }
-            else {
-                heightExtra = 0;
-            }
-        }
-
-        const displayPrice = basePrice + heightExtra;
-
+        // Show only matching panels if activeClass exists
         if (activeClass) {
-            const $activePanels = $('.' + activeClass);
-            $activePanels.show();
-            
-            $activePanels.each(function() {
-                const $priceSpan = $(this).find('.panel-details .option-price');
-                const $vatSpan = $priceSpan.find('.price-vat');
-                const hasVat = $vatSpan.length > 0;
-                const vatHtml = hasVat ? ' <span class="price-vat">(inc. VAT)</span>' : '';
-                
-                $priceSpan.html('+ £' + displayPrice + vatHtml);
-                $(this).find('.price-option').attr('data-price', 0);
-                $(this).attr('data-display-price', displayPrice);
-            });
+            $('.' + activeClass).show();
         }
 
-        if (window.editMode) {
-            const selectedPanel = $('input[name="panel_layout"]:checked').val();
-            if (selectedPanel) {
-                const $selectedCard = $(`input[name="panel_layout"][value="${selectedPanel}"]`).closest('.panel-option-card');
-                $selectedCard.show();
-                
-                const $priceSpan = $selectedCard.find('.panel-details .option-price');
-                const $vatSpan = $priceSpan.find('.price-vat');
-                const hasVat = $vatSpan.length > 0;
-                const vatHtml = hasVat ? ' <span class="price-vat">(inc. VAT)</span>' : '';
-                $priceSpan.html('+ £' + displayPrice + vatHtml);
-            }
-        }
-
+        // Handle selected panel visibility
         if (!window.editMode) {
-            $('input[name="panel_layout"]:checked').not(':visible').prop('checked', false);
+            $('input[name="window_panel_layout"]:checked').each(function() {
+                if (!$(this).closest('.panel-option-card').is(':visible')) {
+                    $(this).prop('checked', false);
+                }
+            });
         } else {
-            const selectedPanel = $('input[name="panel_layout"]:checked').val();
+            const selectedPanel = $('input[name="window_panel_layout"]:checked').val();
             if (selectedPanel) {
-                const $selectedCard = $(`input[name="panel_layout"][value="${selectedPanel}"]`).closest('.panel-option-card');
+                const $selectedCard = $(`input[name="window_panel_layout"][value="${selectedPanel}"]`).closest('.panel-option-card');
                 if ($selectedCard.is(':hidden')) {
-                    $('input[name="panel_layout"]:checked').prop('checked', false);
+                    $('input[name="window_panel_layout"]:checked').prop('checked', false);
                 }
             }
         }
 
-        updatePrice();
-        
-        if (typeof window.getPaneCount === 'function') {
-            window.getPaneCount();
+        // Update price only once at the end
+        if (typeof updatePrice === 'function') {
+            updatePrice();
         }
         
-        if (typeof window.updatePerPanePrices === 'function') {
-            window.updatePerPanePrices();
+        if (typeof window.getWindowPaneCount === 'function') {
+            window.getWindowPaneCount();
         }
+        
+        // Release the lock
+        window.isUpdatingPanelOptions = false;
     }
 
-    $(document).on('input blur', '#width, #height', function () {
-        updatePanelOptions();
+    // Use a debounced version to prevent multiple rapid calls
+    let panelOptionsTimeout;
+
+    $(document).on('input blur', '#window_width, #window_height', function () {
+        clearTimeout(panelOptionsTimeout);
+        panelOptionsTimeout = setTimeout(function() {
+            updatePanelOptions();
+        }, 100);
     });
 
     function addDeliveryStyles() {
@@ -1899,17 +1740,17 @@ jQuery(function($){
     updatePanelOptions();
 
     // ========================================
-    // SLIDING DRAWER FUNCTIONS - UPDATED WITH STEP 11
+    // SLIDING DRAWER FUNCTIONS
     // ========================================
 
-    // Step definitions - Installation Step (11) যোগ করুন
+    // Step definitions for Window (14 Steps)
     const stepDefinitions = [
         {
             number: 1,
             name: 'Size',
             getValue: function() {
-                const width = $('#width').val();
-                const height = $('#height').val();
+                const width = $('#window_width').val();
+                const height = $('#window_height').val();
                 return (width && height) ? width + ' x ' + height + 'mm' : '—';
             },
             getPrice: function() {
@@ -1920,32 +1761,21 @@ jQuery(function($){
             number: 2,
             name: 'Panels',
             getValue: function() {
-                const panelValue = $('input[name="panel_layout"]:checked').val();
+                const panelValue = $('input[name="window_panel_layout"]:checked').val();
                 if (!panelValue) return '—';
                 
-                let panelText = $('input[name="panel_layout"]:checked')
-                    .closest('.panel-option-card, label')
-                    .find('.option-name').text().trim();
-                
-                if (!panelText) {
-                    const panelMap = {
-                        '2_left': '2 Panels Left', '2_right': '2 Panels Right',
-                        '1_2': '1 + 2 Panels', '2_1': '2 + 1 Panels',
-                        '3_left': '3 Panels Left', '3_right': '3 Panels Right',
-                        '1_3': '1 + 3 Panels', '3_1': '3 + 1 Panels',
-                        '2_2': '2 + 2 Panels',
-                        '4_left': '4 Panels Left', '4_right': '4 Panels Right',
-                        '1_4': '1 + 4 Panels', '4_1': '4 + 1 Panels',
-                        '2_3': '2 + 3 Panels', '3_2': '3 + 2 Panels',
-                        '5_left': '5 Panels Left', '5_right': '5 Panels Right',
-                        '1_5': '1 + 5 Panels', '2_4': '2 + 4 Panels',
-                        '3_3': '3 + 3 Panels', '4_2': '4 + 2 Panels', '5_1': '5 + 1 Panels',
-                        '6_left': '6 Panels Left', '6_right': '6 Panels Right',
-                        'french': 'French Doors'
-                    };
-                    panelText = panelMap[panelValue] || panelValue;
-                }
-                return panelText;
+                // Simplified panel mapping (only Left/Right options)
+                const panelMap = {
+                    '2_left': '2 Panels Left',
+                    '2_right': '2 Panels Right',
+                    '3_left': '3 Panels Left',
+                    '3_right': '3 Panels Right',
+                    '4_left': '4 Panels Left',
+                    '4_right': '4 Panels Right',
+                    '5_left': '5 Panels Left',
+                    '5_right': '5 Panels Right'
+                };
+                return panelMap[panelValue] || panelValue;
             },
             getPrice: function() { return 0; }
         },
@@ -1962,7 +1792,7 @@ jQuery(function($){
             number: 4,
             name: 'Outside Colour',
             getValue: function() {
-                const val = $('input[name="door_colour"]:checked').val();
+                const val = $('input[name="window_colour"]:checked').val();
                 if (!val) return '—';
                 
                 if (val && val !== 'custom_ral' && val !== 'anthracite_grey' && val !== 'black' && val !== 'white') {
@@ -1970,7 +1800,7 @@ jQuery(function($){
                 }
                 
                 if (val === 'custom_ral') {
-                    const selectedRal = $('#custom_colour_select').val();
+                    const selectedRal = $('#custom_window_colour_select').val();
                     return selectedRal || 'Custom RAL';
                 }
                 
@@ -1982,21 +1812,14 @@ jQuery(function($){
                 return colourMap[val] || val;
             },
             getPrice: function() {
-                const val = $('input[name="door_colour"]:checked').val();
-                const insideColour = $('input[name="inside_colour"]:checked').val();
-                const paneCount = window.getPaneCount ? window.getPaneCount() : 1;
+                const val = $('input[name="window_colour"]:checked').val();
+                const insideColour = $('input[name="window_inside_colour"]:checked').val();
                 
                 const isFreeDual = (val === 'anthracite_grey' && insideColour === 'white');
                 if (isFreeDual) return 0;
                 
-                if (val && val !== 'custom_ral' && val !== 'anthracite_grey' && val !== 'black' && val !== 'white') {
-                    const selectedOption = $('#custom_colour_select option[value="' + val + '"]');
-                    const price = parseFloat(selectedOption.data('price')) || 195;
-                    return price * paneCount;
-                }
-                
-                if (val === 'custom_ral') {
-                    return 195 * paneCount;
+                if (val === 'custom_ral' || (val && val.startsWith('RAL '))) {
+                    return 195;
                 }
                 
                 return 0;
@@ -2006,7 +1829,7 @@ jQuery(function($){
             number: 5,
             name: 'Inside Colour',
             getValue: function() {
-                const val = $('input[name="inside_colour"]:checked').val();
+                const val = $('input[name="window_inside_colour"]:checked').val();
                 if (!val) return '—';
                 
                 if (val && val !== 'custom_ral' && val !== 'anthracite_grey' && val !== 'black' && val !== 'white') {
@@ -2014,7 +1837,7 @@ jQuery(function($){
                 }
                 
                 if (val === 'custom_ral') {
-                    const selectedRal = $('#custom_inside_colour_select').val();
+                    const selectedRal = $('#custom_window_inside_colour_select').val();
                     return selectedRal || 'Custom RAL';
                 }
                 
@@ -2026,29 +1849,14 @@ jQuery(function($){
                 return colourMap[val] || val;
             },
             getPrice: function() {
-                const val = $('input[name="inside_colour"]:checked').val();
-                const outsideColour = $('input[name="door_colour"]:checked').val();
-                const paneCount = window.getPaneCount ? window.getPaneCount() : 1;
+                const val = $('input[name="window_inside_colour"]:checked').val();
+                const outsideColour = $('input[name="window_colour"]:checked').val();
                 
                 const isFreeDual = (outsideColour === 'anthracite_grey' && val === 'white');
                 if (isFreeDual) return 0;
                 
-                const standardColours = ['anthracite_grey', 'black', 'white'];
-                const isOutsideStandard = standardColours.includes(outsideColour);
-                const isInsideStandard = standardColours.includes(val);
-                
-                if (isOutsideStandard && isInsideStandard && outsideColour !== val && !isFreeDual) {
-                    return 195 * paneCount;
-                }
-                
-                if (val && val !== 'custom_ral' && val !== 'anthracite_grey' && val !== 'black' && val !== 'white') {
-                    const selectedOption = $('#custom_inside_colour_select option[value="' + val + '"]');
-                    const price = parseFloat(selectedOption.data('price')) || 195;
-                    return price * paneCount;
-                }
-                
-                if (val === 'custom_ral') {
-                    return 195 * paneCount;
+                if (val === 'custom_ral' || (val && val.startsWith('RAL '))) {
+                    return 195;
                 }
                 
                 return 0;
@@ -2058,28 +1866,27 @@ jQuery(function($){
             number: 6,
             name: 'Handle',
             getValue: function() {
-                const val = $('input[name="handle_colour"]:checked').val();
+                const val = $('input[name="window_handle_colour"]:checked').val();
                 if (!val) return '—';
                 
                 const handleMap = {
                     'white': 'White',
                     'chrome': 'Chrome',
                     'black': 'Black',
-                    'black_white': 'Black & White'
+                    'silver': 'Silver'
                 };
                 return handleMap[val] || val;
             },
             getPrice: function() { return 0; }
         },
-        // In stepDefinitions array, update the glass section (number 7)
         {
             number: 7,
             name: 'Glass',
             getValue: function() {
-                const val = $('input[name="glass_upgrade"]:checked').val();
+                const val = $('input[name="glass_type"]:checked').val();
                 if (!val) return '—';
                 
-                if (val === 'no_thanks') {
+                if (val === 'standard') {
                     return 'Standard Glass';
                 } else if (val === 'self_cleaning') {
                     return 'Self-cleaning glass';
@@ -2089,9 +1896,11 @@ jQuery(function($){
                     return 'Obscure glass';
                 } else if (val === 'saint_gobain_12') {
                     return 'Saint-Gobain 1.2';
+                } else if (val === 'low_e_argon') {
+                    return 'Low-E Argon Filled';
                 }
                 
-                let text = $('input[name="glass_upgrade"]:checked')
+                let text = $('input[name="glass_type"]:checked')
                     .closest('.glass-option-card')
                     .find('.option-name').text().trim();
                 
@@ -2100,7 +1909,8 @@ jQuery(function($){
                         'self_cleaning': 'Self-cleaning',
                         'integral_blinds': 'Integral Blinds',
                         'obscure_glass': 'Obscure',
-                        'saint_gobain_12': 'Saint-Gobain 1.2'
+                        'saint_gobain_12': 'Saint-Gobain 1.2',
+                        'low_e_argon': 'Low-E Argon'
                     };
                     text = glassMap[val] || val;
                 }
@@ -2108,15 +1918,13 @@ jQuery(function($){
                 return text;
             },
             getPrice: function() {
-                const val = $('input[name="glass_upgrade"]:checked');
+                const val = $('input[name="glass_type"]:checked');
                 if (!val.length) return 0;
                 
-                if (val.val() === 'no_thanks') return 0;
+                if (val.val() === 'standard') return 0;
                 
                 const basePrice = parseFloat(val.data('price')) || 0;
-                const paneCount = window.getPaneCount ? window.getPaneCount() : 1;
-                // Return total price (base price × pane count)
-                return basePrice * paneCount;
+                return basePrice;
             }
         },
         {
@@ -2151,7 +1959,7 @@ jQuery(function($){
             number: 10,
             name: 'Postcode',
             getValue: function() {
-                const postcode = $('#postcode').val().trim().replace(/\s+/g, '');
+                const postcode = $('#window_postcode').val().trim().replace(/\s+/g, '');
                 return postcode || '—';
             },
             getPrice: function() {
@@ -2163,33 +1971,30 @@ jQuery(function($){
             number: 11,
             name: 'Installation',
             getValue: function() {
-                const val = $('input[name="installation_type"]:checked').val();
+                const val = $('input[name="window_installation_type"]:checked').val();
                 if (!val) return '—';
                 
                 const installMap = {
                     'collection': 'Collection',
                     'delivery': 'Delivery',
-                    'prepared_opening': 'Prepared Opening',
-                    'remove_existing': 'Remove & Install'
+                    'install_existing': 'Install Existing Opening',
+                    'install_new_build': 'Install New Build'
                 };
                 return installMap[val] || val;
             },
             getPrice: function() {
-                const val = $('input[name="installation_type"]:checked').val();
+                const val = $('input[name="window_installation_type"]:checked').val();
                 if (!val) return 0;
-                
-                const paneCount = window.getPaneCount ? window.getPaneCount() : 1;
                 
                 if (val === 'collection') {
                     return 0;
                 } else if (val === 'delivery') {
-                    // Delivery price from hidden field
-                    const deliveryPrice = parseFloat($('#delivery_price').val()) || 0;
+                    const deliveryPrice = parseFloat($('#window_delivery_price').val()) || 0;
                     return deliveryPrice;
-                } else if (val === 'prepared_opening') {
-                    return paneCount * 200;
-                } else if (val === 'remove_existing') {
-                    return (paneCount * 200) + 550;
+                } else if (val === 'install_existing') {
+                    return 299;
+                } else if (val === 'install_new_build') {
+                    return 499;
                 }
                 
                 return 0;
@@ -2199,11 +2004,11 @@ jQuery(function($){
             number: 12,
             name: 'Access',
             getValue: function() {
-                const val = $('input[name="access_issues"]:checked').val();
+                const val = $('input[name="window_access_issues"]:checked').val();
                 if (!val) return '—';
                 
                 if (val === 'yes_access') {
-                    const desc = $('#access_description').val();
+                    const desc = $('#window_access_description').val();
                     return desc ? 'Yes: ' + desc : 'Yes';
                 }
                 return 'No';
@@ -2214,8 +2019,8 @@ jQuery(function($){
             number: 13,
             name: 'Customer',
             getValue: function() {
-                const firstName = $('#first_name').val().trim();
-                const lastName = $('#last_name').val().trim();
+                const firstName = $('#window_first_name').val().trim();
+                const lastName = $('#window_last_name').val().trim();
                 
                 if (firstName || lastName) {
                     return (firstName + ' ' + lastName).trim();
@@ -2256,16 +2061,6 @@ jQuery(function($){
             totalPrice += price;
         });
         
-        // Double-check installation price
-        const installType = $('input[name="installation_type"]:checked').val();
-        if (installType === 'delivery') {
-            const deliveryPrice = parseFloat($('#delivery_price').val()) || 0;
-            // Make sure it's not double counted
-            if (deliveryPrice > 0) {
-                // Already included in step price calculation
-            }
-        }
-        
         const totalDisplay = '£' + totalPrice.toFixed(2);
         $('#drawer-total-price').text(totalDisplay);
         $('#drawer-footer-total').text(totalDisplay);
@@ -2275,50 +2070,34 @@ jQuery(function($){
         
         if (typeof isDev === 'function' && isDev()) {
             console.log('Drawer updated - Total:', totalPrice.toFixed(2));
-            console.log('Installation Price:', getInstallationPrice());
         }
     }
 
     // Installation price helper function
     function getInstallationPrice() {
-        const val = $('input[name="installation_type"]:checked').val();
+        const val = $('input[name="window_installation_type"]:checked').val();
         if (!val) return 0;
-        
-        const paneCount = window.getPaneCount ? window.getPaneCount() : 1;
         
         if (val === 'collection') {
             return 0;
         } else if (val === 'delivery') {
-            return parseFloat($('#delivery_price').val()) || 0;
-        } else if (val === 'prepared_opening') {
-            return paneCount * 200;
-        } else if (val === 'remove_existing') {
-            return (paneCount * 200) + 550;
+            return parseFloat($('#window_delivery_price').val()) || 0;
+        } else if (val === 'install_existing') {
+            return 299;
+        } else if (val === 'install_new_build') {
+            return 499;
         }
         
         return 0;
     }
 
-    function getPaneCount() {
-        const selectedPanel = $('input[name="panel_layout"]:checked').val();
+    function getWindowPaneCount() {
+        const selectedPanel = $('input[name="window_panel_layout"]:checked').val();
         if (!selectedPanel) return 1;
         
-        let paneCount = 1;
-        
-        if (selectedPanel === 'french') {
-            paneCount = 2;
-        } else if (selectedPanel.includes('_')) {
-            const parts = selectedPanel.split('_');
-            if (parts.length === 2 && !isNaN(parseInt(parts[0])) && !isNaN(parseInt(parts[1]))) {
-                paneCount = parseInt(parts[0]) + parseInt(parts[1]);
-            } else {
-                const match = selectedPanel.match(/^(\d+)/);
-                if (match) paneCount = parseInt(match[1]);
-            }
-        } else {
-            const match = selectedPanel.match(/^(\d+)/);
-            if (match) paneCount = parseInt(match[1]);
-        }
+        // Simplified: just extract first number from value like "2_left", "3_right", etc.
+        const match = selectedPanel.match(/^(\d+)/);
+        const paneCount = match ? parseInt(match[1]) : 1;
         
         return Math.max(1, paneCount);
     }
@@ -2347,64 +2126,18 @@ jQuery(function($){
         $('#drawerStepsList').html(html);
     }
 
-    function updateDrawer() {
-        let totalPrice = 0;
-        
-        stepDefinitions.forEach(step => {
-            const value = step.getValue();
-            const price = step.getPrice();
-            
-            let priceDisplay = '';
-            if (price > 0) {
-                priceDisplay = '£' + price.toFixed(2);
-            } else {
-                priceDisplay = '£0';
-            }
-            
-            const $stepItem = $(`.drawer-step-item[data-step="${step.number}"]`);
-            if ($stepItem.length) {
-                $stepItem.find('.step-value').text(value).attr('title', value);
-                $stepItem.find('.step-price').text(priceDisplay);
-                
-                if (value !== '—') {
-                    $stepItem.addClass('completed');
-                } else {
-                    $stepItem.removeClass('completed');
-                }
-            }
-            
-            totalPrice += price;
-        });
-        
-        const installType = $('input[name="installation_type"]:checked').val();
-        if (installType === 'delivery') {
-            const deliveryPrice = parseFloat($('#delivery_price').val()) || 0;
-            totalPrice += deliveryPrice;
-        }
-        
-        const totalDisplay = '£' + totalPrice.toFixed(2);
-        $('#drawer-total-price').text(totalDisplay);
-        $('#drawer-footer-total').text(totalDisplay);
-        $('#final_price_input').val(totalPrice.toFixed(2));
-        
-        updateDrawerButtons();
-        
-        if (typeof isDev === 'function' && isDev()) {
-            console.log('Drawer updated - Total:', totalPrice.toFixed(2));
-        }
-    }
-
     function updateDrawerButtons() {
-        const installType = $('input[name="installation_type"]:checked').val();
-        const isBespoke = (window.deliveryData && window.deliveryData.bespoke) || $('#delivery_bespoke').val() === '1';
+        const installType = $('input[name="window_installation_type"]:checked').val();
+        const isBespoke = (window.windowDeliveryData && window.windowDeliveryData.bespoke) || $('#window_delivery_bespoke').val() === '1';
         
-        const isRemoveExisting = installType === 'remove_existing';
-        const photoUploaded = $('#door_photo').val() ? true : false;
+        // Check if photo is required (for install_new_build)
+        const isPhotoRequired = installType === 'install_new_build';
+        const photoUploaded = $('#window_photo').val() ? true : false;
         
         if (isBespoke) {
             $('#drawerAddToCart, #drawerCheckout').addClass('disabled').prop('disabled', true);
             $('#drawerAddToCart').text('CONTACT SALES');
-        } else if (isRemoveExisting && !photoUploaded) {
+        } else if (isPhotoRequired && !photoUploaded) {
             $('#drawerAddToCart, #drawerCheckout').addClass('disabled').prop('disabled', true);
             $('#drawerAddToCart').text('ADD PHOTO');
         } else {
@@ -2452,14 +2185,14 @@ jQuery(function($){
         });
         
         $(document).on('change input', 
-            '#width, #height, ' +
-            'input[name="panel_layout"], input[name="open_direction"], ' +
-            'input[name="door_colour"], input[name="inside_colour"], ' +
-            'input[name="handle_colour"], input[name="glass_upgrade"], ' +
+            '#window_width, #window_height, ' +
+            'input[name="window_panel_layout"], input[name="open_direction"], ' +
+            'input[name="window_colour"], input[name="window_inside_colour"], ' +
+            'input[name="window_handle_colour"], input[name="glass_type"], ' +
             'input[name="trickle_vents"], input[name="cill"], ' +
-            'input[name="installation_type"], #postcode, ' +
-            'input[name="access_issues"], #access_description, ' +
-            '#custom_colour_select, #custom_inside_colour_select, #door_photo',
+            'input[name="window_installation_type"], #window_postcode, ' +
+            'input[name="window_access_issues"], #window_access_description, ' +
+            '#custom_window_colour_select, #custom_window_inside_colour_select',
             function() {
                 updateDrawer();
             }
@@ -2476,21 +2209,16 @@ jQuery(function($){
         
         $('#drawerAddToCart').on('click', function() {
             if ($(this).hasClass('disabled')) {
-                const installType = $('input[name="installation_type"]:checked').val();
-                if (installType === 'remove_existing' && !$('#door_photo').val()) {
-                    alert('Please upload a photo of your existing door before adding to cart.');
-                    if (typeof showStep === 'function') {
-                        showStep(10);
-                    }
+                const installType = $('input[name="window_installation_type"]:checked').val();
+                if (installType === 'install_new_build' && !$('#window_photo').val()) {
+                    alert('Please upload a photo before adding to cart.');
+                    if (typeof showStep === 'function') showStep(10);
                 }
                 return;
             }
             
-            if (typeof submitBuilderForm === 'function') {
-                submitBuilderForm();
-            } else {
-                $('#door-builder-form').submit();
-            }
+            // Direct form submission
+            $('#window-builder-form').submit();
         });
         
         $('#drawerCheckout').on('click', function() {
@@ -2503,7 +2231,7 @@ jQuery(function($){
             if (typeof submitBuilderForm === 'function') {
                 submitBuilderForm();
             } else {
-                $('#door-builder-form').submit();
+                $('#window-builder-form').submit();
             }
         });
         
@@ -2517,7 +2245,7 @@ jQuery(function($){
     }
 
     window.updateDrawer = updateDrawer;
-    window.getPaneCount = getPaneCount;
+    window.getWindowPaneCount = getWindowPaneCount;
     window.toggleDrawer = toggleDrawer;
 
 });

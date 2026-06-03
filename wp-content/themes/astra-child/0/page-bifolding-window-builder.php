@@ -248,8 +248,8 @@ window.windowBuilderData = {
     editData: <?php echo json_encode($edit_data); ?>,
     productType: 'window',
     ajax_url: '<?php echo admin_url('admin-ajax.php'); ?>',
-    cart_url: '<?php echo wc_get_cart_url(); ?>',  // Changed from cartUrl to cart_url
-    checkout_url: '<?php echo wc_get_checkout_url(); ?>',
+    cartUrl: '<?php echo wc_get_cart_url(); ?>',
+    checkoutUrl: '<?php echo wc_get_checkout_url(); ?>',
     nonce: '<?php echo wp_create_nonce('window_builder_ajax'); ?>'
 };
 

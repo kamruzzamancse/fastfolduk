@@ -4,11 +4,6 @@
  * 
  * This file contains all door builder related functions
  * including cart, checkout, order, installation, and photo handling
- * 
- * FIX LOG:
- * - product_type = 'door' added to ALL wizard_data build paths (AJAX, form submit, filter)
- * - Delivery charge now checks product_type === 'door' to avoid window conflict
- * - Edit link now uses product_type directly from wizard_data
  */
 
 // Prevent direct access
@@ -108,8 +103,68 @@ function bifolding_door_remove_add_to_cart_button() {
 
 /**
  * ============================================================
- * 3. ADD WIZARD DATA TO CART ITEM (via woocommerce_add_cart_item_data filter)
- * FIX: product_type = 'door' এখন সবার আগে set হয়
+ * 2. ADD DESIGN YOUR DOOR BUTTON
+ * ============================================================
+ */
+/* add_action('woocommerce_single_product_summary', 'bifolding_door_add_design_button', 35);
+function bifolding_door_add_design_button() {
+    global $product;
+
+    if ($product && $product->is_type('variable')) {
+        ?>
+        <style>
+            .design-your-door-btn {
+                display: inline-block !important;
+                background: #2e7d32 !important;
+                color: white !important;
+                padding: 15px 30px !important;
+                font-size: 14px !important;
+                font-weight: 600 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 2px !important;
+                border: none !important;
+                border-radius: 4px !important;
+                cursor: pointer !important;
+                text-decoration: none !important;
+                margin-top: 20px !important;
+                transition: background 0.3s !important;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+            }
+            
+            .design-your-door-btn:hover {
+                background: #1b5B20 !important;
+                transform: translateY(-2px) !important;
+                box-shadow: 0 6px 12px rgba(0,0,0,0.15) !important;
+            }
+            
+            .single_variation_wrap .woocommerce-variation-add-to-cart,
+            table.variations,
+            .variations_form .variations,
+            .single-product form.variations_form {
+                display: none !important;
+            }
+        </style>
+        
+        <a class="button design-your-door-btn" href="#" id="design-your-door-btn">
+            Design your door
+        </a>
+
+        <script>
+        jQuery(function($){
+            $('#design-your-door-btn').on('click', function(e){
+                e.preventDefault();
+                var url = '<?php echo site_url('/bifolding-door-builder/'); ?>?product_id=<?php echo $product->get_id(); ?>';
+                window.location.href = url;
+            });
+        });
+        </script>
+        <?php
+    }
+} */
+
+/**
+ * ============================================================
+ * 3. ADD WIZARD DATA TO CART ITEM
  * ============================================================
  */
 add_filter('woocommerce_add_cart_item_data', 'bifolding_door_add_wizard_data_to_cart', 10, 3);
@@ -127,16 +182,8 @@ function bifolding_door_add_wizard_data_to_cart($cart_item_data, $product_id, $v
     if (empty($form_data)) {
         return $cart_item_data;
     }
-
-    // FIX: Only process if this is explicitly a door builder submission
-    // (door builder form always sends 'panel_layout', window uses 'window_panel_layout')
-    if (!isset($form_data['panel_layout']) && !isset($form_data['door_colour'])) {
-        return $cart_item_data;
-    }
     
     $wizard_data = array();
-    // FIX: product_type MUST be set FIRST so cart display works correctly
-    $wizard_data['product_type'] = 'door';
     
     // Step 1: Size
     if (isset($form_data['width']) && isset($form_data['height'])) {
@@ -242,6 +289,7 @@ function bifolding_door_add_wizard_data_to_cart($cart_item_data, $product_id, $v
             : $install_value;
         $wizard_data['installation_type_value'] = $install_value;
         
+        // Calculate installation price
         $pane_count = get_pane_count_from_panel_value($wizard_data['panels'] ?? '');
         
         if ($install_value === 'prepared_opening') {
@@ -306,8 +354,7 @@ function bifolding_door_add_wizard_data_to_cart($cart_item_data, $product_id, $v
 
 /**
  * ============================================================
- * 4. HANDLE BUILDER FORM SUBMIT (non-AJAX fallback)
- * FIX: product_type = 'door' added
+ * 4. HANDLE BUILDER FORM SUBMIT
  * ============================================================
  */
 add_action('template_redirect', 'bifolding_door_handle_form_submit');
@@ -327,9 +374,8 @@ function bifolding_door_handle_form_submit() {
     $final_price = isset($_POST['final_price']) ? floatval($_POST['final_price']) : 0;
     $is_checkout = isset($_POST['builder_checkout']) && $_POST['builder_checkout'] == '1';
     
+    // Build wizard data from POST
     $wizard_data = array();
-    // FIX: product_type MUST be 'door'
-    $wizard_data['product_type'] = 'door';
     
     $wizard_data['width'] = isset($_POST['width']) ? intval($_POST['width']) : 0;
     $wizard_data['height'] = isset($_POST['height']) ? intval($_POST['height']) : 0;
@@ -358,6 +404,7 @@ function bifolding_door_handle_form_submit() {
         'unique_key' => md5(serialize($wizard_data) . time() . rand(1000, 9999))
     );
     
+    // Get variation ID if not provided
     if ($variation_id === 0) {
         $product = wc_get_product($product_id);
         if ($product && $product->is_type('variable')) {
@@ -388,7 +435,6 @@ function bifolding_door_handle_form_submit() {
 /**
  * ============================================================
  * 5. AJAX HANDLER FOR BUILDER FORM
- * FIX: product_type = 'door' added, colours properly mapped
  * ============================================================
  */
 add_action('wp_ajax_process_door_builder', 'bifolding_door_process_ajax');
@@ -415,8 +461,6 @@ function bifolding_door_process_ajax() {
     
     // Build wizard data
     $wizard_data = array();
-    // FIX: product_type MUST be 'door' - set FIRST
-    $wizard_data['product_type'] = 'door';
     
     if (isset($form_data['width'])) {
         $wizard_data['width'] = intval($form_data['width']);
@@ -433,7 +477,6 @@ function bifolding_door_process_ajax() {
         $wizard_data['opening'] = $form_data['open_direction'] === 'inwards' ? 'Inwards' : 'Outwards';
     }
     
-    // Outside colour - FIX: properly map colour values
     if (isset($form_data['door_colour'])) {
         if ($form_data['door_colour'] === 'custom_ral' && !empty($form_data['custom_colour_select'])) {
             $wizard_data['outside_colour'] = $form_data['custom_colour_select'];
@@ -449,7 +492,6 @@ function bifolding_door_process_ajax() {
         }
     }
     
-    // Inside colour - FIX: properly map colour values
     if (isset($form_data['inside_colour'])) {
         $outside_colour = isset($form_data['door_colour']) ? $form_data['door_colour'] : '';
         $custom_outside = isset($form_data['custom_colour_select']) ? $form_data['custom_colour_select'] : '';
@@ -491,15 +533,7 @@ function bifolding_door_process_ajax() {
     }
     
     if (isset($form_data['cill'])) {
-        if ($form_data['cill'] === 'none') {
-            $wizard_data['cill'] = 'No Cill';
-        } elseif ($form_data['cill'] === '150mm-aluminium-cill') {
-            $wizard_data['cill'] = '150mm Aluminium Cill';
-        } elseif ($form_data['cill'] === '150mm-upvc-cill') {
-            $wizard_data['cill'] = '150mm uPVC Cill';
-        } else {
-            $wizard_data['cill'] = $form_data['cill'];
-        }
+        $wizard_data['cill'] = $form_data['cill'] === 'none' ? 'No Cill' : $form_data['cill'];
     }
     
     if (isset($form_data['installation_type'])) {
@@ -646,7 +680,6 @@ function bifolding_door_apply_custom_price($cart) {
 /**
  * ============================================================
  * 7. ADD DELIVERY CHARGE TO CART
- * FIX: Now checks product_type === 'door' to avoid conflict with window delivery
  * ============================================================
  */
 add_action('woocommerce_before_calculate_totals', 'bifolding_door_add_delivery_charge', 20, 1);
@@ -666,13 +699,7 @@ function bifolding_door_add_delivery_charge($cart) {
     $is_bespoke = false;
     
     foreach ($cart->get_cart() as $cart_item) {
-        // FIX: Must be a DOOR item with a postcode - not just any item with a postcode
-        if (
-            isset($cart_item['wizard_data']['product_type']) &&
-            $cart_item['wizard_data']['product_type'] === 'door' &&
-            isset($cart_item['wizard_data']['postcode']) &&
-            !empty($cart_item['wizard_data']['postcode'])
-        ) {
+        if (isset($cart_item['wizard_data']['postcode']) && !empty($cart_item['wizard_data']['postcode'])) {
             $has_door_builder = true;
             
             if (isset($cart_item['wizard_data']['delivery_price'])) {
@@ -707,8 +734,7 @@ function bifolding_door_add_delivery_charge($cart) {
     if (!$is_bespoke && $delivery_price > 0) {
         $fee_exists = false;
         foreach ($cart->get_fees() as $fee) {
-            // FIX: Use unique fee name for door to avoid duplicate with window
-            if (strpos($fee->name, 'Door Delivery') !== false) {
+            if (strpos($fee->name, 'Delivery') !== false) {
                 $fee_exists = true;
                 break;
             }
@@ -716,7 +742,7 @@ function bifolding_door_add_delivery_charge($cart) {
         
         if (!$fee_exists) {
             $cart->add_fee(
-                __('Door Delivery', 'woocommerce') . ' (' . $delivery_zone . ' - ' . round($delivery_distance, 1) . ' miles)',
+                __('Delivery', 'woocommerce') . ' (' . $delivery_zone . ' - ' . round($delivery_distance, 1) . ' miles)',
                 $delivery_price,
                 true
             );
@@ -751,24 +777,21 @@ function bifolding_door_block_bespoke_checkout() {
  */
 add_action('woocommerce_checkout_create_order_line_item', 'bifolding_door_save_wizard_to_order', 10, 3);
 function bifolding_door_save_wizard_to_order($item, $cart_item_key, $values) {
-    // FIX: Only process door items
-    if (empty($values['wizard_data']) || !isset($values['wizard_data']['product_type']) || $values['wizard_data']['product_type'] !== 'door') {
-        return;
-    }
-    
-    foreach ($values['wizard_data'] as $key => $value) {
-        if ($key === 'glass') {
-            if ($value === 'no_thanks') {
-                $item->add_meta_data('builder_glass', 'No Thanks - Standard Glass', true);
+    if (!empty($values['wizard_data'])) {
+        foreach ($values['wizard_data'] as $key => $value) {
+            if ($key === 'glass') {
+                if ($value === 'no_thanks') {
+                    $item->add_meta_data('builder_glass', 'No Thanks - Standard Glass', true);
+                } else {
+                    $item->add_meta_data('builder_glass', $value, true);
+                }
+            } elseif (in_array($key, array('outside_colour_price', 'inside_colour_price', 'installation_price'))) {
+                $item->add_meta_data('builder_' . $key, $value, true);
+            } elseif ($key === 'installation_type_value') {
+                $item->add_meta_data('builder_installation_value', $value, true);
             } else {
-                $item->add_meta_data('builder_glass', $value, true);
+                $item->add_meta_data('builder_' . $key, $value, true);
             }
-        } elseif (in_array($key, array('outside_colour_price', 'inside_colour_price', 'installation_price'))) {
-            $item->add_meta_data('builder_' . $key, $value, true);
-        } elseif ($key === 'installation_type_value') {
-            $item->add_meta_data('builder_installation_value', $value, true);
-        } else {
-            $item->add_meta_data('builder_' . $key, $value, true);
         }
     }
     
@@ -780,27 +803,19 @@ function bifolding_door_save_wizard_to_order($item, $cart_item_key, $values) {
 /**
  * ============================================================
  * 10. DISPLAY BUILDER DATA IN CART WITH EDIT BUTTON
- * FIX: Strict product_type check, correct edit URL always used
  * ============================================================
  */
 add_action('woocommerce_after_cart_item_name', 'bifolding_door_display_cart_data', 10, 2);
 function bifolding_door_display_cart_data($cart_item, $cart_item_key) {
-    // FIX: Must have wizard_data AND product_type must be exactly 'door'
-    if (
-        !isset($cart_item['wizard_data']) ||
-        !isset($cart_item['wizard_data']['product_type']) ||
-        $cart_item['wizard_data']['product_type'] !== 'door'
-    ) {
+    if (!isset($cart_item['wizard_data']) || empty($cart_item['wizard_data'])) {
         return;
     }
     
     $wizard = $cart_item['wizard_data'];
-    
-    // FIX: Edit URL always points to door builder
     $edit_url = add_query_arg(array(
         'edit_cart_item' => $cart_item_key,
-        'product_id'     => $cart_item['product_id'],
-        'variation_id'   => isset($cart_item['variation_id']) ? $cart_item['variation_id'] : 0,
+        'product_id' => $cart_item['product_id'],
+        'variation_id' => $cart_item['variation_id']
     ), home_url('/bifolding-door-builder/'));
     
     echo '<div class="door-builder-cart-data">';
@@ -810,81 +825,97 @@ function bifolding_door_display_cart_data($cart_item, $cart_item_key) {
     echo '</div>';
     echo '<div class="config-details-grid">';
     
-    // Size
     if (!empty($wizard['width']) && !empty($wizard['height'])) {
-        echo '<div class="detail-item"><span class="detail-label">Size: </span>';
-        echo '<span class="detail-value">' . esc_html($wizard['width'] . ' x ' . $wizard['height'] . ' mm') . '</span></div>';
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Size: </span>';
+        echo '<span class="detail-value">' . esc_html($wizard['width'] . ' x ' . $wizard['height'] . ' mm') . '</span>';
+        echo '</div>';
     }
     
-    // Panels
     if (!empty($wizard['panels'])) {
-        echo '<div class="detail-item"><span class="detail-label">Panels: </span>';
-        echo '<span class="detail-value">' . esc_html($wizard['panels']) . '</span></div>';
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Panels: </span>';
+        echo '<span class="detail-value">' . esc_html($wizard['panels']) . '</span>';
+        echo '</div>';
     }
     
-    // Opening Direction
     if (!empty($wizard['opening'])) {
-        echo '<div class="detail-item"><span class="detail-label">Opening: </span>';
-        echo '<span class="detail-value">' . esc_html($wizard['opening']) . '</span></div>';
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Opening: </span>';
+        echo '<span class="detail-value">' . esc_html($wizard['opening']) . '</span>';
+        echo '</div>';
     }
     
-    // Outside Colour
-    $outside = !empty($wizard['outside_colour']) ? $wizard['outside_colour'] : 'Not specified';
-    if (!empty($wizard['outside_ral'])) {
-        $outside .= ' (' . $wizard['outside_ral'] . ')';
+    if (!empty($wizard['outside_colour'])) {
+        $outside = $wizard['outside_colour'];
+        if (!empty($wizard['outside_ral'])) {
+            $outside .= ' (' . $wizard['outside_ral'] . ')';
+        }
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Outside: </span>';
+        echo '<span class="detail-value">' . esc_html($outside) . '</span>';
+        echo '</div>';
     }
-    echo '<div class="detail-item"><span class="detail-label">Outside Colour: </span>';
-    echo '<span class="detail-value">' . esc_html($outside) . '</span></div>';
     
-    // Inside Colour
     if (!empty($wizard['inside_colour'])) {
         $inside = $wizard['inside_colour'];
         if (!empty($wizard['inside_ral'])) {
             $inside .= ' (' . $wizard['inside_ral'] . ')';
         }
-        echo '<div class="detail-item"><span class="detail-label">Inside Colour: </span>';
-        echo '<span class="detail-value">' . esc_html($inside) . '</span></div>';
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Inside: </span>';
+        echo '<span class="detail-value">' . esc_html($inside) . '</span>';
+        echo '</div>';
     }
     
-    // Handle Colour
     if (!empty($wizard['handle'])) {
-        echo '<div class="detail-item"><span class="detail-label">Handle: </span>';
-        echo '<span class="detail-value">' . esc_html($wizard['handle']) . '</span></div>';
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Handle: </span>';
+        echo '<span class="detail-value">' . esc_html($wizard['handle']) . '</span>';
+        echo '</div>';
     }
     
-    // Glass
-    $glass_display = !empty($wizard['glass']) ? (($wizard['glass'] === 'no_thanks') ? 'Standard Glass' : $wizard['glass']) : 'Standard Glass';
-    echo '<div class="detail-item"><span class="detail-label">Glass: </span>';
-    echo '<span class="detail-value">' . esc_html($glass_display) . '</span></div>';
+    if (!empty($wizard['glass'])) {
+        $glass_display = $wizard['glass'] === 'no_thanks' ? 'Standard Glass' : $wizard['glass'];
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Glass: </span>';
+        echo '<span class="detail-value">' . esc_html($glass_display) . '</span>';
+        echo '</div>';
+    }
     
-    // Trickle Vents
     if (isset($wizard['vents'])) {
-        echo '<div class="detail-item"><span class="detail-label">Vents: </span>';
-        echo '<span class="detail-value">' . esc_html($wizard['vents']) . '</span></div>';
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Vents: </span>';
+        echo '<span class="detail-value">' . esc_html($wizard['vents']) . '</span>';
+        echo '</div>';
     }
     
-    // Cill
     if (!empty($wizard['cill'])) {
-        echo '<div class="detail-item"><span class="detail-label">Cill: </span>';
-        echo '<span class="detail-value">' . esc_html($wizard['cill']) . '</span></div>';
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Cill: </span>';
+        echo '<span class="detail-value">' . esc_html($wizard['cill']) . '</span>';
+        echo '</div>';
     }
     
-    // Installation Type
     if (!empty($wizard['installation_type'])) {
-        echo '<div class="detail-item"><span class="detail-label">Installation: </span>';
-        echo '<span class="detail-value">' . esc_html($wizard['installation_type']) . '</span></div>';
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Installation: </span>';
+        echo '<span class="detail-value">' . esc_html($wizard['installation_type']) . '</span>';
+        echo '</div>';
     }
     
-    // Postcode
     if (!empty($wizard['postcode'])) {
-        echo '<div class="detail-item"><span class="detail-label">Postcode: </span>';
-        echo '<span class="detail-value">' . esc_html($wizard['postcode']) . '</span></div>';
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Postcode: </span>';
+        echo '<span class="detail-value">' . esc_html($wizard['postcode']) . '</span>';
+        echo '</div>';
     }
     
-    // Access Issues
     if (!empty($wizard['access'])) {
-        echo '<div class="detail-item"><span class="detail-label">Access: </span>';
-        echo '<span class="detail-value">' . esc_html($wizard['access']) . '</span></div>';
+        echo '<div class="detail-item">';
+        echo '<span class="detail-label">Access: </span>';
+        echo '<span class="detail-value">' . esc_html($wizard['access']) . '</span>';
+        echo '</div>';
     }
     
     echo '</div>';
@@ -1005,9 +1036,23 @@ function bifolding_door_ajax_check_delivery() {
 
 /**
  * ============================================================
- * 13. TECHNICAL SPECIFICATION CSS
+ * 13. TECHNICAL SPECIFICATION IMAGE
  * ============================================================
  */
+/* add_action('woocommerce_single_product_summary', 'bifolding_door_show_technical_spec', 50);
+function bifolding_door_show_technical_spec() {
+    if (!is_product()) {
+        return;
+    }
+    
+    $image = get_field('technical_specification_image');
+    if ($image) {
+        echo '<div class="technical-specification-image">';
+        echo '<img src="' . esc_url($image) . '" alt="Bi-fold door technical specification">';
+        echo '</div>';
+    }
+} */
+
 add_action('wp_head', 'bifolding_door_tech_spec_css');
 function bifolding_door_tech_spec_css() {
     if (!is_product()) {
@@ -1032,47 +1077,41 @@ function bifolding_door_tech_spec_css() {
 /**
  * ============================================================
  * 14. CUSTOM IMAGE IN CART BASED ON PANEL SELECTION
- * FIX: Only applies to door items
  * ============================================================
  */
 add_filter('woocommerce_cart_item_thumbnail', 'bifolding_door_custom_cart_thumbnail', 10, 3);
 function bifolding_door_custom_cart_thumbnail($thumbnail, $cart_item, $cart_item_key) {
-    // FIX: Only apply to door items
-    if (
-        !isset($cart_item['wizard_data']['product_type']) ||
-        $cart_item['wizard_data']['product_type'] !== 'door' ||
-        !isset($cart_item['wizard_data']['panels'])
-    ) {
+    if (!isset($cart_item['wizard_data']['panels'])) {
         return $thumbnail;
     }
     
     $panels = $cart_item['wizard_data']['panels'];
     
     $panel_image_map = array(
-        '2 Panels Left'  => '2_Panel_Left_500x.webp',
+        '2 Panels Left' => '2_Panel_Left_500x.webp',
         '2 Panels Right' => '2_Panel_Right_500x.webp',
-        '3 Panels Left'  => '3_Panel_Left_500x.webp',
+        '3 Panels Left' => '3_Panel_Left_500x.webp',
         '3 Panels Right' => '3_Panel_Right_500x.webp',
-        '1 + 3 Panels'   => '1_3_Panel_500x.webp',
-        '3 + 1 Panels'   => '3_1_Panel_500x.webp',
-        '4 Panels Left'  => '4_Panel_Left_500x.webp',
+        '1 + 3 Panels' => '1_3_Panel_500x.webp',
+        '3 + 1 Panels' => '3_1_Panel_500x.webp',
+        '4 Panels Left' => '4_Panel_Left_500x.webp',
         '4 Panels Right' => '4_Panel_Right_500x.webp',
-        '5 Panels Left'  => '5_Panel_Left_500x.webp',
+        '5 Panels Left' => '5_Panel_Left_500x.webp',
         '5 Panels Right' => '5_Panel_Right_500x.webp',
-        '1 + 5 Panels'   => '1_5_Panel_500x.avif',
-        '2 + 4 Panels'   => '2_4_Panel_500x.avif',
-        '3 + 3 Panels'   => '3_3_Panel_500x.avif',
-        '4 + 2 Panels'   => '4_2_Panel_500x.avif',
-        '5 + 1 Panels'   => '5_1_Panel_500x.avif',
-        '6 Panels Left'  => '6_Panel_Left_500x.avif',
+        '1 + 5 Panels' => '1_5_Panel_500x.avif',
+        '2 + 4 Panels' => '2_4_Panel_500x.avif',
+        '3 + 3 Panels' => '3_3_Panel_500x.avif',
+        '4 + 2 Panels' => '4_2_Panel_500x.avif',
+        '5 + 1 Panels' => '5_1_Panel_500x.avif',
+        '6 Panels Left' => '6_Panel_Left_500x.avif',
         '6 Panels Right' => '6_Panel_Right_500x.avif',
-        'French Doors'   => 'French_Doors_500x.webp',
+        'French Doors' => 'French_Doors_500x.webp',
     );
     
     $image_file = isset($panel_image_map[$panels]) ? $panel_image_map[$panels] : '';
     
     if (!empty($image_file)) {
-        $image_url = get_stylesheet_directory_uri() . '/assets/images/bifolding-doors/' . $image_file;
+        $image_url = get_stylesheet_directory_uri() . '/assets/images/bifold-doors/' . $image_file;
         $thumbnail = '<img src="' . esc_url($image_url) . '" alt="' . esc_attr($panels) . '" class="woocommerce-placeholder wp-post-image" width="300" height="300" style="object-fit: contain; background: #f5f5f5; padding: 10px;" />';
     }
     
@@ -1119,10 +1158,10 @@ function bifolding_door_handle_photo_upload() {
     if (move_uploaded_file($uploaded_file['tmp_name'], $filepath)) {
         $attachment = array(
             'post_mime_type' => $file_type['type'],
-            'post_title'     => sanitize_file_name($filename),
-            'post_content'   => '',
-            'post_status'    => 'inherit',
-            'post_author'    => get_current_user_id()
+            'post_title' => sanitize_file_name($filename),
+            'post_content' => '',
+            'post_status' => 'inherit',
+            'post_author' => get_current_user_id()
         );
         
         $attach_id = wp_insert_attachment($attachment, $filepath);
@@ -1130,20 +1169,21 @@ function bifolding_door_handle_photo_upload() {
         $attach_data = wp_generate_attachment_metadata($attach_id, $filepath);
         wp_update_attachment_metadata($attach_id, $attach_data);
         
+        // Store in session
         if (!session_id()) {
             session_start();
         }
         $_SESSION['door_photo_' . session_id()] = array(
-            'id'            => $attach_id,
-            'url'           => wp_get_attachment_url($attach_id),
-            'filename'      => $filename,
+            'id' => $attach_id,
+            'url' => wp_get_attachment_url($attach_id),
+            'filename' => $filename,
             'original_name' => $uploaded_file['name']
         );
         
         wp_send_json_success(array(
-            'id'            => $attach_id,
-            'url'           => wp_get_attachment_url($attach_id),
-            'filename'      => $filename,
+            'id' => $attach_id,
+            'url' => wp_get_attachment_url($attach_id),
+            'filename' => $filename,
             'original_name' => $uploaded_file['name']
         ));
     } else {

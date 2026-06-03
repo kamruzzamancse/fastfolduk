@@ -1,5 +1,7 @@
-[19-Apr-2026 09:24:19 UTC] Window Delivery Check - Postcode: M11AE
-[19-Apr-2026 09:24:19 UTC] Window Delivery Result: Array
+[10-May-2026 12:14:18 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:14:18 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:14:24 UTC] Window Delivery Check - Postcode: M11AE
+[10-May-2026 12:14:24 UTC] Window Delivery Result: Array
 (
     [price] => 150
     [zone] => Zone A - Regional
@@ -8,8 +10,55 @@
     [message] => Delivery: £150 (Distance: 67.5 miles)
 )
 
-[19-Apr-2026 09:24:21 UTC] Window Delivery Check - Postcode: M11AE
-[19-Apr-2026 09:24:21 UTC] Window Delivery Result: Array
+[10-May-2026 12:15:09 UTC] === PROCESS_WINDOW_BUILDER AJAX CALLED ===
+[10-May-2026 12:15:09 UTC] POST data: Array
+(
+    [action] => process_window_builder
+    [form_data] => product_id=1168&variation_id=1218&final_price=1050.00&builder_checkout=0&product_type=window&edit_mode=1&cart_item_key=60ca79efa34d095a8946acaa1ec9ce3c&builder_nonce=c69f7de7e8&_wp_http_referer=%2Ffastfolduk%2Fbifolding-window-builder%2F%3Fedit_cart_item%3D60ca79efa34d095a8946acaa1ec9ce3c%26product_id%3D1168%26variation_id%3D1218&width=2000&height=700&window_panel_layout=2_left&open_direction=outwards&window_colour=anthracite_grey&window_inside_colour=anthracite_grey&window_handle_colour=white&glass_type=standard&trickle_vents=no_trickle&cill=none&postcode=M11AE&delivery_price=150&delivery_zone=Zone%20A%20-%20Regional&delivery_distance=67.5&delivery_bespoke=0&window_installation_type=collection&window_access_description=&window_access_issues=no_access&first_name=Md.&last_name=Kamruzzaman&mobile_number=01716589969&email_address=kamruzzamancv%40gmail.com&customer_info_complete=0
+    [security] => 6e20325603
+)
+
+[10-May-2026 12:15:09 UTC] Nonce verification PASSED
+[10-May-2026 12:15:09 UTC] Parsed form_data: Array
+(
+    [product_id] => 1168
+    [variation_id] => 1218
+    [final_price] => 1050.00
+    [builder_checkout] => 0
+    [product_type] => window
+    [edit_mode] => 1
+    [cart_item_key] => 60ca79efa34d095a8946acaa1ec9ce3c
+    [builder_nonce] => c69f7de7e8
+    [_wp_http_referer] => /fastfolduk/bifolding-window-builder/?edit_cart_item=60ca79efa34d095a8946acaa1ec9ce3c&product_id=1168&variation_id=1218
+    [width] => 2000
+    [height] => 700
+    [window_panel_layout] => 2_left
+    [open_direction] => outwards
+    [window_colour] => anthracite_grey
+    [window_inside_colour] => anthracite_grey
+    [window_handle_colour] => white
+    [glass_type] => standard
+    [trickle_vents] => no_trickle
+    [cill] => none
+    [postcode] => M11AE
+    [delivery_price] => 150
+    [delivery_zone] => Zone A - Regional
+    [delivery_distance] => 67.5
+    [delivery_bespoke] => 0
+    [window_installation_type] => collection
+    [window_access_description] => 
+    [window_access_issues] => no_access
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [mobile_number] => 01716589969
+    [email_address] => kamruzzamancv@gmail.com
+    [customer_info_complete] => 0
+)
+
+[10-May-2026 12:15:25 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:15:25 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:15:29 UTC] Window Delivery Check - Postcode: M11AE
+[10-May-2026 12:15:29 UTC] Window Delivery Result: Array
 (
     [price] => 150
     [zone] => Zone A - Regional
@@ -18,8 +67,55 @@
     [message] => Delivery: £150 (Distance: 67.5 miles)
 )
 
-[19-Apr-2026 09:30:34 UTC] Window Delivery Check - Postcode: M11AE
-[19-Apr-2026 09:30:34 UTC] Window Delivery Result: Array
+[10-May-2026 12:15:54 UTC] === PROCESS_WINDOW_BUILDER AJAX CALLED ===
+[10-May-2026 12:15:54 UTC] POST data: Array
+(
+    [action] => process_window_builder
+    [form_data] => product_id=1168&variation_id=1218&final_price=1050.00&builder_checkout=0&product_type=window&edit_mode=1&cart_item_key=64cb6ced11e7ae7720fd720036669558&builder_nonce=c69f7de7e8&_wp_http_referer=%2Ffastfolduk%2Fbifolding-window-builder%2F%3Fedit_cart_item%3D64cb6ced11e7ae7720fd720036669558%26product_id%3D1168%26variation_id%3D1218&width=2000&height=700&window_panel_layout=2_left&open_direction=outwards&window_colour=anthracite_grey&window_inside_colour=anthracite_grey&window_handle_colour=white&glass_type=standard&trickle_vents=no_trickle&cill=none&postcode=M11AE&delivery_price=150&delivery_zone=Zone%20A%20-%20Regional&delivery_distance=67.5&delivery_bespoke=0&window_installation_type=collection&window_access_description=&window_access_issues=no_access&first_name=Md.&last_name=Kamruzzaman&mobile_number=01716589969&email_address=kamruzzamancv%40gmail.com&customer_info_complete=0
+    [security] => 6e20325603
+)
+
+[10-May-2026 12:15:54 UTC] Nonce verification PASSED
+[10-May-2026 12:15:54 UTC] Parsed form_data: Array
+(
+    [product_id] => 1168
+    [variation_id] => 1218
+    [final_price] => 1050.00
+    [builder_checkout] => 0
+    [product_type] => window
+    [edit_mode] => 1
+    [cart_item_key] => 64cb6ced11e7ae7720fd720036669558
+    [builder_nonce] => c69f7de7e8
+    [_wp_http_referer] => /fastfolduk/bifolding-window-builder/?edit_cart_item=64cb6ced11e7ae7720fd720036669558&product_id=1168&variation_id=1218
+    [width] => 2000
+    [height] => 700
+    [window_panel_layout] => 2_left
+    [open_direction] => outwards
+    [window_colour] => anthracite_grey
+    [window_inside_colour] => anthracite_grey
+    [window_handle_colour] => white
+    [glass_type] => standard
+    [trickle_vents] => no_trickle
+    [cill] => none
+    [postcode] => M11AE
+    [delivery_price] => 150
+    [delivery_zone] => Zone A - Regional
+    [delivery_distance] => 67.5
+    [delivery_bespoke] => 0
+    [window_installation_type] => collection
+    [window_access_description] => 
+    [window_access_issues] => no_access
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [mobile_number] => 01716589969
+    [email_address] => kamruzzamancv@gmail.com
+    [customer_info_complete] => 0
+)
+
+[10-May-2026 12:16:03 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:16:03 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:16:07 UTC] Window Delivery Check - Postcode: M11AE
+[10-May-2026 12:16:07 UTC] Window Delivery Result: Array
 (
     [price] => 150
     [zone] => Zone A - Regional
@@ -28,8 +124,10 @@
     [message] => Delivery: £150 (Distance: 67.5 miles)
 )
 
-[19-Apr-2026 09:35:01 UTC] Window Delivery Check - Postcode: M11AE
-[19-Apr-2026 09:35:01 UTC] Window Delivery Result: Array
+[10-May-2026 12:25:22 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:25:22 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:25:26 UTC] Window Delivery Check - Postcode: M11AE
+[10-May-2026 12:25:26 UTC] Window Delivery Result: Array
 (
     [price] => 150
     [zone] => Zone A - Regional
@@ -38,57 +136,565 @@
     [message] => Delivery: £150 (Distance: 67.5 miles)
 )
 
-[19-Apr-2026 11:22:50 UTC] === BUTTON DETECTION ===
-[19-Apr-2026 11:22:50 UTC] === BUTTON DETECTION ===
-[19-Apr-2026 11:22:50 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
-[19-Apr-2026 11:22:50 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
-[19-Apr-2026 11:22:50 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
-[19-Apr-2026 11:22:50 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
-[19-Apr-2026 11:22:50 UTC] Product Name: fastfold z71 aluminium bi-folding door
-[19-Apr-2026 11:22:50 UTC] Product Name: fastfold z71 aluminium bi-folding door
-[19-Apr-2026 11:22:50 UTC] Final - Is Door: YES
-[19-Apr-2026 11:22:50 UTC] Final - Is Door: YES
-[19-Apr-2026 11:22:50 UTC] Final - Is Window: NO
-[19-Apr-2026 11:22:50 UTC] Final - Is Window: NO
-[19-Apr-2026 11:22:57 UTC] === BUTTON DETECTION ===
-[19-Apr-2026 11:22:57 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
-[19-Apr-2026 11:22:57 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
-[19-Apr-2026 11:22:57 UTC] Product Name: fastfold z71 aluminium bi-folding door
-[19-Apr-2026 11:22:57 UTC] Final - Is Door: YES
-[19-Apr-2026 11:22:57 UTC] Final - Is Window: NO
-[19-Apr-2026 11:23:19 UTC] === BUTTON DETECTION ===
-[19-Apr-2026 11:23:19 UTC] URL: /fastfolduk/product/fastfold-w71-aluminium-bi-folding-windows/
-[19-Apr-2026 11:23:19 UTC] Product Slug: fastfold-w71-aluminium-bi-folding-windows
-[19-Apr-2026 11:23:19 UTC] Product Name: fastfold w71 aluminium bi-folding windows
-[19-Apr-2026 11:23:19 UTC] Final - Is Door: NO
-[19-Apr-2026 11:23:19 UTC] Final - Is Window: YES
-[19-Apr-2026 11:24:15 UTC] === BUTTON DETECTION ===
-[19-Apr-2026 11:24:15 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
-[19-Apr-2026 11:24:15 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
-[19-Apr-2026 11:24:15 UTC] Product Name: fastfold z71 aluminium bi-folding door
-[19-Apr-2026 11:24:15 UTC] Final - Is Door: YES
-[19-Apr-2026 11:24:15 UTC] Final - Is Window: NO
-[19-Apr-2026 11:25:14 UTC] === BUTTON DETECTION ===
-[19-Apr-2026 11:25:14 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
-[19-Apr-2026 11:25:14 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
-[19-Apr-2026 11:25:14 UTC] Product Name: fastfold z71 aluminium bi-folding door
-[19-Apr-2026 11:25:14 UTC] Final - Is Door: YES
-[19-Apr-2026 11:25:14 UTC] Final - Is Window: NO
-[19-Apr-2026 11:26:18 UTC] === BUTTON DETECTION ===
-[19-Apr-2026 11:26:18 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
-[19-Apr-2026 11:26:18 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
-[19-Apr-2026 11:26:18 UTC] Product Name: fastfold z71 aluminium bi-folding door
-[19-Apr-2026 11:26:18 UTC] Final - Is Door: YES
-[19-Apr-2026 11:26:18 UTC] Final - Is Window: NO
-[19-Apr-2026 11:31:17 UTC] === BUTTON DETECTION ===
-[19-Apr-2026 11:31:17 UTC] URL: /fastfolduk/product/fastfold-z71-aluminium-bi-folding-door/
-[19-Apr-2026 11:31:17 UTC] Product Slug: fastfold-z71-aluminium-bi-folding-door
-[19-Apr-2026 11:31:17 UTC] Product Name: fastfold z71 aluminium bi-folding door
-[19-Apr-2026 11:31:17 UTC] Final - Is Door: YES
-[19-Apr-2026 11:31:17 UTC] Final - Is Window: NO
-[20-Apr-2026 02:05:03 UTC] Automatic updates starting...
-[20-Apr-2026 02:05:04 UTC]   Automatic plugin updates starting...
-[20-Apr-2026 02:05:04 UTC]   Automatic plugin updates complete.
-[20-Apr-2026 02:05:05 UTC]   Automatic theme updates starting...
-[20-Apr-2026 02:05:05 UTC]   Automatic theme updates complete.
-[20-Apr-2026 02:05:05 UTC] Automatic updates complete.
+[10-May-2026 12:26:25 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:26:25 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:26:35 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:26:40 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:26:40 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:27:55 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:27:55 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 12:27:59 UTC] Window Delivery Check - Postcode: M11AE
+[10-May-2026 12:27:59 UTC] Window Delivery Result: Array
+(
+    [price] => 150
+    [zone] => Zone A - Regional
+    [distance] => 67.5
+    [bespoke] => 
+    [message] => Delivery: £150 (Distance: 67.5 miles)
+)
+
+[10-May-2026 12:28:53 UTC] === PROCESS_WINDOW_BUILDER AJAX CALLED ===
+[10-May-2026 12:28:53 UTC] POST data: Array
+(
+    [action] => process_window_builder
+    [form_data] => product_id=1168&variation_id=1218&final_price=3045.00&builder_checkout=0&product_type=window&edit_mode=1&cart_item_key=50ab60ecdb5a2e4a0e0db0c8dda1cffe&builder_nonce=c69f7de7e8&_wp_http_referer=%2Ffastfolduk%2Fbifolding-window-builder%2F%3Fedit_cart_item%3D50ab60ecdb5a2e4a0e0db0c8dda1cffe%26product_id%3D1168%26variation_id%3D1218&width=5800&height=700&window_panel_layout=5_left&open_direction=outwards&window_colour=anthracite_grey&window_inside_colour=anthracite_grey&window_handle_colour=white&glass_type=standard&trickle_vents=no_trickle&cill=none&postcode=M11AE&delivery_price=150&delivery_zone=Zone%20A%20-%20Regional&delivery_distance=67.5&delivery_bespoke=0&window_installation_type=collection&window_access_description=&window_access_issues=no_access&first_name=Md.&last_name=Kamruzzaman&mobile_number=01716589969&email_address=kamruzzamancv%40gmail.com&customer_info_complete=0
+    [security] => 6e20325603
+)
+
+[10-May-2026 12:28:53 UTC] Nonce verification PASSED
+[10-May-2026 12:28:53 UTC] Parsed form_data: Array
+(
+    [product_id] => 1168
+    [variation_id] => 1218
+    [final_price] => 3045.00
+    [builder_checkout] => 0
+    [product_type] => window
+    [edit_mode] => 1
+    [cart_item_key] => 50ab60ecdb5a2e4a0e0db0c8dda1cffe
+    [builder_nonce] => c69f7de7e8
+    [_wp_http_referer] => /fastfolduk/bifolding-window-builder/?edit_cart_item=50ab60ecdb5a2e4a0e0db0c8dda1cffe&product_id=1168&variation_id=1218
+    [width] => 5800
+    [height] => 700
+    [window_panel_layout] => 5_left
+    [open_direction] => outwards
+    [window_colour] => anthracite_grey
+    [window_inside_colour] => anthracite_grey
+    [window_handle_colour] => white
+    [glass_type] => standard
+    [trickle_vents] => no_trickle
+    [cill] => none
+    [postcode] => M11AE
+    [delivery_price] => 150
+    [delivery_zone] => Zone A - Regional
+    [delivery_distance] => 67.5
+    [delivery_bespoke] => 0
+    [window_installation_type] => collection
+    [window_access_description] => 
+    [window_access_issues] => no_access
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [mobile_number] => 01716589969
+    [email_address] => kamruzzamancv@gmail.com
+    [customer_info_complete] => 0
+)
+
+[10-May-2026 13:05:19 UTC] DOOR DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 5800
+    [height] => 2450
+    [opening] => Outwards
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a007a697ed0f0.01264560
+    [timestamp] => 1778416233
+)
+
+[10-May-2026 13:05:19 UTC] DOOR DISPLAY - Skipping - Not a door product. Type: window
+[10-May-2026 13:05:19 UTC] WINDOW DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 5800
+    [height] => 2450
+    [opening] => Outwards
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a007a697ed0f0.01264560
+    [timestamp] => 1778416233
+)
+
+[10-May-2026 13:05:26 UTC] DOOR DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 5800
+    [height] => 2450
+    [opening] => Outwards
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a007a697ed0f0.01264560
+    [timestamp] => 1778416233
+)
+
+[10-May-2026 13:05:26 UTC] DOOR DISPLAY - Skipping - Not a door product. Type: window
+[10-May-2026 13:05:26 UTC] WINDOW DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 5800
+    [height] => 2450
+    [opening] => Outwards
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a007a697ed0f0.01264560
+    [timestamp] => 1778416233
+)
+
+[10-May-2026 13:07:38 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:07:38 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:07:59 UTC] Window Delivery Check - Postcode: M11AE
+[10-May-2026 13:07:59 UTC] Window Delivery Result: Array
+(
+    [price] => 150
+    [zone] => Zone A - Regional
+    [distance] => 67.5
+    [bespoke] => 
+    [message] => Delivery: £150 (Distance: 67.5 miles)
+)
+
+[10-May-2026 13:08:05 UTC] === PROCESS_WINDOW_BUILDER AJAX CALLED ===
+[10-May-2026 13:08:05 UTC] POST data: Array
+(
+    [action] => process_window_builder
+    [form_data] => product_id=1250&variation_id=0&final_price=1289.00&builder_checkout=0&product_type=window&builder_nonce=c69f7de7e8&_wp_http_referer=%2Ffastfolduk%2Fbifolding-window-builder%2F%3Fproduct_id%3D1250&width=1600&height=700&window_panel_layout=2_left&open_direction=outwards&window_colour=anthracite_grey&window_inside_colour=anthracite_grey&window_handle_colour=white&glass_type=standard&trickle_vents=no_trickle&cill=none&postcode=M1%201AE&delivery_price=150&delivery_zone=Zone%20A%20-%20Regional&delivery_distance=67.5&delivery_bespoke=0&window_installation_type=install_existing&window_access_description=&window_access_issues=no_access&first_name=Md.&last_name=Kamruzzaman&mobile_number=01716589969&email_address=kamruzzamancv%40gmail.com&customer_info_complete=1
+    [security] => 6e20325603
+)
+
+[10-May-2026 13:08:05 UTC] Nonce verification PASSED
+[10-May-2026 13:08:05 UTC] Parsed form_data: Array
+(
+    [product_id] => 1250
+    [variation_id] => 0
+    [final_price] => 1289.00
+    [builder_checkout] => 0
+    [product_type] => window
+    [builder_nonce] => c69f7de7e8
+    [_wp_http_referer] => /fastfolduk/bifolding-window-builder/?product_id=1250
+    [width] => 1600
+    [height] => 700
+    [window_panel_layout] => 2_left
+    [open_direction] => outwards
+    [window_colour] => anthracite_grey
+    [window_inside_colour] => anthracite_grey
+    [window_handle_colour] => white
+    [glass_type] => standard
+    [trickle_vents] => no_trickle
+    [cill] => none
+    [postcode] => M1 1AE
+    [delivery_price] => 150
+    [delivery_zone] => Zone A - Regional
+    [delivery_distance] => 67.5
+    [delivery_bespoke] => 0
+    [window_installation_type] => install_existing
+    [window_access_description] => 
+    [window_access_issues] => no_access
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [mobile_number] => 01716589969
+    [email_address] => kamruzzamancv@gmail.com
+    [customer_info_complete] => 1
+)
+
+[10-May-2026 13:08:08 UTC] DOOR DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 1600
+    [height] => 700
+    [panels] => 2 Panels Left
+    [opening] => Outwards
+    [outside_colour] => Anthracite Grey
+    [outside_ral] => 7016
+    [outside_colour_price] => 0
+    [inside_colour] => Anthracite Grey
+    [inside_ral] => 7016
+    [inside_colour_price] => 0
+    [handle] => White
+    [glass] => Standard Glass
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [installation_type] => Install into Existing Opening
+    [installation_type_value] => install_existing
+    [installation_price] => 299
+    [access] => No
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a008335b1d1a3.89841983
+    [timestamp] => 1778418485
+)
+
+[10-May-2026 13:08:08 UTC] DOOR DISPLAY - Skipping - Not a door product. Type: window
+[10-May-2026 13:08:08 UTC] WINDOW DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 1600
+    [height] => 700
+    [panels] => 2 Panels Left
+    [opening] => Outwards
+    [outside_colour] => Anthracite Grey
+    [outside_ral] => 7016
+    [outside_colour_price] => 0
+    [inside_colour] => Anthracite Grey
+    [inside_ral] => 7016
+    [inside_colour_price] => 0
+    [handle] => White
+    [glass] => Standard Glass
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [installation_type] => Install into Existing Opening
+    [installation_type_value] => install_existing
+    [installation_price] => 299
+    [access] => No
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a008335b1d1a3.89841983
+    [timestamp] => 1778418485
+)
+
+[10-May-2026 13:08:18 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:08:18 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:08:23 UTC] Window Delivery Check - Postcode: M11AE
+[10-May-2026 13:08:23 UTC] Window Delivery Result: Array
+(
+    [price] => 150
+    [zone] => Zone A - Regional
+    [distance] => 67.5
+    [bespoke] => 
+    [message] => Delivery: £150 (Distance: 67.5 miles)
+)
+
+[10-May-2026 13:09:07 UTC] DOOR DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 1600
+    [height] => 700
+    [panels] => 2 Panels Left
+    [opening] => Outwards
+    [outside_colour] => Anthracite Grey
+    [outside_ral] => 7016
+    [outside_colour_price] => 0
+    [inside_colour] => Anthracite Grey
+    [inside_ral] => 7016
+    [inside_colour_price] => 0
+    [handle] => White
+    [glass] => Standard Glass
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [installation_type] => Install into Existing Opening
+    [installation_type_value] => install_existing
+    [installation_price] => 299
+    [access] => No
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a008335b1d1a3.89841983
+    [timestamp] => 1778418485
+)
+
+[10-May-2026 13:09:07 UTC] DOOR DISPLAY - Skipping - Not a door product. Type: window
+[10-May-2026 13:09:07 UTC] WINDOW DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 1600
+    [height] => 700
+    [panels] => 2 Panels Left
+    [opening] => Outwards
+    [outside_colour] => Anthracite Grey
+    [outside_ral] => 7016
+    [outside_colour_price] => 0
+    [inside_colour] => Anthracite Grey
+    [inside_ral] => 7016
+    [inside_colour_price] => 0
+    [handle] => White
+    [glass] => Standard Glass
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [installation_type] => Install into Existing Opening
+    [installation_type_value] => install_existing
+    [installation_price] => 299
+    [access] => No
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a008335b1d1a3.89841983
+    [timestamp] => 1778418485
+)
+
+[10-May-2026 13:09:07 UTC] DOOR DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 2000
+    [height] => 2000
+    [opening] => Outwards
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a008370a01127.92442359
+    [timestamp] => 1778418544
+)
+
+[10-May-2026 13:09:07 UTC] DOOR DISPLAY - Skipping - Not a door product. Type: window
+[10-May-2026 13:09:07 UTC] WINDOW DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 2000
+    [height] => 2000
+    [opening] => Outwards
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a008370a01127.92442359
+    [timestamp] => 1778418544
+)
+
+[10-May-2026 13:11:19 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:11:19 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:11:24 UTC] Window Delivery Check - Postcode: M11AE
+[10-May-2026 13:11:24 UTC] Window Delivery Result: Array
+(
+    [price] => 150
+    [zone] => Zone A - Regional
+    [distance] => 67.5
+    [bespoke] => 
+    [message] => Delivery: £150 (Distance: 67.5 miles)
+)
+
+[10-May-2026 13:11:52 UTC] DOOR DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 1600
+    [height] => 700
+    [panels] => 2 Panels Left
+    [opening] => Outwards
+    [outside_colour] => Anthracite Grey
+    [outside_ral] => 7016
+    [outside_colour_price] => 0
+    [inside_colour] => Anthracite Grey
+    [inside_ral] => 7016
+    [inside_colour_price] => 0
+    [handle] => White
+    [glass] => Standard Glass
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [installation_type] => Install into Existing Opening
+    [installation_type_value] => install_existing
+    [installation_price] => 299
+    [access] => No
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a008335b1d1a3.89841983
+    [timestamp] => 1778418485
+)
+
+[10-May-2026 13:11:52 UTC] DOOR DISPLAY - Skipping - Not a door product. Type: window
+[10-May-2026 13:11:52 UTC] WINDOW DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 1600
+    [height] => 700
+    [panels] => 2 Panels Left
+    [opening] => Outwards
+    [outside_colour] => Anthracite Grey
+    [outside_ral] => 7016
+    [outside_colour_price] => 0
+    [inside_colour] => Anthracite Grey
+    [inside_ral] => 7016
+    [inside_colour_price] => 0
+    [handle] => White
+    [glass] => Standard Glass
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [installation_type] => Install into Existing Opening
+    [installation_type_value] => install_existing
+    [installation_price] => 299
+    [access] => No
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a008335b1d1a3.89841983
+    [timestamp] => 1778418485
+)
+
+[10-May-2026 13:11:52 UTC] DOOR DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 2000
+    [height] => 2000
+    [opening] => Outwards
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a008370a01127.92442359
+    [timestamp] => 1778418544
+)
+
+[10-May-2026 13:11:52 UTC] DOOR DISPLAY - Skipping - Not a door product. Type: window
+[10-May-2026 13:11:52 UTC] WINDOW DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 2000
+    [height] => 2000
+    [opening] => Outwards
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [first_name] => Md.
+    [last_name] => Kamruzzaman
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01716589969
+    [unique_id] => window_6a008370a01127.92442359
+    [timestamp] => 1778418544
+)
+
+[10-May-2026 13:22:45 UTC] DOOR DISPLAY CHECK - Full cart item keys: Array
+(
+    [0] => wizard_data
+    [1] => custom_price
+    [2] => unique_key
+    [3] => key
+    [4] => product_id
+    [5] => variation_id
+    [6] => variation
+    [7] => quantity
+    [8] => data_hash
+    [9] => line_tax_data
+    [10] => line_subtotal
+    [11] => line_subtotal_tax
+    [12] => line_total
+    [13] => line_tax
+    [14] => data
+)
+
+[10-May-2026 13:22:45 UTC] DOOR DISPLAY - Product type found: window
+[10-May-2026 13:22:45 UTC] DOOR DISPLAY - SKIPPING - Product type is: window (expected: door)
+[10-May-2026 13:22:45 UTC] WINDOW DISPLAY - Cart Item Data: Array
+(
+    [product_type] => window
+    [width] => 5800
+    [height] => 2000
+    [opening] => Outwards
+    [vents] => No Vents
+    [cill] => No Cill
+    [postcode] => M1 1AE
+    [first_name] => aa
+    [last_name] => vv
+    [email] => kamruzzamancv@gmail.com
+    [phone] => 01478963325
+    [unique_id] => window_6a0086a261fee4.98003738
+    [timestamp] => 1778419362
+)
+
+[10-May-2026 13:22:59 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:23:00 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:23:04 UTC] Window Delivery Check - Postcode: M11AE
+[10-May-2026 13:23:04 UTC] Window Delivery Result: Array
+(
+    [price] => 150
+    [zone] => Zone A - Regional
+    [distance] => 67.5
+    [bespoke] => 
+    [message] => Delivery: £150 (Distance: 67.5 miles)
+)
+
+[10-May-2026 13:30:54 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:30:54 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:30:54 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:30:54 UTC] Window Builder Assets Enqueued - Nonce created
+[10-May-2026 13:30:59 UTC] Window Delivery Check - Postcode: M11AE
+[10-May-2026 13:30:59 UTC] Window Delivery Result: Array
+(
+    [price] => 150
+    [zone] => Zone A - Regional
+    [distance] => 67.5
+    [bespoke] => 
+    [message] => Delivery: £150 (Distance: 67.5 miles)
+)
+
+[10-May-2026 13:31:00 UTC] Window Delivery Check - Postcode: M11AE
+[10-May-2026 13:31:00 UTC] Window Delivery Result: Array
+(
+    [price] => 150
+    [zone] => Zone A - Regional
+    [distance] => 67.5
+    [bespoke] => 
+    [message] => Delivery: £150 (Distance: 67.5 miles)
+)
+
+[11-May-2026 13:10:46 UTC] Automatic updates starting...
+[11-May-2026 13:10:47 UTC]   Automatic plugin updates starting...
+[11-May-2026 13:10:47 UTC]   Automatic plugin updates complete.
+[11-May-2026 13:10:48 UTC]   Automatic theme updates starting...
+[11-May-2026 13:10:48 UTC]   Automatic theme updates complete.
+[11-May-2026 13:10:48 UTC] Automatic updates complete.
+[12-May-2026 02:18:18 UTC] Automatic updates starting...
+[12-May-2026 02:18:20 UTC]   Automatic plugin updates starting...
+[12-May-2026 02:18:20 UTC]   Automatic plugin updates complete.
+[12-May-2026 02:18:20 UTC]   Automatic theme updates starting...
+[12-May-2026 02:18:20 UTC]   Automatic theme updates complete.
+[12-May-2026 02:18:20 UTC] Automatic updates complete.
+[12-May-2026 03:52:02 UTC] Automatic updates starting...
+[12-May-2026 03:52:03 UTC]   Automatic plugin updates starting...
+[12-May-2026 03:52:03 UTC]   Automatic plugin updates complete.
+[12-May-2026 03:52:03 UTC]   Automatic theme updates starting...
+[12-May-2026 03:52:03 UTC]   Automatic theme updates complete.
+[12-May-2026 03:52:03 UTC] Automatic updates complete.
+[26-May-2026 03:08:48 UTC] Automatic updates starting...
+[26-May-2026 03:08:50 UTC]   Automatic plugin updates starting...
+[26-May-2026 03:08:50 UTC]   Automatic plugin updates complete.
+[26-May-2026 03:08:50 UTC]   Automatic theme updates starting...
+[26-May-2026 03:08:50 UTC]   Automatic theme updates complete.
+[26-May-2026 03:08:50 UTC] Automatic updates complete.

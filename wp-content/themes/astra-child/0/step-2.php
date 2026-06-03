@@ -48,7 +48,7 @@ $images_dir = get_stylesheet_directory_uri() . '/assets/images/bifolding-windows
                     </div>
 
                     <!-- ================== 3 PANELS ================== -->
-                    <div class="panel-option-card panel-3" data-min-width="1750" data-max-width="3250">
+                    <div class="panel-option-card panel-3" data-min-width="2001" data-max-width="3250">
                         <input type="radio" name="window_panel_layout" id="panel_3_left" value="3_left" class="price-option" data-pane-count="3">
                         <label for="panel_3_left">
                             <div class="panel-image">
@@ -60,7 +60,7 @@ $images_dir = get_stylesheet_directory_uri() . '/assets/images/bifolding-windows
                         </label>
                     </div>
 
-                    <div class="panel-option-card panel-3" data-min-width="1750" data-max-width="3250">
+                    <div class="panel-option-card panel-3" data-min-width="2001" data-max-width="3250">
                         <input type="radio" name="window_panel_layout" id="panel_3_right" value="3_right" class="price-option" data-pane-count="3">
                         <label for="panel_3_right">
                             <div class="panel-image">
@@ -429,24 +429,25 @@ jQuery(document).ready(function($) {
             return;
         }
 
-        // Show 2 panels (1600-2000 mm)
+        // Determine which panel count to show based on width
+        let panelClassToShow = '';
+        
         if (width >= 1600 && width <= 2000) {
-            $('.panel-2').show();
+            panelClassToShow = 'panel-2';
         }
-        
-        // Show 3 panels (1750-3250 mm)
-        if (width >= 1750 && width <= 3250) {
-            $('.panel-3').show();
+        else if (width >= 2001 && width <= 3250) {
+            panelClassToShow = 'panel-3';
         }
-        
-        // Show 4 panels (3251-4000 mm)
-        if (width >= 3251 && width <= 4000) {
-            $('.panel-4').show();
+        else if (width >= 3251 && width <= 4000) {
+            panelClassToShow = 'panel-4';
         }
-        
-        // Show 5 panels (4001-5800 mm)
-        if (width >= 4001 && width <= 5800) {
-            $('.panel-5').show();
+        else if (width >= 4001 && width <= 5800) {
+            panelClassToShow = 'panel-5';
+        }
+
+        // Show only matching panels
+        if (panelClassToShow) {
+            $('.' + panelClassToShow).show();
         }
 
         // Handle selected panel visibility
